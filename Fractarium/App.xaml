@@ -5,9 +5,17 @@
 	<Application.DataTemplates>
 		<local:ViewLocator/>
 	</Application.DataTemplates>
-
 	<Application.Styles>
 		<StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
 		<StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
+		<Style Selector="Grid > TextBlock">
+			<Setter Property="Margin">0,5,10,0</Setter>
+		</Style>
+		<Style Selector="TextBox, ComboBox">
+			<Setter Property="Margin">0,0,10,5</Setter>
+		</Style>
+		<Style Selector="CheckBox">
+			<Setter Property="Margin">0,0,10,0</Setter>
+		</Style>
 	</Application.Styles>
 </Application>

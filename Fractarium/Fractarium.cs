@@ -10,12 +10,15 @@ namespace Fractarium
 	{
 		public static void Main(string[] args)
 		{
-			AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug().UseReactiveUI().Start(App, args);
+			BuildAvaloniaApp().Start((app, appArgs) =>
+			{
+				app.Run(new MainWindow { DataContext = new MainWindowViewModel() });
+			}, args);
 		}
 
-		private static void App(Application app, string[] args)
+		public static AppBuilder BuildAvaloniaApp()
 		{
-			app.Run(new MainWindow { DataContext = new MainWindowViewModel() });
+			return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug().UseReactiveUI();
 		}
 	}
 }

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Avalonia.Media.Imaging;
 
 namespace Fractarium.ViewModels
 {
-	public class MainWindowViewModel : ViewModelBase
+	public class MainWindowViewModel : ViewModel
 	{
-		public string Greeting => "Welcome to Avalonia!";
+		public IBitmap Image { get; set; }
 	}
 }
