@@ -11,34 +11,23 @@
     <AvaloniaResource Include="**\*.xaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>
-    <AvaloniaResource Include="Assets\*" />
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Remove="Views\MainMenu.xaml" />
-    <AvaloniaResource Remove="Views\ParameterTab.xaml" />
+    <AvaloniaResource Remove="UserInterface\Entry.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Views\MainMenu.xaml" />
-    <None Remove="Views\ParameterTab.xaml" />
+    <None Remove="UserInterface\Entry.xaml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.8.0" />
     <PackageReference Include="Avalonia.Desktop" Version="0.8.0" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.8.0" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\ParameterTab.xaml">
+    <Folder Include="Logic\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UserInterface\Entry.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\MainMenu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Views\ParameterTab.xaml.cs">
-      <DependentUpon>ParameterTab.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Fractarium.Models.Fractals
+﻿namespace Fractarium.Logic.Fractals
 {
 	public class MandelbrotSet : Fractal
 	{

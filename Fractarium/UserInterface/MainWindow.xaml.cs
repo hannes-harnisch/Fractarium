@@ -2,7 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Fractarium.Views
+namespace Fractarium.UserInterface
 {
 	public class MainWindow : Window
 	{

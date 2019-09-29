@@ -1,8 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Logging.Serilog;
 
-using Fractarium.ViewModels;
-using Fractarium.Views;
+using Fractarium.UserInterface;
 
 namespace Fractarium
 {
@@ -10,15 +9,12 @@ namespace Fractarium
 	{
 		public static void Main(string[] args)
 		{
-			BuildAvaloniaApp().Start((app, appArgs) =>
-			{
-				app.Run(new MainWindow { DataContext = new MainWindowViewModel() });
-			}, args);
+			BuildAvaloniaApp().Start((app, appArgs) => app.Run(new MainWindow()), args);
 		}
 
 		public static AppBuilder BuildAvaloniaApp()
 		{
-			return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug().UseReactiveUI();
+			return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug();
 		}
 	}
 }

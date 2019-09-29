@@ -2,11 +2,11 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:vm="clr-namespace:Fractarium.ViewModels;assembly=Fractarium"
+			 xmlns:local="clr-namespace:Fractarium.UserInterface;assembly=Fractarium"
 			 mc:Ignorable="d"
 			 d:DesignWidth="800"
 			 d:DesignHeight="125"
-			 x:Class="Fractarium.Views.ParameterTab">
+			 x:Class="Fractarium.UserInterface.ParameterTab">
 	<Grid RowDefinitions="Auto,Auto,Auto,Auto"
 		  ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
 		<TextBlock Grid.Row="0"
@@ -14,24 +14,24 @@
 		<ComboBox Grid.Row="1"
 				  Grid.Column="0"
 				  Items="{Binding TypeEntries}"
+				  SelectionMode="AlwaysSelected"
+				  SelectedItem="{Binding FractalType}"
 				  SelectedIndex="0"/>
 		<CheckBox Grid.Row="2"
 				  Grid.Column="0"
-				  Command="{Binding BindImageSizeToWindow}"
-				  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
-				  IsChecked="True">Bind image size to window size</CheckBox>
+				  IsChecked="{Binding BindImageSizeToWindow}">Bind image size to window size</CheckBox>
 		<CheckBox Grid.Row="3"
 				  Grid.Column="0">Use arbitrary-precision arithmetic</CheckBox>
 		<TextBlock Grid.Row="0"
 				   Grid.Column="1">Width</TextBlock>
 		<TextBox Grid.Row="1"
 				 Grid.Column="1"
-				 Text="{Binding Width}"/>
+				 Text="{Binding ImageWidth}"/>
 		<TextBlock Grid.Row="2"
 				   Grid.Column="1">Height</TextBlock>
 		<TextBox Grid.Row="3"
 				 Grid.Column="1"
-				 Text="{Binding Height}"/>
+				 Text="{Binding ImageHeight}"/>
 		<TextBlock Grid.Row="0"
 				   Grid.Column="2">Iteration limit</TextBlock>
 		<TextBox Grid.Row="1"
@@ -43,15 +43,15 @@
 				 Grid.Column="2"
 				 Text="{Binding ZoomFactor}"/>
 		<TextBlock Grid.Row="0"
-				   Grid.Column="3">Midpoint</TextBlock>
+				   Grid.Column="3">Scale</TextBlock>
 		<TextBox Grid.Row="1"
 				 Grid.Column="3"
-				 Text="{Binding Midpoint}"/>
+				 Text="{Binding Scale}"/>
 		<TextBlock Grid.Row="2"
-				   Grid.Column="3">Scale</TextBlock>
+				   Grid.Column="3">Midpoint</TextBlock>
 		<TextBox Grid.Row="3"
 				 Grid.Column="3"
-				 Text="{Binding Scale}"/>
+				 Text="{Binding Midpoint}"/>
 		<TextBlock Grid.Row="0"
 				   Grid.Column="4">Julia constant</TextBlock>
 		<TextBox Grid.Row="1"

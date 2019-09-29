@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Fractarium.Models.Fractals
+namespace Fractarium.Logic.Fractals
 {
 	public abstract class Fractal
 	{
