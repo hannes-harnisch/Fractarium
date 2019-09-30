@@ -5,13 +5,24 @@ using Fractarium.UserInterface;
 
 namespace Fractarium
 {
-	public class Fractarium
+	/// <summary>
+	/// Entry point for the application.
+	/// </summary>
+	public static class Fractarium
 	{
+		/// <summary>
+		/// Starts the application.
+		/// </summary>
+		/// <param name="args">Optional arguments given in the command line.</param>
 		public static void Main(string[] args)
 		{
 			BuildAvaloniaApp().Start((app, appArgs) => app.Run(new MainWindow()), args);
 		}
 
+		/// <summary>
+		/// Method necessary for the designer to work. Prepares the application launch.
+		/// </summary>
+		/// <returns>Launcher object for the app.</returns>
 		public static AppBuilder BuildAvaloniaApp()
 		{
 			return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug();

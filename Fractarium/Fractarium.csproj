@@ -4,6 +4,12 @@
     <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
+    <DocumentationFile>C:\Users\Hannes Harnisch\Entwicklung\Fractarium\Fractarium\Fractarium.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
+    <DocumentationFile>C:\Users\Hannes Harnisch\Entwicklung\Fractarium\Fractarium\Fractarium.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Update="**\*.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>

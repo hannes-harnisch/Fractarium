@@ -9,6 +9,7 @@ namespace Fractarium.UserInterface
 		public MainWindow()
 		{
 			AvaloniaXamlLoader.Load(this);
+			DataContext = new Context();
 #if DEBUG
 			this.AttachDevTools();
 #endif

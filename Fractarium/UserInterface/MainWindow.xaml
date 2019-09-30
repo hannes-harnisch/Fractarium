@@ -10,5 +10,6 @@
 		Title="Fractarium">
 	<StackPanel>
 		<ui:MainMenu/>
+		<Image Source="{Binding Image}"/>
 	</StackPanel>
 </Window>

@@ -26,7 +26,7 @@ namespace Fractarium.Logic.Fractals
 				if(IteratePoint(r, i, out double nextR, out double nextI) == P.IterationLimit)
 					*(bitmap + pixel) = 0x0000FF;
 				else
-					*(bitmap + pixel) = 0xFFFFFF;
+					*(bitmap + pixel) = 0x253434;
 			});
 		}
 	}

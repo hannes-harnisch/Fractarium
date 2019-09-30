@@ -10,7 +10,8 @@
 	<StackPanel Orientation="Horizontal"
 				Spacing="5">
 		<Button Padding="10"
-				Margin="10">Render</Button>
+				Margin="10"
+				Click="OnRenderButton">Render</Button>
 		<TabControl>
 			<TabItem Header="Parameters">
 				<ui:ParameterTab/>

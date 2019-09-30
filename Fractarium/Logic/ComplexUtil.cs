@@ -3,20 +3,35 @@ using System.Text.RegularExpressions;
 
 namespace Fractarium.Logic
 {
+	/// <summary>
+	/// Utilities for handling complex numbers.
+	/// </summary>
 	public static class ComplexUtil
 	{
+		/// <summary>
+		/// Regex pattern for matching complex numbers.
+		/// </summary>
 		private const string Pattern = @"^(-|\+)?(([0-9]+(\.[0-9]+)?)?i|[0-9]+(\.[0-9]+)?((-|\+)([0-9]+(\.[0-9]+)?)?i)?)$";
 
+		/// <summary>
+		/// Tries to convert the string representation of a number to its complex number equivalent.
+		/// </summary>
+		/// <param name="s">String representing a complex number.</param>
+		/// <param name="result">A complex number parsed from the string or zero if parsing failed.</param>
+		/// <returns>Whether the conversion succeeded or failed.</returns>
 		public static bool TryParse(string s, out Complex result)
 		{
-			result = Complex.Zero;
 			bool valid = Regex.IsMatch(s, Pattern);
-			if(valid)
-				result = new Complex(double.Parse(ParseReal(s)), double.Parse(ParseImaginary(s)));
+			result = valid ? new Complex(ParseReal(s), ParseImaginary(s)) : Complex.Zero;
 			return valid;
 		}
 
-		private static string ParseReal(string s)
+		/// <summary>
+		/// Extracts the real part of a string representing a complex number.
+		/// </summary>
+		/// <param name="s">String representing a complex number.</param>
+		/// <returns>The real part of the complex number.</returns>
+		private static double ParseReal(string s)
 		{
 			string real = "0";
 			bool negativeStart = false;
@@ -41,10 +56,15 @@ namespace Fractarium.Logic
 						real = "-" + real;
 				}
 			}
-			return real;
+			return double.Parse(real);
 		}
 
-		private static string ParseImaginary(string s)
+		/// <summary>
+		/// Extracts the imaginary part of a string representing a complex number.
+		/// </summary>
+		/// <param name="s">String representing a complex number.</param>
+		/// <returns>The imaginary part of the complex number.</returns>
+		private static double ParseImaginary(string s)
 		{
 			string imaginary = "0";
 			bool negativeStart = false;
@@ -78,7 +98,7 @@ namespace Fractarium.Logic
 						imaginary = "-" + imaginary;
 				}
 			}
-			return imaginary;
+			return double.Parse(imaginary);
 		}
 	}
 }

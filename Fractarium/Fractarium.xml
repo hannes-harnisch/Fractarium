@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Fractarium</name>
+    </assembly>
+    <members>
+        <member name="T:Fractarium.App">
+            <summary>
+            Encapsulates the Fractarium desktop app.
+            </summary>
+        </member>
+        <member name="P:Fractarium.App.Context">
+            <summary>
+            Returns a static reference to the current app instance's global data context.
+            </summary>
+        </member>
+        <member name="M:Fractarium.App.Initialize">
+            <summary>
+            Initializes associated XAML objects.
+            </summary>
+        </member>
+        <member name="T:Fractarium.Fractarium">
+            <summary>
+            Entry point for the application.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Fractarium.Main(System.String[])">
+            <summary>
+            Starts the application.
+            </summary>
+            <param name="args">Optional arguments given in the command line.</param>
+        </member>
+        <member name="M:Fractarium.Fractarium.BuildAvaloniaApp">
+            <summary>
+            Method necessary for the designer to work. Prepares the application launch.
+            </summary>
+            <returns>Launcher object for the app.</returns>
+        </member>
+        <member name="T:Fractarium.Logic.ComplexUtil">
+            <summary>
+            Utilities for handling complex numbers.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.ComplexUtil.Pattern">
+            <summary>
+            Regex pattern for matching complex numbers.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.ComplexUtil.TryParse(System.String,System.Numerics.Complex@)">
+            <summary>
+            Tries to convert the string representation of a number to its complex number equivalent.
+            </summary>
+            <param name="s">String representing a complex number.</param>
+            <param name="result">A complex number parsed from the string or zero if parsing failed.</param>
+            <returns>Whether the conversion succeeded or failed.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.ComplexUtil.ParseReal(System.String)">
+            <summary>
+            Extracts the real part of a string representing a complex number.
+            </summary>
+            <param name="s">String representing a complex number.</param>
+            <returns>The real part of the complex number.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.ComplexUtil.ParseImaginary(System.String)">
+            <summary>
+            Extracts the imaginary part of a string representing a complex number.
+            </summary>
+            <param name="s">String representing a complex number.</param>
+            <returns>The imaginary part of the complex number.</returns>
+        </member>
+        <member name="T:Fractarium.UserInterface.Context">
+            <summary>
+            Encapsulates the main data context manipulated by the user interface.
+            </summary>
+        </member>
+        <member name="F:Fractarium.UserInterface.Context.Parameters">
+            <summary>
+            Holds the parameter values most recently parsed from the parameter tab.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.Context.Image">
+            <summary>
+            Holds the bitmap for the currently displayed fractal image.
+            </summary>
+        </member>
+        <member name="M:Fractarium.UserInterface.Context.Render">
+            <summary>
+            Uses current parameters to render a fractal image on the context's bitmap.
+            </summary>
+        </member>
+        <member name="T:Fractarium.UserInterface.MainMenu">
+            <summary>
+            The main menu of the user interface, holding various tabs.
+            </summary>
+        </member>
+        <member name="M:Fractarium.UserInterface.MainMenu.#ctor">
+            <summary>
+            Initializes associated XAML objects.
+            </summary>
+        </member>
+        <member name="M:Fractarium.UserInterface.MainMenu.OnRenderButton(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Starts the rendering procedure that updates the displayed fractal image.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="T:Fractarium.UserInterface.ParameterTab">
+            <summary>
+            The main menu tab where image parameters can be set.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.ParameterTab.TypeEntries">
+            <summary>
+            Loads the names of preprogrammed fractal types.
+            </summary>
+        </member>
+        <member name="M:Fractarium.UserInterface.ParameterTab.#ctor">
+            <summary>
+            Initializes associated XAML objects and data context.
+            </summary>
+        </member>
+        <member name="M:Fractarium.UserInterface.ParameterTab.BindImageSizeToWindow(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Makes the width and height parameters adapt to the window size when the box is checked.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ParameterTab.OnPositiveIntInput(System.Object,Avalonia.Input.KeyEventArgs)">
+            <summary>
+            Handles user input for parameters that are interpreted as positive integers.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ParameterTab.OnLongInput(System.Object,Avalonia.Input.KeyEventArgs)">
+            <summary>
+            Handles user input for parameters that are interpreted as long positive integers.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ParameterTab.OnComplexInput(System.Object,Avalonia.Input.KeyEventArgs)">
+            <summary>
+            Handles user input for parameters that are interpreted as complex numbers.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ParameterTab.SetTextBoxState(Avalonia.Controls.TextBox,System.Boolean)">
+            <summary>
+            Sets a text box's styling to the appropriate style depending on the correctness of user input.
+            </summary>
+            <param name="box">The box where user input occurred.</param>
+            <param name="parsed">Whether user input could be parsed correctly.</param>
+        </member>
+    </members>
+</doc>
