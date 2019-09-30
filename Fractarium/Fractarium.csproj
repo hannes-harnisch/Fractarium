@@ -13,21 +13,7 @@
     </AvaloniaResource>
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Remove="UserInterface\Entry.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="UserInterface\Entry.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.8.0" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.8.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logic\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="UserInterface\Entry.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
+    <PackageReference Include="Avalonia" Version="0.8.2" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.8.2" />
   </ItemGroup>
 </Project>

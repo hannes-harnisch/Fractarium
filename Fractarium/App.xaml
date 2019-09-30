@@ -1,5 +1,6 @@
 ﻿<Application xmlns="https://github.com/avaloniaui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:ui="clr-namespace:Fractarium.UserInterface;assembly=Fractarium"
 			 x:Class="Fractarium.App">
 	<Application.Styles>
 		<StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
@@ -7,11 +8,35 @@
 		<Style Selector="Grid > TextBlock">
 			<Setter Property="Margin">0,5,10,0</Setter>
 		</Style>
-		<Style Selector="TextBox, ComboBox">
+		<Style Selector="ComboBox, TextBox">
 			<Setter Property="Margin">0,0,10,5</Setter>
 		</Style>
 		<Style Selector="CheckBox">
 			<Setter Property="Margin">0,0,10,0</Setter>
+		</Style>
+		<Style Selector="TextBox.Error">
+			<Setter Property="Background">
+				<SolidColorBrush>#ffcccc</SolidColorBrush>
+			</Setter>
+			<Setter Property="BorderBrush">
+				<SolidColorBrush>#ff0000</SolidColorBrush>
+			</Setter>
+		</Style>
+		<Style Selector="TextBox.Error:pointerover /template/ Border#border">
+			<Setter Property="Background">
+				<SolidColorBrush>#ffcccc</SolidColorBrush>
+			</Setter>
+			<Setter Property="BorderBrush">
+				<SolidColorBrush>#ff0000</SolidColorBrush>
+			</Setter>
+		</Style>
+		<Style Selector="TextBox.Error:focus /template/ Border#border">
+			<Setter Property="Background">
+				<SolidColorBrush>#ffcccc</SolidColorBrush>
+			</Setter>
+			<Setter Property="BorderBrush">
+				<SolidColorBrush>#ff0000</SolidColorBrush>
+			</Setter>
 		</Style>
 	</Application.Styles>
 </Application>
