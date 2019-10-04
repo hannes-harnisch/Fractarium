@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Logging.Serilog;
 
 using Fractarium.UserInterface;
@@ -16,7 +17,14 @@ namespace Fractarium
 		/// <param name="args">Optional arguments given in the command line.</param>
 		public static void Main(string[] args)
 		{
-			BuildAvaloniaApp().Start((app, appArgs) => app.Run(new MainWindow()), args);
+			BuildAvaloniaApp().Start((app, appArgs) =>
+			{
+				var window = new Window { Content = new MainLayout(), Title = "Fractarium" };
+#if DEBUG
+				window.AttachDevTools();
+#endif
+				app.Run(window);
+			}, args);
 		}
 
 		/// <summary>

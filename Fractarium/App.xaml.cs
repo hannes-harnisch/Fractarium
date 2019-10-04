@@ -11,9 +11,9 @@ namespace Fractarium
 	public class App : Application
 	{
 		/// <summary>
-		/// Returns a static reference to the current app instance's global data context.
+		/// Gets a static reference to the running instance's window's data context.
 		/// </summary>
-		public static Context Context => (Context)Current.MainWindow.DataContext;
+		public static MainLayout Context => (MainLayout)Current.MainWindow.Content;
 
 		/// <summary>
 		/// Initializes associated XAML objects.
