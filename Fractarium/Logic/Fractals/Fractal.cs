@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Fractarium.Logic.Fractals
 {
@@ -20,7 +19,7 @@ namespace Fractarium.Logic.Fractals
 		protected readonly BaseParameters P;
 
 		/// <summary>
-		/// Assigns the base parameters.
+		/// Assigns all required parameters.
 		/// </summary>
 		/// <param name="parameters">Required base parameters.</param>
 		protected Fractal(BaseParameters parameters)
@@ -36,20 +35,14 @@ namespace Fractarium.Logic.Fractals
 		{
 			Parallel.For(0, P.Width * P.Height, pixel =>
 			{
-				//var x = pixel / P.Height;
-				//var y = pixel % P.Height;
-				//double r = (x - P.Width / 2) / P.Scale + P.Midpoint.Real;
-				//double i = (y - P.Height / 2) / P.Scale - P.Midpoint.Imaginary;
-				//if(IteratePoint(r, i, out double nextR, out double nextI) == P.IterationLimit)
-				//	*(bitmap + x + y * P.Width) = 0xFFFF0000;
-				//else
-				//*(bitmap + x + y * P.Width) = 0xFFFFFF00;
-				double r = ((double)pixel % P.Height - P.Width / 2) / P.Scale + P.Midpoint.Real;
-				double i = ((double)pixel / P.Height - P.Height / 2) / P.Scale + P.Midpoint.Imaginary;
+				int x = pixel / P.Height;
+				int y = pixel % P.Height;
+				double r = (double)(x - P.Width / 2) / P.Scale + P.Midpoint.Real;
+				double i = (double)(y - P.Height / 2) / P.Scale - P.Midpoint.Imaginary;
 				if(IteratePoint(r, i, out double nextR, out double nextI) == P.IterationLimit)
-					*(bitmap + pixel) = 0xFF000000;
+					*(bitmap + x + y * P.Width) = 0xFF000000;
 				else
-					*(bitmap + pixel) = 0xFFFFFF00;
+					*(bitmap + x + y * P.Width) = 0xFFFFd800;
 			});
 		}
 

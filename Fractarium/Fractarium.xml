@@ -103,6 +103,49 @@
             <param name="s">String representing a complex number.</param>
             <returns>The imaginary part of the complex number.</returns>
         </member>
+        <member name="T:Fractarium.Logic.Fractals.BurningShipJuliaSet">
+            <summary>
+            Represents a fractal image based on the Burning Ship Julia set.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.BurningShipJuliaSet.#ctor(Fractarium.Logic.BaseParameters,System.Numerics.Complex)">
+            <summary>
+            Assigns all required parameters.
+            </summary>
+            <param name="parameters">Required base parameters.</param>
+            <param name="juliaConstant">The Julia constant parameter.</param>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.BurningShipJuliaSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            Iterates a complex point according to a specific fractal type's formula.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
+            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
+            <returns>How many iterations were cycled through.</returns>
+        </member>
+        <member name="T:Fractarium.Logic.Fractals.BurningShipSet">
+            <summary>
+            Represents a fractal image based on the Burning Ship set.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.BurningShipSet.#ctor(Fractarium.Logic.BaseParameters)">
+            <summary>
+            Assigns all required parameters.
+            </summary>
+            <param name="parameters">Required base parameters.</param>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.BurningShipSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            Iterates a complex point according to a specific fractal type's formula.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
+            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
+            <returns>How many iterations were cycled through.</returns>
+        </member>
         <member name="T:Fractarium.Logic.Fractals.Fractal">
             <summary>
             Base class for all fractals based on escape time algorithms.
@@ -121,7 +164,7 @@
         </member>
         <member name="M:Fractarium.Logic.Fractals.Fractal.#ctor(Fractarium.Logic.BaseParameters)">
             <summary>
-            Assigns the base parameters.
+            Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
         </member>
@@ -156,12 +199,12 @@
             Indicates a fractal generated with the Julia set formula.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.Fractals.FractalType.PhoenixFractal">
+        <member name="F:Fractarium.Logic.Fractals.FractalType.PhoenixSet">
             <summary>
             Indicates a fractal generated with the Phoenix set formula.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.Fractals.FractalType.BurningShipFractal">
+        <member name="F:Fractarium.Logic.Fractals.FractalType.BurningShipSet">
             <summary>
             Indicates a fractal generated with the Burning Ship set formula.
             </summary>
@@ -181,7 +224,7 @@
             Indicates a fractal generated with the Multibrot Julia set formula.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.Fractals.FractalType.Tricorn">
+        <member name="F:Fractarium.Logic.Fractals.FractalType.TricornSet">
             <summary>
             Indicates a fractal generated with the Tricorn set formula.
             </summary>
@@ -208,6 +251,28 @@
             <param name="name">Proper name of a fractal type.</param>
             <returns>The enum value associated with the name.</returns>
         </member>
+        <member name="T:Fractarium.Logic.Fractals.JuliaSet">
+            <summary>
+            Represents a fractal image based on the Julia set.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.JuliaSet.#ctor(Fractarium.Logic.BaseParameters,System.Numerics.Complex)">
+            <summary>
+            Assigns all required parameters.
+            </summary>
+            <param name="parameters">Required base parameters.</param>
+            <param name="juliaConstant">The Julia constant parameter.</param>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.JuliaSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            Iterates a complex point according to a specific fractal type's formula.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
+            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
+            <returns>How many iterations were cycled through.</returns>
+        </member>
         <member name="T:Fractarium.Logic.Fractals.MandelbrotSet">
             <summary>
             Represents a fractal image based on the Mandelbrot set.
@@ -215,11 +280,55 @@
         </member>
         <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.#ctor(Fractarium.Logic.BaseParameters)">
             <summary>
-            Assigns base parameters.
+            Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
         </member>
         <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            Iterates a complex point according to a specific fractal type's formula.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
+            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
+            <returns>How many iterations were cycled through.</returns>
+        </member>
+        <member name="T:Fractarium.Logic.Fractals.PhoenixSet">
+            <summary>
+            Represents a fractal image based on the Phoenix set.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.PhoenixSet.#ctor(Fractarium.Logic.BaseParameters,System.Numerics.Complex,System.Numerics.Complex)">
+            <summary>
+            Assigns all required parameters.
+            </summary>
+            <param name="parameters">Required base parameters.</param>
+            <param name="juliaConstant">The Julia constant parameter.</param>
+            <param name="phoenixConstant">The Phoenix constant parameter.</param>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.PhoenixSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            Iterates a complex point according to a specific fractal type's formula.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
+            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
+            <returns>How many iterations were cycled through.</returns>
+        </member>
+        <member name="T:Fractarium.Logic.Fractals.TricornSet">
+            <summary>
+            Represents a fractal image based on the Tricorn set.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.TricornSet.#ctor(Fractarium.Logic.BaseParameters)">
+            <summary>
+            Assigns all required parameters.
+            </summary>
+            <param name="parameters">Required base parameters.</param>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.TricornSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
             <summary>
             Iterates a complex point according to a specific fractal type's formula.
             </summary>
@@ -234,9 +343,29 @@
             Holds the content of the main window.
             </summary>
         </member>
-        <member name="F:Fractarium.UserInterface.MainWindow.Parameters">
+        <member name="P:Fractarium.UserInterface.MainWindow.FractalType">
+            <summary>
+            The currently selected fractal type.
+            </summary>
+        </member>
+        <member name="F:Fractarium.UserInterface.MainWindow.Params">
             <summary>
             Holds the parameter values most recently parsed from the parameter tab.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.MainWindow.JuliaConstant">
+            <summary>
+            The constant coefficient used for fractals related to the Julia set.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.MainWindow.PhoenixConstant">
+            <summary>
+            The constant coefficient used in the Phoenix set.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.MainWindow.MultibrotExponent">
+            <summary>
+            The constant coefficient used for fractals related to the Multibrot set.
             </summary>
         </member>
         <member name="M:Fractarium.UserInterface.MainWindow.#ctor">
@@ -266,6 +395,13 @@
             Initializes associated XAML objects.
             </summary>
         </member>
+        <member name="M:Fractarium.UserInterface.ParameterTab.OnFractalTypeSelected(System.Object,Avalonia.Controls.SelectionChangedEventArgs)">
+            <summary>
+            Sets the fractal type parameter to the type selected in the combo box.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
         <member name="M:Fractarium.UserInterface.ParameterTab.OnBindImageSizeToWindow(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
             <summary>
             Attaches event handlers reacting to size changes of the main window for width and height parameters.
@@ -290,6 +426,13 @@
         <member name="M:Fractarium.UserInterface.ParameterTab.OnComplexInput(System.Object,Avalonia.Input.KeyEventArgs)">
             <summary>
             Handles user input for parameters that are interpreted as complex numbers.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ParameterTab.OnFloatingPointInput(System.Object,Avalonia.Input.KeyEventArgs)">
+            <summary>
+            Handles user input for parameters that are interpreted as floating-point numbers.
             </summary>
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>

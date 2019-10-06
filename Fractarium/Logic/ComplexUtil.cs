@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Globalization;
+using System.Numerics;
 using System.Text.RegularExpressions;
 
 namespace Fractarium.Logic
@@ -56,7 +57,7 @@ namespace Fractarium.Logic
 						real = "-" + real;
 				}
 			}
-			return double.Parse(real);
+			return double.Parse(real, CultureInfo.InvariantCulture);
 		}
 
 		/// <summary>
@@ -98,7 +99,7 @@ namespace Fractarium.Logic
 						imaginary = "-" + imaginary;
 				}
 			}
-			return double.Parse(imaginary);
+			return double.Parse(imaginary, CultureInfo.InvariantCulture);
 		}
 	}
 }

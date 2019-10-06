@@ -17,10 +17,10 @@
 					Click="Render">Render</Button>
 			<TabControl>
 				<TabItem Header="Parameters">
-					<ui:ParameterTab />
+					<ui:ParameterTab/>
 				</TabItem>
 			</TabControl>
 		</StackPanel>
-		<Image Name="Image" />
+		<Image Name="Image"/>
 	</StackPanel>
 </Window>

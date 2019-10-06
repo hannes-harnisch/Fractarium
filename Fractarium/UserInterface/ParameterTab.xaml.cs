@@ -7,6 +7,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
 using Fractarium.Logic;
+using Fractarium.Logic.Fractals;
 
 namespace Fractarium.UserInterface
 {
@@ -27,6 +28,16 @@ namespace Fractarium.UserInterface
 		{
 			AvaloniaXamlLoader.Load(this);
 			DataContext = this;
+		}
+
+		/// <summary>
+		/// Sets the fractal type parameter to the type selected in the combo box.
+		/// </summary>
+		/// <param name="sender">Source of the event.</param>
+		/// <param name="e">Data associated with the event.</param>
+		public void OnFractalTypeSelected(object sender, SelectionChangedEventArgs e)
+		{
+			App.Context.FractalType = FractalTypes.TypeByName(((ComboBox)sender).SelectedItem.ToString());
 		}
 
 		/// <summary>
@@ -57,19 +68,19 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnPositiveIntInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = uint.TryParse(((TextBox)sender).Text, out uint result) && result != 0;
+			bool parsed = int.TryParse(((TextBox)sender).Text, out int result) && result > 0;
 			SetTextBoxState((TextBox)sender, parsed);
 			if(parsed)
 				switch(((TextBox)sender).Name)
 				{
 					case "Width":
-						App.Context.Parameters.Width = result; break;
+						App.Context.Params.Width = result; break;
 					case "Height":
-						App.Context.Parameters.Height = result; break;
+						App.Context.Params.Height = result; break;
 					case "IterationLimit":
-						App.Context.Parameters.IterationLimit = result; break;
+						App.Context.Params.IterationLimit = result; break;
 					case "ZoomFactor":
-						App.Context.Parameters.ZoomFactor = result; break;
+						App.Context.Params.ZoomFactor = result; break;
 				}
 		}
 
@@ -83,7 +94,7 @@ namespace Fractarium.UserInterface
 			bool parsed = ulong.TryParse(((TextBox)sender).Text, out ulong result) && result != 0;
 			SetTextBoxState((TextBox)sender, parsed);
 			if(parsed)
-				App.Context.Parameters.Scale = result;
+				App.Context.Params.Scale = result;
 		}
 
 		/// <summary>
@@ -99,8 +110,25 @@ namespace Fractarium.UserInterface
 				switch(((TextBox)sender).Name)
 				{
 					case "Midpoint":
-						App.Context.Parameters.Midpoint = result; break;
+						App.Context.Params.Midpoint = result; break;
+					case "JuliaConstant":
+						App.Context.JuliaConstant = result; break;
+					case "PhoenixConstant":
+						App.Context.PhoenixConstant = result; break;
 				}
+		}
+
+		/// <summary>
+		/// Handles user input for parameters that are interpreted as floating-point numbers.
+		/// </summary>
+		/// <param name="sender">Source of the event.</param>
+		/// <param name="e">Data associated with the event.</param>
+		public void OnFloatingPointInput(object sender, KeyEventArgs e)
+		{
+			bool parsed = double.TryParse(((TextBox)sender).Text, out double result);
+			SetTextBoxState((TextBox)sender, parsed);
+			if(parsed)
+				App.Context.MultibrotExponent = result;
 		}
 
 		/// <summary>

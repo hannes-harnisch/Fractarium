@@ -10,22 +10,22 @@ namespace Fractarium.Logic
 		/// <summary>
 		/// Width of the fractal image.
 		/// </summary>
-		public uint Width { get; set; }
+		public int Width { get; set; }
 
 		/// <summary>
 		/// Height of the fractal image.
 		/// </summary>
-		public uint Height { get; set; }
+		public int Height { get; set; }
 
 		/// <summary>
 		/// Maximum amount of iterations possible for determining a pixel.
 		/// </summary>
-		public uint IterationLimit { get; set; }
+		public int IterationLimit { get; set; }
 
 		/// <summary>
 		/// How much the scale is multiplied after clicking on a point in the image.
 		/// </summary>
-		public uint ZoomFactor { get; set; }
+		public int ZoomFactor { get; set; }
 
 		/// <summary>
 		/// How far the image is zoomed in.

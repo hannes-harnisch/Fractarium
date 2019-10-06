@@ -1,15 +1,15 @@
 ﻿namespace Fractarium.Logic.Fractals
 {
 	/// <summary>
-	/// Represents a fractal image based on the Mandelbrot set.
+	/// Represents a fractal image based on the Tricorn set.
 	/// </summary>
-	public class MandelbrotSet : Fractal
+	public class TricornSet : Fractal
 	{
 		/// <summary>
 		/// Assigns all required parameters.
 		/// </summary>
 		/// <param name="parameters">Required base parameters.</param>
-		public MandelbrotSet(BaseParameters parameters) : base(parameters) { }
+		public TricornSet(BaseParameters parameters) : base(parameters) { }
 
 		/// <summary>
 		/// Iterates a complex point according to a specific fractal type's formula.
@@ -29,7 +29,7 @@
 			for(; iteration < P.IterationLimit; iteration++)
 			{
 				nextR = r * r - i * i + firstR;
-				nextI = 2 * r * i + firstI;
+				nextI = -2 * r * i + firstI;
 				r = nextR;
 				i = nextI;
 				if(r * r + i * i > DivergenceLimit)

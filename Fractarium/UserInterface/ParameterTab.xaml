@@ -13,7 +13,8 @@
 				   Grid.Column="0">Fractal type</TextBlock>
 		<ComboBox Grid.Row="1"
 				  Grid.Column="0"
-				  Items="{x:Static logic:FractalTypes.Names}"/>
+				  Items="{x:Static logic:FractalTypes.Names}"
+				  SelectionChanged="OnFractalTypeSelected"/>
 		<CheckBox Grid.Row="2"
 				  Grid.Column="0"
 				  IsChecked="{Binding BindImageSizeToWindow}"
@@ -48,26 +49,31 @@
 				   Grid.Column="3">Scale</TextBlock>
 		<TextBox Grid.Row="1"
 				 Grid.Column="3"
+				 Name="Scale"
 				 KeyUp="OnLongInput"/>
 		<TextBlock Grid.Row="2"
 				   Grid.Column="3">Midpoint</TextBlock>
 		<TextBox Grid.Row="3"
 				 Grid.Column="3"
+				 Name="Midpoint"
 				 KeyUp="OnComplexInput"/>
 		<TextBlock Grid.Row="0"
 				   Grid.Column="4">Julia constant</TextBlock>
 		<TextBox Grid.Row="1"
 				 Grid.Column="4"
+				 Name="JuliaConstant"
 				 KeyUp="OnComplexInput"/>
 		<TextBlock Grid.Row="2"
 				   Grid.Column="4">Phoenix constant</TextBlock>
 		<TextBox Grid.Row="3"
 				 Grid.Column="4"
+				 Name="PhoenixConstant"
 				 KeyUp="OnComplexInput"/>
 		<TextBlock Grid.Row="0"
 				   Grid.Column="5">Multibrot exponent</TextBlock>
 		<TextBox Grid.Row="1"
 				 Grid.Column="5"
-				 KeyUp="OnPositiveIntInput"/>
+				 Name="MultibrotExponent"
+				 KeyUp="OnFloatingPointInput"/>
 	</Grid>
 </UserControl>

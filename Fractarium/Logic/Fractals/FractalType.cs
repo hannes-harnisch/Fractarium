@@ -19,11 +19,11 @@ namespace Fractarium.Logic.Fractals
 		/// <summary>
 		/// Indicates a fractal generated with the Phoenix set formula.
 		/// </summary>
-		PhoenixFractal,
+		PhoenixSet,
 		/// <summary>
 		/// Indicates a fractal generated with the Burning Ship set formula.
 		/// </summary>
-		BurningShipFractal,
+		BurningShipSet,
 		/// <summary>
 		/// Indicates a fractal generated with the Burning Ship Julia set formula.
 		/// </summary>
@@ -39,7 +39,7 @@ namespace Fractarium.Logic.Fractals
 		/// <summary>
 		/// Indicates a fractal generated with the Tricorn set formula.
 		/// </summary>
-		Tricorn,
+		TricornSet,
 		/// <summary>
 		/// Indicates a fractal generated with the Lyapunov fractal formula.
 		/// </summary>
@@ -55,12 +55,12 @@ namespace Fractarium.Logic.Fractals
 		{
 			[FractalType.MandelbrotSet] = "Mandelbrot set",
 			[FractalType.JuliaSet] = "Julia set",
-			[FractalType.PhoenixFractal] = "Phoenix fractal",
-			[FractalType.BurningShipFractal] = "Burning Ship fractal",
+			[FractalType.PhoenixSet] = "Phoenix set",
+			[FractalType.BurningShipSet] = "Burning Ship set",
 			[FractalType.BurningShipJuliaSet] = "Burning Ship Julia set",
 			[FractalType.MultibrotSet] = "Multibrot set",
 			[FractalType.MultiJuliaSet] = "Multi-Julia set",
-			[FractalType.Tricorn] = "Tricorn",
+			[FractalType.TricornSet] = "Tricorn set",
 			[FractalType.LyapunovFractal] = "Lyapunov fractal"
 		};
 
