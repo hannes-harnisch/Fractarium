@@ -74,7 +74,7 @@ namespace Fractarium.Logic.Fractals
 		/// </summary>
 		/// <param name="name">Proper name of a fractal type.</param>
 		/// <returns>The enum value associated with the name.</returns>
-		public static FractalType TypeByName(string name)
+		public static FractalType ByName(string name)
 		{
 			return names.First(pair => pair.Value == name).Key;
 		}

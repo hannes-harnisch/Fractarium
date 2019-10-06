@@ -22,7 +22,7 @@ namespace Fractarium
 		/// <summary>
 		/// Method necessary for the designer to work. Prepares the application launch.
 		/// </summary>
-		/// <returns>Launcher object for the app.</returns>
+		/// <returns>Object that initializes platform-specific services for the app.</returns>
 		public static AppBuilder BuildAvaloniaApp()
 		{
 			return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug();

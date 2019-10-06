@@ -2,6 +2,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:ui="clr-namespace:Fractarium.UserInterface;assembly=Fractarium"
 			 xmlns:logic="clr-namespace:Fractarium.Logic.Fractals;assembly=Fractarium"
 			 mc:Ignorable="d"
 			 d:DesignWidth="800"
@@ -38,25 +39,29 @@
 		<TextBox Grid.Row="1"
 				 Grid.Column="2"
 				 Name="IterationLimit"
-				 KeyUp="OnPositiveIntInput"/>
+				 KeyUp="OnPositiveIntInput"
+				 Text="{x:Static ui:ParameterTab.DefaultIterationLimit}"/>
 		<TextBlock Grid.Row="2"
 				   Grid.Column="2">Zoom factor</TextBlock>
 		<TextBox Grid.Row="3"
 				 Grid.Column="2"
 				 Name="ZoomFactor"
-				 KeyUp="OnPositiveIntInput"/>
+				 KeyUp="OnPositiveIntInput"
+				 Text="2"/>
 		<TextBlock Grid.Row="0"
 				   Grid.Column="3">Scale</TextBlock>
 		<TextBox Grid.Row="1"
 				 Grid.Column="3"
 				 Name="Scale"
-				 KeyUp="OnLongInput"/>
+				 KeyUp="OnLongInput"
+				 Text="{x:Static ui:ParameterTab.DefaultScale}"/>
 		<TextBlock Grid.Row="2"
 				   Grid.Column="3">Midpoint</TextBlock>
 		<TextBox Grid.Row="3"
 				 Grid.Column="3"
 				 Name="Midpoint"
-				 KeyUp="OnComplexInput"/>
+				 KeyUp="OnComplexInput"
+				 Text="{x:Static ui:ParameterTab.DefaultMidpoint}"/>
 		<TextBlock Grid.Row="0"
 				   Grid.Column="4">Julia constant</TextBlock>
 		<TextBox Grid.Row="1"

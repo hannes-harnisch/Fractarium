@@ -45,6 +45,7 @@ namespace Fractarium.Logic.Fractals
 					*(bitmap + x + y * P.Width) = 0xFFFFd800;
 			});
 		}
+		// iteration - Math.Log(Math.Log(Math.Sqrt((double)(nextR * nextR + nextI * nextI))) / 0.693147f) / 0.693147f;
 
 		/// <summary>
 		/// Iterates a complex point according to a specific fractal type's formula.

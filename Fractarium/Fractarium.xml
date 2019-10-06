@@ -34,7 +34,7 @@
             <summary>
             Method necessary for the designer to work. Prepares the application launch.
             </summary>
-            <returns>Launcher object for the app.</returns>
+            <returns>Object that initializes platform-specific services for the app.</returns>
         </member>
         <member name="T:Fractarium.Logic.BaseParameters">
             <summary>
@@ -80,6 +80,13 @@
             <summary>
             Regex pattern for matching complex numbers.
             </summary>
+        </member>
+        <member name="M:Fractarium.Logic.ComplexUtil.ToString(System.Numerics.Complex)">
+            <summary>
+            Generates a concise string representation of a complex number.
+            </summary>
+            <param name="c">The complex input.</param>
+            <returns>The string representation.</returns>
         </member>
         <member name="M:Fractarium.Logic.ComplexUtil.TryParse(System.String,System.Numerics.Complex@)">
             <summary>
@@ -244,7 +251,7 @@
             Returns the properly formatted names for all fractal types.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.FractalTypes.TypeByName(System.String)">
+        <member name="M:Fractarium.Logic.Fractals.FractalTypes.ByName(System.String)">
             <summary>
             Returns the enum value for the given name of a fractal type.
             </summary>
@@ -385,6 +392,21 @@
             The main menu tab where image parameters can be set.
             </summary>
         </member>
+        <member name="F:Fractarium.UserInterface.ParameterTab.DefaultIterationLimit">
+            <summary>
+            Default iteration limit value to generate a typical fractal image.
+            </summary>
+        </member>
+        <member name="F:Fractarium.UserInterface.ParameterTab.DefaultScale">
+            <summary>
+            Default scale value to generate a typical fractal image.
+            </summary>
+        </member>
+        <member name="F:Fractarium.UserInterface.ParameterTab.DefaultMidpoint">
+            <summary>
+            Default midpoint value to center the fractal image.
+            </summary>
+        </member>
         <member name="P:Fractarium.UserInterface.ParameterTab.BindImageSizeToWindow">
             <summary>
             Indicates whether width and height parameters should be adapted to the window size.
@@ -437,12 +459,14 @@
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
         </member>
-        <member name="M:Fractarium.UserInterface.ParameterTab.SetTextBoxState(Avalonia.Controls.TextBox,System.Boolean)">
+        <member name="M:Fractarium.UserInterface.ParameterTab.HandleTextBoxInput(Avalonia.Controls.TextBox,System.Boolean,Avalonia.Input.KeyEventArgs)">
             <summary>
-            Sets a text box's styling to the appropriate style depending on the correctness of user input.
+            Sets a text box's styling to the appropriate style depending on the correctness of user input and
+            initiates rendering if the enter key was pressed.
             </summary>
             <param name="box">The box where user input occurred.</param>
             <param name="parsed">Whether the input could be parsed correctly.</param>
+            <param name="e">Data associated with the key event from input.</param>
         </member>
     </members>
 </doc>
