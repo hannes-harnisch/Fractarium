@@ -11,7 +11,7 @@
         </member>
         <member name="P:Fractarium.App.Context">
             <summary>
-            Gets a static reference to the running instance's window's data context.
+            Gets a static reference to the running instance's window.
             </summary>
         </member>
         <member name="M:Fractarium.App.Initialize">
@@ -35,6 +35,41 @@
             Method necessary for the designer to work. Prepares the application launch.
             </summary>
             <returns>Launcher object for the app.</returns>
+        </member>
+        <member name="T:Fractarium.Logic.BaseParameters">
+            <summary>
+            Holds the basic parameters needed to generate a fractal image.
+            </summary>
+        </member>
+        <member name="P:Fractarium.Logic.BaseParameters.Width">
+            <summary>
+            Width of the fractal image.
+            </summary>
+        </member>
+        <member name="P:Fractarium.Logic.BaseParameters.Height">
+            <summary>
+            Height of the fractal image.
+            </summary>
+        </member>
+        <member name="P:Fractarium.Logic.BaseParameters.IterationLimit">
+            <summary>
+            Maximum amount of iterations possible for determining a pixel.
+            </summary>
+        </member>
+        <member name="P:Fractarium.Logic.BaseParameters.ZoomFactor">
+            <summary>
+            How much the scale is multiplied after clicking on a point in the image.
+            </summary>
+        </member>
+        <member name="P:Fractarium.Logic.BaseParameters.Scale">
+            <summary>
+            How far the image is zoomed in.
+            </summary>
+        </member>
+        <member name="P:Fractarium.Logic.BaseParameters.Midpoint">
+            <summary>
+            Central point of the image.
+            </summary>
         </member>
         <member name="T:Fractarium.Logic.ComplexUtil">
             <summary>
@@ -68,29 +103,150 @@
             <param name="s">String representing a complex number.</param>
             <returns>The imaginary part of the complex number.</returns>
         </member>
-        <member name="T:Fractarium.UserInterface.MainLayout">
+        <member name="T:Fractarium.Logic.Fractals.Fractal">
+            <summary>
+            Base class for all fractals based on escape time algorithms.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Fractals.Fractal.DivergenceLimit">
+            <summary>
+            For most fractals, when the sum of squares of a complex point's components after iteration surpasses 4,
+            it is considered to be divergent.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Fractals.Fractal.P">
+            <summary>
+            Basic parameters needed to generate a fractal image.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.Fractal.#ctor(Fractarium.Logic.BaseParameters)">
+            <summary>
+            Assigns the base parameters.
+            </summary>
+            <param name="parameters">Required base parameters.</param>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.Fractal.DrawImage(System.UInt32*)">
+            <summary>
+            Draws the image of the fractal starting on a 32-bit unsigned integer pointer.
+            </summary>
+            <param name="bitmap">Pointer to the first bitmap pixel.</param>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.Fractal.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            Iterates a complex point according to a specific fractal type's formula.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
+            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
+            <returns>How many iterations were cycled through.</returns>
+        </member>
+        <member name="T:Fractarium.Logic.Fractals.FractalType">
+            <summary>
+            Used for indicating which of the preprogrammed fractal types is selected.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Fractals.FractalType.MandelbrotSet">
+            <summary>
+            Indicates a fractal generated with the Mandelbrot set formula.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Fractals.FractalType.JuliaSet">
+            <summary>
+            Indicates a fractal generated with the Julia set formula.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Fractals.FractalType.PhoenixFractal">
+            <summary>
+            Indicates a fractal generated with the Phoenix set formula.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Fractals.FractalType.BurningShipFractal">
+            <summary>
+            Indicates a fractal generated with the Burning Ship set formula.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Fractals.FractalType.BurningShipJuliaSet">
+            <summary>
+            Indicates a fractal generated with the Burning Ship Julia set formula.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Fractals.FractalType.MultibrotSet">
+            <summary>
+            Indicates a fractal generated with the Multibrot set formula.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Fractals.FractalType.MultiJuliaSet">
+            <summary>
+            Indicates a fractal generated with the Multibrot Julia set formula.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Fractals.FractalType.Tricorn">
+            <summary>
+            Indicates a fractal generated with the Tricorn set formula.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Fractals.FractalType.LyapunovFractal">
+            <summary>
+            Indicates a fractal generated with the Lyapunov fractal formula.
+            </summary>
+        </member>
+        <member name="T:Fractarium.Logic.Fractals.FractalTypes">
+            <summary>
+            Encapsulates functions associated with the FractalType enum.
+            </summary>
+        </member>
+        <member name="P:Fractarium.Logic.Fractals.FractalTypes.Names">
+            <summary>
+            Returns the properly formatted names for all fractal types.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.FractalTypes.TypeByName(System.String)">
+            <summary>
+            Returns the enum value for the given name of a fractal type.
+            </summary>
+            <param name="name">Proper name of a fractal type.</param>
+            <returns>The enum value associated with the name.</returns>
+        </member>
+        <member name="T:Fractarium.Logic.Fractals.MandelbrotSet">
+            <summary>
+            Represents a fractal image based on the Mandelbrot set.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.#ctor(Fractarium.Logic.BaseParameters)">
+            <summary>
+            Assigns base parameters.
+            </summary>
+            <param name="parameters">Required base parameters.</param>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            Iterates a complex point according to a specific fractal type's formula.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
+            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
+            <returns>How many iterations were cycled through.</returns>
+        </member>
+        <member name="T:Fractarium.UserInterface.MainWindow">
             <summary>
             Holds the content of the main window.
             </summary>
         </member>
-        <member name="F:Fractarium.UserInterface.MainLayout.Parameters">
+        <member name="F:Fractarium.UserInterface.MainWindow.Parameters">
             <summary>
             Holds the parameter values most recently parsed from the parameter tab.
             </summary>
         </member>
-        <member name="P:Fractarium.UserInterface.MainLayout.Bitmap">
+        <member name="M:Fractarium.UserInterface.MainWindow.#ctor">
             <summary>
-            Holds the bitmap for the currently displayed fractal image.
+            Initializes associated XAML objects.
             </summary>
         </member>
-        <member name="M:Fractarium.UserInterface.MainLayout.#ctor">
+        <member name="M:Fractarium.UserInterface.MainWindow.Render(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
             <summary>
-            Initializes associated XAML objects and data context.
-            </summary>
-        </member>
-        <member name="M:Fractarium.UserInterface.MainLayout.Render(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
-            <summary>
-            Uses current parameters to render a fractal image on the context's bitmap.
+            Uses current parameters to render a fractal image on the image's bitmap.
             </summary>
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
@@ -100,19 +256,19 @@
             The main menu tab where image parameters can be set.
             </summary>
         </member>
-        <member name="P:Fractarium.UserInterface.ParameterTab.TypeEntries">
+        <member name="P:Fractarium.UserInterface.ParameterTab.BindImageSizeToWindow">
             <summary>
-            Loads the names of preprogrammed fractal types.
+            Indicates whether width and height parameters should be adapted to the window size.
             </summary>
         </member>
         <member name="M:Fractarium.UserInterface.ParameterTab.#ctor">
             <summary>
-            Initializes associated XAML objects and data context.
+            Initializes associated XAML objects.
             </summary>
         </member>
-        <member name="M:Fractarium.UserInterface.ParameterTab.BindImageSizeToWindow(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+        <member name="M:Fractarium.UserInterface.ParameterTab.OnBindImageSizeToWindow(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
             <summary>
-            Makes the width and height parameters adapt to the window size when the box is checked.
+            Attaches event handlers reacting to size changes of the main window for width and height parameters.
             </summary>
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
@@ -143,7 +299,7 @@
             Sets a text box's styling to the appropriate style depending on the correctness of user input.
             </summary>
             <param name="box">The box where user input occurred.</param>
-            <param name="parsed">Whether user input could be parsed correctly.</param>
+            <param name="parsed">Whether the input could be parsed correctly.</param>
         </member>
     </members>
 </doc>

@@ -2,6 +2,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:logic="clr-namespace:Fractarium.Logic.Fractals;assembly=Fractarium"
 			 mc:Ignorable="d"
 			 d:DesignWidth="800"
 			 d:DesignHeight="125"
@@ -12,11 +13,11 @@
 				   Grid.Column="0">Fractal type</TextBlock>
 		<ComboBox Grid.Row="1"
 				  Grid.Column="0"
-				  Items="{Binding TypeEntries}"/>
+				  Items="{x:Static logic:FractalTypes.Names}"/>
 		<CheckBox Grid.Row="2"
 				  Grid.Column="0"
-				  Click="BindImageSizeToWindow"
-				  IsChecked="True">Bind image size to window size</CheckBox>
+				  IsChecked="{Binding BindImageSizeToWindow}"
+				  Click="OnBindImageSizeToWindow">Bind image size to window size</CheckBox>
 		<CheckBox Grid.Row="3"
 				  Grid.Column="0">Use arbitrary-precision arithmetic</CheckBox>
 		<TextBlock Grid.Row="0"

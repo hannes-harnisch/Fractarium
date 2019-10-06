@@ -1,10 +1,12 @@
-﻿using Avalonia.Controls;
+﻿using System;
+
+using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
 using Fractarium.Logic;
-using Fractarium.Logic.Fractals;
 
 namespace Fractarium.UserInterface
 {
@@ -14,12 +16,12 @@ namespace Fractarium.UserInterface
 	public class ParameterTab : UserControl
 	{
 		/// <summary>
-		/// Loads the names of preprogrammed fractal types.
+		/// Indicates whether width and height parameters should be adapted to the window size.
 		/// </summary>
-		public string[] TypeEntries => FractalTypes.Names;
+		public bool BindImageSizeToWindow { get; set; }
 
 		/// <summary>
-		/// Initializes associated XAML objects and data context.
+		/// Initializes associated XAML objects.
 		/// </summary>
 		public ParameterTab()
 		{
@@ -28,14 +30,24 @@ namespace Fractarium.UserInterface
 		}
 
 		/// <summary>
-		/// Makes the width and height parameters adapt to the window size when the box is checked.
+		/// Attaches event handlers reacting to size changes of the main window for width and height parameters.
 		/// </summary>
 		/// <param name="sender">Source of the event.</param>
 		/// <param name="e">Data associated with the event.</param>
-		public void BindImageSizeToWindow(object sender, RoutedEventArgs e)
+		public void OnBindImageSizeToWindow(object sender, RoutedEventArgs e)
 		{
-			// TODO
-			System.Console.WriteLine(((CheckBox)sender).IsChecked);
+			App.Context.GetObservable(BoundsProperty).Subscribe(bounds =>
+			{
+				if(BindImageSizeToWindow)
+				{
+					var widthTextBox = this.Find<TextBox>("Width");
+					widthTextBox.Text = ((uint)bounds.Width).ToString();
+					OnPositiveIntInput(widthTextBox, null);
+					var heightTextBox = this.Find<TextBox>("Height");
+					heightTextBox.Text = ((uint)bounds.Height).ToString();
+					OnPositiveIntInput(heightTextBox, null);
+				}
+			});
 		}
 
 		/// <summary>
@@ -95,7 +107,7 @@ namespace Fractarium.UserInterface
 		/// Sets a text box's styling to the appropriate style depending on the correctness of user input.
 		/// </summary>
 		/// <param name="box">The box where user input occurred.</param>
-		/// <param name="parsed">Whether user input could be parsed correctly.</param>
+		/// <param name="parsed">Whether the input could be parsed correctly.</param>
 		public void SetTextBoxState(TextBox box, bool parsed)
 		{
 			box.Classes = new Classes(parsed ? "" : "Error");

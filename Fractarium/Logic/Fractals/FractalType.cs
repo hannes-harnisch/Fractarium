@@ -3,19 +3,52 @@ using System.Linq;
 
 namespace Fractarium.Logic.Fractals
 {
+	/// <summary>
+	/// Used for indicating which of the preprogrammed fractal types is selected.
+	/// </summary>
 	public enum FractalType
 	{
+		/// <summary>
+		/// Indicates a fractal generated with the Mandelbrot set formula.
+		/// </summary>
 		MandelbrotSet,
+		/// <summary>
+		/// Indicates a fractal generated with the Julia set formula.
+		/// </summary>
 		JuliaSet,
+		/// <summary>
+		/// Indicates a fractal generated with the Phoenix set formula.
+		/// </summary>
 		PhoenixFractal,
+		/// <summary>
+		/// Indicates a fractal generated with the Burning Ship set formula.
+		/// </summary>
 		BurningShipFractal,
+		/// <summary>
+		/// Indicates a fractal generated with the Burning Ship Julia set formula.
+		/// </summary>
 		BurningShipJuliaSet,
+		/// <summary>
+		/// Indicates a fractal generated with the Multibrot set formula.
+		/// </summary>
 		MultibrotSet,
+		/// <summary>
+		/// Indicates a fractal generated with the Multibrot Julia set formula.
+		/// </summary>
 		MultiJuliaSet,
+		/// <summary>
+		/// Indicates a fractal generated with the Tricorn set formula.
+		/// </summary>
 		Tricorn,
+		/// <summary>
+		/// Indicates a fractal generated with the Lyapunov fractal formula.
+		/// </summary>
 		LyapunovFractal
 	}
 
+	/// <summary>
+	/// Encapsulates functions associated with the FractalType enum.
+	/// </summary>
 	public static class FractalTypes
 	{
 		private static readonly Dictionary<FractalType, string> names = new Dictionary<FractalType, string>()
@@ -31,8 +64,16 @@ namespace Fractarium.Logic.Fractals
 			[FractalType.LyapunovFractal] = "Lyapunov fractal"
 		};
 
+		/// <summary>
+		/// Returns the properly formatted names for all fractal types.
+		/// </summary>
 		public static string[] Names => names.Values.ToArray();
 
+		/// <summary>
+		/// Returns the enum value for the given name of a fractal type.
+		/// </summary>
+		/// <param name="name">Proper name of a fractal type.</param>
+		/// <returns>The enum value associated with the name.</returns>
 		public static FractalType TypeByName(string name)
 		{
 			return names.First(pair => pair.Value == name).Key;
