@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -64,35 +65,23 @@ namespace Fractarium.UserInterface
 			midpoint.Text = DefaultMidpoint;
 			OnComplexInput(midpoint, null);
 
+			bool[] disableTextBoxes = new bool[3];
 			switch(App.Context.FractalType = FractalTypes.ByName(((ComboBox)sender).SelectedItem.ToString()))
 			{
 				case FractalType.JuliaSet:
 				case FractalType.BurningShipJuliaSet:
-					this.Find<TextBox>("JuliaConstant").IsEnabled = true;
-					this.Find<TextBox>("PhoenixConstant").IsEnabled = false;
-					this.Find<TextBox>("MultibrotExponent").IsEnabled = false;
-					break;
+					disableTextBoxes = new[] { true, false, false }; break;
 				case FractalType.PhoenixSet:
-					this.Find<TextBox>("JuliaConstant").IsEnabled = true;
-					this.Find<TextBox>("PhoenixConstant").IsEnabled = true;
-					this.Find<TextBox>("MultibrotExponent").IsEnabled = false;
-					break;
+					disableTextBoxes = new[] { true, true, false }; break;
 				case FractalType.MultibrotSet:
-					this.Find<TextBox>("JuliaConstant").IsEnabled = false;
-					this.Find<TextBox>("PhoenixConstant").IsEnabled = false;
-					this.Find<TextBox>("MultibrotExponent").IsEnabled = true;
-					break;
+					disableTextBoxes = new[] { false, false, true }; break;
 				case FractalType.MultiJuliaSet:
-					this.Find<TextBox>("JuliaConstant").IsEnabled = true;
-					this.Find<TextBox>("PhoenixConstant").IsEnabled = false;
-					this.Find<TextBox>("MultibrotExponent").IsEnabled = true;
-					break;
-				default:
-					this.Find<TextBox>("JuliaConstant").IsEnabled = false;
-					this.Find<TextBox>("PhoenixConstant").IsEnabled = false;
-					this.Find<TextBox>("MultibrotExponent").IsEnabled = false;
-					break;
+					disableTextBoxes = new[] { true, false, true }; break;
 			}
+			this.Find<TextBox>("JuliaConstant").IsEnabled = disableTextBoxes[0];
+			this.Find<TextBox>("PhoenixConstant").IsEnabled = disableTextBoxes[1];
+			this.Find<TextBox>("MultibrotExponent").IsEnabled = disableTextBoxes[2];
+			DisableRenderIfInvalidInput();
 		}
 
 		/// <summary>
@@ -196,8 +185,19 @@ namespace Fractarium.UserInterface
 		public void HandleTextBoxInput(TextBox box, bool parsed, KeyEventArgs e)
 		{
 			box.Classes = new Classes(parsed ? "" : "Error");
+			DisableRenderIfInvalidInput();
 			if(e?.Key == Key.Enter)
 				App.Context.Render(null, null);
+		}
+
+		/// <summary>
+		/// Disables the render button if one of the parameter text boxes relevant to the selected fractal type
+		/// does not contain valid input.
+		/// </summary>
+		public void DisableRenderIfInvalidInput()
+		{
+			var enabledBoxes = ((Grid)Content).Children.Where(c => c is TextBox t && t.IsEnabled);
+			App.Context.Find<Button>("RenderButton").IsEnabled = !enabledBoxes.Any(t => t.Classes.Contains("Error"));
 		}
 	}
 }

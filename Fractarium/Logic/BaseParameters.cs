@@ -5,7 +5,7 @@ namespace Fractarium.Logic
 	/// <summary>
 	/// Holds the basic parameters needed to generate a fractal image.
 	/// </summary>
-	public struct BaseParameters
+	public class BaseParameters
 	{
 		/// <summary>
 		/// Width of the fractal image.

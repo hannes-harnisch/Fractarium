@@ -14,7 +14,8 @@
 					Spacing="5">
 			<Button Padding="10"
 					Margin="10"
-					Click="Render">Render</Button>
+					Click="Render"
+					Name="RenderButton">Render</Button>
 			<TabControl>
 				<TabItem Header="Parameters">
 					<ui:ParameterTab/>

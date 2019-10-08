@@ -38,5 +38,13 @@
 				<SolidColorBrush>#ff0000</SolidColorBrush>
 			</Setter>
 		</Style>
+		<Style Selector="TextBox:disabled, Button:disabled">
+			<Setter Property="Background">
+				<SolidColorBrush>#dddddd</SolidColorBrush>
+			</Setter>
+			<Setter Property="Foreground">
+				<SolidColorBrush>#666666</SolidColorBrush>
+			</Setter>
+		</Style>
 	</Application.Styles>
 </Application>

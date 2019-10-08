@@ -61,6 +61,9 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public unsafe void Render(object sender, RoutedEventArgs e)
 		{
+			if(!this.Find<Button>("RenderButton").IsEnabled)
+				return;
+
 			Fractal fractal = null;
 			switch(FractalType)
 			{

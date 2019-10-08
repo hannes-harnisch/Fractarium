@@ -76,18 +76,6 @@
             Utilities for handling complex numbers.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.ComplexUtil.Pattern">
-            <summary>
-            Regex pattern for matching complex numbers.
-            </summary>
-        </member>
-        <member name="M:Fractarium.Logic.ComplexUtil.ToString(System.Numerics.Complex)">
-            <summary>
-            Generates a concise string representation of a complex number.
-            </summary>
-            <param name="c">The complex input.</param>
-            <returns>The string representation.</returns>
-        </member>
         <member name="M:Fractarium.Logic.ComplexUtil.TryParse(System.String,System.Numerics.Complex@)">
             <summary>
             Tries to convert the string representation of a number to its complex number equivalent.
@@ -109,6 +97,13 @@
             </summary>
             <param name="s">String representing a complex number.</param>
             <returns>The imaginary part of the complex number.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.ComplexUtil.ToString(System.Numerics.Complex)">
+            <summary>
+            Generates a concise string representation of a complex number.
+            </summary>
+            <param name="c">The complex input.</param>
+            <returns>The string representation.</returns>
         </member>
         <member name="T:Fractarium.Logic.Fractals.BurningShipJuliaSet">
             <summary>
@@ -467,6 +462,12 @@
             <param name="box">The box where user input occurred.</param>
             <param name="parsed">Whether the input could be parsed correctly.</param>
             <param name="e">Data associated with the key event from input.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ParameterTab.DisableRenderIfInvalidInput">
+            <summary>
+            Disables the render button if one of the parameter text boxes relevant to the selected fractal type
+            does not contain valid input.
+            </summary>
         </member>
     </members>
 </doc>

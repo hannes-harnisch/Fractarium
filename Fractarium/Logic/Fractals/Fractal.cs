@@ -31,7 +31,7 @@ namespace Fractarium.Logic.Fractals
 		/// Draws the image of the fractal starting on a 32-bit unsigned integer pointer.
 		/// </summary>
 		/// <param name="bitmap">Pointer to the first bitmap pixel.</param>
-		public unsafe void DrawImage(uint* bitmap)
+		public virtual unsafe void DrawImage(uint* bitmap)
 		{
 			Parallel.For(0, P.Width * P.Height, pixel =>
 			{

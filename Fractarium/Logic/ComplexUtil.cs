@@ -10,53 +10,6 @@ namespace Fractarium.Logic
 	public static class ComplexUtil
 	{
 		/// <summary>
-		/// Regex pattern for matching complex numbers.
-		/// </summary>
-		private const string Pattern = @"^(-|\+)?(([0-9]+(\.[0-9]+)?)?i|[0-9]+(\.[0-9]+)?((-|\+)([0-9]+(\.[0-9]+)?)?i)?)$";
-
-		/// <summary>
-		/// Generates a concise string representation of a complex number.
-		/// </summary>
-		/// <param name="c">The complex input.</param>
-		/// <returns>The string representation.</returns>
-		public static string ToString(this Complex c)
-		{
-			var zeroRegex = new Regex(@"^0+(\.0+)?$");
-			var posOneRegex = new Regex(@"^0*1(\.0+)?$");
-			var negOneRegex = new Regex(@"^-0*1(\.0+)?$");
-			string s = "";
-			string real = c.Real.ToString(CultureInfo.InvariantCulture);
-			string imaginary = c.Imaginary.ToString(CultureInfo.InvariantCulture);
-			if(!zeroRegex.IsMatch(real))
-			{
-				s += real;
-				if(!zeroRegex.IsMatch(imaginary))
-				{
-					if(posOneRegex.IsMatch(imaginary))
-						s += "+i";
-					else if(negOneRegex.IsMatch(imaginary))
-						s += "-i";
-					else if(Regex.IsMatch(imaginary, @"^(0+(\.[0-9]+)|0*[1-9][0-9]*(\.[0-9]+)?)$"))
-						s += "+" + imaginary + "i";
-					else
-						s += imaginary + "i";
-				}
-			}
-			else if(!zeroRegex.IsMatch(imaginary))
-			{
-				if(posOneRegex.IsMatch(imaginary))
-					s += "i";
-				else if(negOneRegex.IsMatch(imaginary))
-					s += "-i";
-				else
-					s += imaginary + "i";
-			}
-			else
-				s += 0;
-			return s;
-		}
-
-		/// <summary>
 		/// Tries to convert the string representation of a number to its complex number equivalent.
 		/// </summary>
 		/// <param name="s">String representing a complex number.</param>
@@ -64,7 +17,9 @@ namespace Fractarium.Logic
 		/// <returns>Whether the conversion succeeded or failed.</returns>
 		public static bool TryParse(string s, out Complex result)
 		{
-			bool valid = Regex.IsMatch(s, Pattern);
+			s = Regex.Replace(s, @"\s+", "");
+			const string pattern = @"^(-|\+)?(([0-9]+(\.[0-9]+)?)?i|[0-9]+(\.[0-9]+)?((-|\+)([0-9]+(\.[0-9]+)?)?i)?)$";
+			bool valid = Regex.IsMatch(s, pattern);
 			result = valid ? new Complex(ParseReal(s), ParseImaginary(s)) : Complex.Zero;
 			return valid;
 		}
@@ -142,6 +97,48 @@ namespace Fractarium.Logic
 				}
 			}
 			return double.Parse(imaginary, CultureInfo.InvariantCulture);
+		}
+
+		/// <summary>
+		/// Generates a concise string representation of a complex number.
+		/// </summary>
+		/// <param name="c">The complex input.</param>
+		/// <returns>The string representation.</returns>
+		public static string ToString(this Complex c)
+		{
+			var zeroRegex = new Regex(@"^0+(\.0+)?$");
+			var posOneRegex = new Regex(@"^0*1(\.0+)?$");
+			var negOneRegex = new Regex(@"^-0*1(\.0+)?$");
+			string s = "";
+			string real = c.Real.ToString(CultureInfo.InvariantCulture);
+			string imaginary = c.Imaginary.ToString(CultureInfo.InvariantCulture);
+			if(!zeroRegex.IsMatch(real))
+			{
+				s += real;
+				if(!zeroRegex.IsMatch(imaginary))
+				{
+					if(posOneRegex.IsMatch(imaginary))
+						s += "+i";
+					else if(negOneRegex.IsMatch(imaginary))
+						s += "-i";
+					else if(Regex.IsMatch(imaginary, @"^(0+(\.[0-9]+)|0*[1-9][0-9]*(\.[0-9]+)?)$"))
+						s += "+" + imaginary + "i";
+					else
+						s += imaginary + "i";
+				}
+			}
+			else if(!zeroRegex.IsMatch(imaginary))
+			{
+				if(posOneRegex.IsMatch(imaginary))
+					s += "i";
+				else if(negOneRegex.IsMatch(imaginary))
+					s += "-i";
+				else
+					s += imaginary + "i";
+			}
+			else
+				s += 0;
+			return s;
 		}
 	}
 }
