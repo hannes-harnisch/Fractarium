@@ -7,20 +7,22 @@ namespace Fractarium.Logic.Fractals
 	/// </summary>
 	public class PhoenixSet : Fractal
 	{
-		private Complex JuliaConst;
+		private Complex JConst;
 
-		private Complex PhoenixConst;
+		private Complex PConst;
 
 		/// <summary>
 		/// Assigns all required parameters.
 		/// </summary>
 		/// <param name="parameters">Required base parameters.</param>
+		/// <param name="palette">Required color palette.</param>
 		/// <param name="juliaConstant">The Julia constant parameter.</param>
 		/// <param name="phoenixConstant">The Phoenix constant parameter.</param>
-		public PhoenixSet(BaseParameters parameters, Complex juliaConstant, Complex phoenixConstant) : base(parameters)
+		public PhoenixSet(BaseParameters parameters, Palette palette, Complex juliaConstant, Complex phoenixConstant)
+			: base(parameters, palette)
 		{
-			JuliaConst = juliaConstant;
-			PhoenixConst = phoenixConstant;
+			JConst = juliaConstant;
+			PConst = phoenixConstant;
 		}
 
 		/// <summary>
@@ -39,10 +41,10 @@ namespace Fractarium.Logic.Fractals
 			double lastR = 0;
 			double lastI = 0;
 			int iteration = 0;
-			for(; iteration < P.IterationLimit; iteration++)
+			for(; iteration < Params.IterationLimit; iteration++)
 			{
-				nextR = r * r - i * i + JuliaConst.Real + PhoenixConst.Real * lastR - PhoenixConst.Imaginary * lastI;
-				nextI = 2 * r * i - JuliaConst.Imaginary + PhoenixConst.Real * lastI + PhoenixConst.Imaginary * lastR;
+				nextR = r * r - i * i + JConst.Real + PConst.Real * lastR - PConst.Imaginary * lastI;
+				nextI = 2 * r * i - JConst.Imaginary + PConst.Real * lastI + PConst.Imaginary * lastR;
 				lastR = r;
 				lastI = i;
 				r = nextR;

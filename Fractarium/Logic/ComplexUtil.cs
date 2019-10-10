@@ -17,7 +17,6 @@ namespace Fractarium.Logic
 		/// <returns>Whether the conversion succeeded or failed.</returns>
 		public static bool TryParse(string s, out Complex result)
 		{
-			s = Regex.Replace(s, @"\s+", "");
 			const string pattern = @"^(-|\+)?(([0-9]+(\.[0-9]+)?)?i|[0-9]+(\.[0-9]+)?((-|\+)([0-9]+(\.[0-9]+)?)?i)?)$";
 			bool valid = Regex.IsMatch(s, pattern);
 			result = valid ? new Complex(ParseReal(s), ParseImaginary(s)) : Complex.Zero;

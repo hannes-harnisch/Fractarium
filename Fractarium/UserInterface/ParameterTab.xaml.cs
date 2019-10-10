@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -17,21 +19,6 @@ namespace Fractarium.UserInterface
 	/// </summary>
 	public class ParameterTab : UserControl
 	{
-		/// <summary>
-		/// Default iteration limit value to generate a typical fractal image.
-		/// </summary>
-		public const string DefaultIterationLimit = "100";
-
-		/// <summary>
-		/// Default scale value to generate a typical fractal image.
-		/// </summary>
-		public const string DefaultScale = "200";
-
-		/// <summary>
-		/// Default midpoint value to center the fractal image.
-		/// </summary>
-		public const string DefaultMidpoint = "0";
-
 		/// <summary>
 		/// Indicates whether width and height parameters should be adapted to the window size.
 		/// </summary>
@@ -53,18 +40,6 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnFractalTypeSelected(object sender, SelectionChangedEventArgs e)
 		{
-			var iterationLimit = this.Find<TextBox>("IterationLimit");
-			iterationLimit.Text = DefaultIterationLimit;
-			OnPositiveIntInput(iterationLimit, null);
-
-			var scale = this.Find<TextBox>("Scale");
-			scale.Text = DefaultScale;
-			OnLongInput(scale, null);
-
-			var midpoint = this.Find<TextBox>("Midpoint");
-			midpoint.Text = DefaultMidpoint;
-			OnComplexInput(midpoint, null);
-
 			bool[] disableTextBoxes = new bool[3];
 			switch(App.Context.FractalType = FractalTypes.ByName(((ComboBox)sender).SelectedItem.ToString()))
 			{
@@ -81,7 +56,18 @@ namespace Fractarium.UserInterface
 			this.Find<TextBox>("JuliaConstant").IsEnabled = disableTextBoxes[0];
 			this.Find<TextBox>("PhoenixConstant").IsEnabled = disableTextBoxes[1];
 			this.Find<TextBox>("MultibrotExponent").IsEnabled = disableTextBoxes[2];
-			DisableRenderIfInvalidInput();
+
+			var iterationLimit = this.Find<TextBox>("IterationLimit");
+			iterationLimit.Text = "100";
+			OnPositiveIntInput(iterationLimit, null);
+
+			var scale = this.Find<TextBox>("Scale");
+			scale.Text = "200";
+			OnLongInput(scale, null);
+
+			var midpoint = this.Find<TextBox>("Midpoint");
+			midpoint.Text = "0";
+			OnComplexInput(midpoint, null);
 		}
 
 		/// <summary>
@@ -95,12 +81,12 @@ namespace Fractarium.UserInterface
 			{
 				if(BindImageSizeToWindow)
 				{
-					var widthTextBox = this.Find<TextBox>("Width");
-					widthTextBox.Text = ((int)bounds.Width).ToString();
-					OnPositiveIntInput(widthTextBox, null);
-					var heightTextBox = this.Find<TextBox>("Height");
-					heightTextBox.Text = ((int)bounds.Height).ToString();
-					OnPositiveIntInput(heightTextBox, null);
+					var width = this.Find<TextBox>("Width");
+					width.Text = ((int)bounds.Width).ToString();
+					OnPositiveIntInput(width, null);
+					var height = this.Find<TextBox>("Height");
+					height.Text = ((int)(bounds.Height - App.Context.Find<TabControl>("Menu").Bounds.Height)).ToString();
+					OnPositiveIntInput(height, null);
 				}
 			});
 		}
@@ -112,7 +98,7 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnPositiveIntInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = int.TryParse(((TextBox)sender).Text, out int result) && result > 0;
+			bool parsed = int.TryParse(Prepare(((TextBox)sender).Text), out int result) && result > 0;
 			if(parsed)
 				switch(((TextBox)sender).Name)
 				{
@@ -125,7 +111,7 @@ namespace Fractarium.UserInterface
 					case "ZoomFactor":
 						App.Context.Params.ZoomFactor = result; break;
 				}
-			HandleTextBoxInput((TextBox)sender, parsed, e);
+			ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 
 		/// <summary>
@@ -135,10 +121,10 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnLongInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = ulong.TryParse(((TextBox)sender).Text, out ulong result) && result != 0;
+			bool parsed = ulong.TryParse(Prepare(((TextBox)sender).Text), out ulong result) && result != 0;
 			if(parsed)
 				App.Context.Params.Scale = result;
-			HandleTextBoxInput((TextBox)sender, parsed, e);
+			ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 
 		/// <summary>
@@ -148,7 +134,7 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnComplexInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = ComplexUtil.TryParse(((TextBox)sender).Text, out var result);
+			bool parsed = ComplexUtil.TryParse(Prepare(((TextBox)sender).Text), out var result);
 			if(parsed)
 				switch(((TextBox)sender).Name)
 				{
@@ -159,7 +145,7 @@ namespace Fractarium.UserInterface
 					case "PhoenixConstant":
 						App.Context.PhoenixConstant = result; break;
 				}
-			HandleTextBoxInput((TextBox)sender, parsed, e);
+			ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 
 		/// <summary>
@@ -169,35 +155,39 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnFloatingPointInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = double.TryParse(((TextBox)sender).Text, out double result);
+			bool parsed = double.TryParse(Prepare(((TextBox)sender).Text), NumberStyles.Any,
+				CultureInfo.InvariantCulture, out double result);
 			if(parsed)
 				App.Context.MultibrotExponent = result;
-			HandleTextBoxInput((TextBox)sender, parsed, e);
+			ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 
 		/// <summary>
-		/// Sets a text box's styling to the appropriate style depending on the correctness of user input and
-		/// initiates rendering if the enter key was pressed.
+		/// Sets a text box's styling to the appropriate style and disables the render button depending on the
+		/// correctness of user input. Also initiates rendering if the enter key was pressed.
 		/// </summary>
 		/// <param name="box">The box where user input occurred.</param>
 		/// <param name="parsed">Whether the input could be parsed correctly.</param>
 		/// <param name="e">Data associated with the key event from input.</param>
-		public void HandleTextBoxInput(TextBox box, bool parsed, KeyEventArgs e)
+		public void ReactToTextBoxInput(TextBox box, bool parsed, KeyEventArgs e)
 		{
 			box.Classes = new Classes(parsed ? "" : "Error");
-			DisableRenderIfInvalidInput();
+
+			var enabledBoxes = ((Grid)Content).Children.Where(c => c is TextBox t && t.IsEnabled);
+			App.Context.Find<Button>("RenderButton").IsEnabled = !enabledBoxes.Any(t => t.Classes.Contains("Error"));
+
 			if(e?.Key == Key.Enter)
 				App.Context.Render(null, null);
 		}
 
 		/// <summary>
-		/// Disables the render button if one of the parameter text boxes relevant to the selected fractal type
-		/// does not contain valid input.
+		/// Removes all whitespace from a string. To be used to ignore whitespace in text box inputs.
 		/// </summary>
-		public void DisableRenderIfInvalidInput()
+		/// <param name="text">A text box's text.</param>
+		/// <returns>The input without whitespace.</returns>
+		private static string Prepare(string text)
 		{
-			var enabledBoxes = ((Grid)Content).Children.Where(c => c is TextBox t && t.IsEnabled);
-			App.Context.Find<Button>("RenderButton").IsEnabled = !enabledBoxes.Any(t => t.Classes.Contains("Error"));
+			return Regex.Replace(text, @"\s+", "");
 		}
 	}
 }

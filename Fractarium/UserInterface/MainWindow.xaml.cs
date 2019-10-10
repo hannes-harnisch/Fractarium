@@ -44,6 +44,11 @@ namespace Fractarium.UserInterface
 		public double MultibrotExponent { get; set; }
 
 		/// <summary>
+		/// Holds the currently selected color palette.
+		/// </summary>
+		public Palette Palette = new Palette(6);
+
+		/// <summary>
 		/// Initializes associated XAML objects.
 		/// </summary>
 		public MainWindow()
@@ -68,26 +73,26 @@ namespace Fractarium.UserInterface
 			switch(FractalType)
 			{
 				case FractalType.MandelbrotSet:
-					fractal = new MandelbrotSet(Params); break;
+					fractal = new MandelbrotSet(Params, Palette); break;
 				case FractalType.JuliaSet:
-					fractal = new JuliaSet(Params, JuliaConstant); break;
+					fractal = new JuliaSet(Params, Palette, JuliaConstant); break;
 				case FractalType.PhoenixSet:
-					fractal = new PhoenixSet(Params, JuliaConstant, PhoenixConstant); break;
+					fractal = new PhoenixSet(Params, Palette, JuliaConstant, PhoenixConstant); break;
 				case FractalType.BurningShipSet:
-					fractal = new BurningShipSet(Params); break;
+					fractal = new BurningShipSet(Params, Palette); break;
 				case FractalType.BurningShipJuliaSet:
-					fractal = new BurningShipJuliaSet(Params, JuliaConstant); break;
-				//case FractalType.MultibrotSet:
-				//fractal = new MultibrotSet(Params, MultibrotExponent); break;
-				//case FractalType.MultiJuliaSet:
-				//fractal = new MultiJuliaSet(Params, MultibrotExponent, JuliaConstant); break;
+					fractal = new BurningShipJuliaSet(Params, Palette, JuliaConstant); break;
+				case FractalType.MultibrotSet:
+					fractal = new MultibrotSet(Params, Palette, MultibrotExponent); break;
+				case FractalType.MultiJuliaSet:
+					fractal = new MultiJuliaSet(Params, Palette, MultibrotExponent, JuliaConstant); break;
 				case FractalType.TricornSet:
-					fractal = new TricornSet(Params); break;
+					fractal = new TricornSet(Params, Palette); break;
 					//case FractalType.LyapunovFractal:
 					//fractal = new LyapunovFractal(Params); break;
 			}
 
-			fixed(uint* ptr = &(new uint[Params.Width * Params.Height])[0])
+			fixed(int* ptr = &(new int[Params.Width * Params.Height])[0])
 			{
 				fractal.DrawImage(ptr);
 

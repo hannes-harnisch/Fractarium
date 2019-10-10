@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Fractarium.Logic.Fractals
 {
@@ -16,36 +17,47 @@ namespace Fractarium.Logic.Fractals
 		/// <summary>
 		/// Basic parameters needed to generate a fractal image.
 		/// </summary>
-		protected readonly BaseParameters P;
+		protected readonly BaseParameters Params;
+
+		/// <summary>
+		/// Palette of colors with which different iteration counts are colored.
+		/// </summary>
+		private readonly Palette Palette;
 
 		/// <summary>
 		/// Assigns all required parameters.
 		/// </summary>
 		/// <param name="parameters">Required base parameters.</param>
-		protected Fractal(BaseParameters parameters)
+		/// <param name="palette">Required color palette.</param>
+		protected Fractal(BaseParameters parameters, Palette palette)
 		{
-			P = parameters;
+			Params = parameters;
+			Palette = palette;
 		}
 
 		/// <summary>
 		/// Draws the image of the fractal starting on a 32-bit unsigned integer pointer.
 		/// </summary>
 		/// <param name="bitmap">Pointer to the first bitmap pixel.</param>
-		public virtual unsafe void DrawImage(uint* bitmap)
+		public virtual unsafe void DrawImage(int* bitmap)
 		{
-			Parallel.For(0, P.Width * P.Height, pixel =>
+			Parallel.For(0, Params.Width * Params.Height, pixel =>
 			{
-				int x = pixel / P.Height;
-				int y = pixel % P.Height;
-				double r = (double)(x - P.Width / 2) / P.Scale + P.Midpoint.Real;
-				double i = (double)(y - P.Height / 2) / P.Scale - P.Midpoint.Imaginary;
-				if(IteratePoint(r, i, out double nextR, out double nextI) == P.IterationLimit)
-					*(bitmap + x + y * P.Width) = 0xFF000000;
+				int x = pixel / Params.Height;
+				int y = pixel % Params.Height;
+				double r = (double)(x - Params.Width / 2) / Params.Scale + Params.Midpoint.Real;
+				double i = (double)(y - Params.Height / 2) / Params.Scale - Params.Midpoint.Imaginary;
+				int iteration = IteratePoint(r, i, out double nextR, out double nextI);
+				if(iteration == Params.IterationLimit)
+					*(bitmap + x + y * Params.Width) = Palette.ElementColor;
 				else
-					*(bitmap + x + y * P.Width) = 0xFFFFd800;
+				{
+					//double normalized = iteration - Math.Log(Math.Sqrt(nextR * nextR + nextI * nextI)) / 0.693147f;
+					*(bitmap + x + y * Params.Width) = Palette.ColorFromFraction((double)iteration / Params.IterationLimit);
+				}
 			});
 		}
-		// iteration - Math.Log(Math.Log(Math.Sqrt((double)(nextR * nextR + nextI * nextI))) / 0.693147f) / 0.693147f;
+		// 
 
 		/// <summary>
 		/// Iterates a complex point according to a specific fractal type's formula.

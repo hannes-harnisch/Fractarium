@@ -8,8 +8,7 @@
 			 d:DesignHeight="125"
 			 x:Class="Fractarium.UserInterface.ParameterTab">
 	<Grid RowDefinitions="Auto,Auto,Auto,Auto"
-		  ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
-		  Name="Grid">
+		  ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
 		<TextBlock Grid.Row="0"
 				   Grid.Column="0">Fractal type</TextBlock>
 		<ComboBox Grid.Row="1"

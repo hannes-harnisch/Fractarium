@@ -11,7 +11,8 @@ namespace Fractarium.Logic.Fractals
 		/// Assigns all required parameters.
 		/// </summary>
 		/// <param name="parameters">Required base parameters.</param>
-		public BurningShipSet(BaseParameters parameters) : base(parameters) { }
+		/// <param name="palette">Required color palette.</param>
+		public BurningShipSet(BaseParameters parameters, Palette palette) : base(parameters, palette) { }
 
 		/// <summary>
 		/// Iterates a complex point according to a specific fractal type's formula.
@@ -28,7 +29,7 @@ namespace Fractarium.Logic.Fractals
 			double firstR = r;
 			double firstI = i;
 			int iteration = 0;
-			for(; iteration < P.IterationLimit; iteration++)
+			for(; iteration < Params.IterationLimit; iteration++)
 			{
 				nextR = r * r - i * i + firstR;
 				nextI = 2 * Math.Abs(r * i) + firstI;

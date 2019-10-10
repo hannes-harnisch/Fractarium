@@ -110,11 +110,12 @@
             Represents a fractal image based on the Burning Ship Julia set.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.BurningShipJuliaSet.#ctor(Fractarium.Logic.BaseParameters,System.Numerics.Complex)">
+        <member name="M:Fractarium.Logic.Fractals.BurningShipJuliaSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Numerics.Complex)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
+            <param name="palette">Required color palette.</param>
             <param name="juliaConstant">The Julia constant parameter.</param>
         </member>
         <member name="M:Fractarium.Logic.Fractals.BurningShipJuliaSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
@@ -132,11 +133,12 @@
             Represents a fractal image based on the Burning Ship set.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.BurningShipSet.#ctor(Fractarium.Logic.BaseParameters)">
+        <member name="M:Fractarium.Logic.Fractals.BurningShipSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
+            <param name="palette">Required color palette.</param>
         </member>
         <member name="M:Fractarium.Logic.Fractals.BurningShipSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
             <summary>
@@ -159,18 +161,24 @@
             it is considered to be divergent.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.Fractals.Fractal.P">
+        <member name="F:Fractarium.Logic.Fractals.Fractal.Params">
             <summary>
             Basic parameters needed to generate a fractal image.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.Fractal.#ctor(Fractarium.Logic.BaseParameters)">
+        <member name="F:Fractarium.Logic.Fractals.Fractal.Palette">
+            <summary>
+            Palette of colors with which different iteration counts are colored.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.Fractal.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
+            <param name="palette">Required color palette.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.Fractal.DrawImage(System.UInt32*)">
+        <member name="M:Fractarium.Logic.Fractals.Fractal.DrawImage(System.Int32*)">
             <summary>
             Draws the image of the fractal starting on a 32-bit unsigned integer pointer.
             </summary>
@@ -258,11 +266,12 @@
             Represents a fractal image based on the Julia set.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.JuliaSet.#ctor(Fractarium.Logic.BaseParameters,System.Numerics.Complex)">
+        <member name="M:Fractarium.Logic.Fractals.JuliaSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Numerics.Complex)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
+            <param name="palette">Required color palette.</param>
             <param name="juliaConstant">The Julia constant parameter.</param>
         </member>
         <member name="M:Fractarium.Logic.Fractals.JuliaSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
@@ -280,13 +289,61 @@
             Represents a fractal image based on the Mandelbrot set.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.#ctor(Fractarium.Logic.BaseParameters)">
+        <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
+            <param name="palette">Required color palette.</param>
         </member>
         <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            Iterates a complex point according to a specific fractal type's formula.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
+            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
+            <returns>How many iterations were cycled through.</returns>
+        </member>
+        <member name="T:Fractarium.Logic.Fractals.MultibrotSet">
+            <summary>
+            Represents a fractal image based on the Multibrot set.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.MultibrotSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Double)">
+            <summary>
+            Assigns all required parameters.
+            </summary>
+            <param name="parameters">Required base parameters.</param>
+            <param name="palette">Required color palette.</param>
+            <param name="exponent">Exponent required for the Multibrot set.</param>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.MultibrotSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            Iterates a complex point according to a specific fractal type's formula.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
+            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
+            <returns>How many iterations were cycled through.</returns>
+        </member>
+        <member name="T:Fractarium.Logic.Fractals.MultiJuliaSet">
+            <summary>
+            Represents a fractal image based on the Multi-Julia set.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.MultiJuliaSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Double,System.Numerics.Complex)">
+            <summary>
+            Assigns all required parameters.
+            </summary>
+            <param name="parameters">Required base parameters.</param>
+            <param name="palette">Required color palette.</param>
+            <param name="exponent">Exponent required for the Multibrot set.</param>
+            <param name="juliaConstant">The Julia constant parameter.</param>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.MultiJuliaSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
             <summary>
             Iterates a complex point according to a specific fractal type's formula.
             </summary>
@@ -301,11 +358,12 @@
             Represents a fractal image based on the Phoenix set.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.PhoenixSet.#ctor(Fractarium.Logic.BaseParameters,System.Numerics.Complex,System.Numerics.Complex)">
+        <member name="M:Fractarium.Logic.Fractals.PhoenixSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Numerics.Complex,System.Numerics.Complex)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
+            <param name="palette">Required color palette.</param>
             <param name="juliaConstant">The Julia constant parameter.</param>
             <param name="phoenixConstant">The Phoenix constant parameter.</param>
         </member>
@@ -324,11 +382,12 @@
             Represents a fractal image based on the Tricorn set.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.TricornSet.#ctor(Fractarium.Logic.BaseParameters)">
+        <member name="M:Fractarium.Logic.Fractals.TricornSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
+            <param name="palette">Required color palette.</param>
         </member>
         <member name="M:Fractarium.Logic.Fractals.TricornSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
             <summary>
@@ -339,6 +398,23 @@
             <param name="nextR">Real component of the next complex number after break condition was reached.</param>
             <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
             <returns>How many iterations were cycled through.</returns>
+        </member>
+        <member name="T:Fractarium.Logic.Palette">
+            <summary>
+            Represents a list of ARGB colors that serves as the basis for coloring a fractal image.
+            </summary>
+        </member>
+        <member name="P:Fractarium.Logic.Palette.ElementColor">
+            <summary>
+            Holds the color representing a point that is part of a set-based fractal's respective set.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Palette.ColorFromFraction(System.Double)">
+            <summary>
+            Calculates a color between two palette colors based on a pixel's iteration count and the iteration limit.
+            </summary>
+            <param name="iterationFraction">How close the iteration count of a point is to the iteration limit.</param>
+            <returns>An ARGB color as a 32-bit integer.</returns>
         </member>
         <member name="T:Fractarium.UserInterface.MainWindow">
             <summary>
@@ -370,6 +446,11 @@
             The constant coefficient used for fractals related to the Multibrot set.
             </summary>
         </member>
+        <member name="F:Fractarium.UserInterface.MainWindow.Palette">
+            <summary>
+            Holds the currently selected color palette.
+            </summary>
+        </member>
         <member name="M:Fractarium.UserInterface.MainWindow.#ctor">
             <summary>
             Initializes associated XAML objects.
@@ -385,21 +466,6 @@
         <member name="T:Fractarium.UserInterface.ParameterTab">
             <summary>
             The main menu tab where image parameters can be set.
-            </summary>
-        </member>
-        <member name="F:Fractarium.UserInterface.ParameterTab.DefaultIterationLimit">
-            <summary>
-            Default iteration limit value to generate a typical fractal image.
-            </summary>
-        </member>
-        <member name="F:Fractarium.UserInterface.ParameterTab.DefaultScale">
-            <summary>
-            Default scale value to generate a typical fractal image.
-            </summary>
-        </member>
-        <member name="F:Fractarium.UserInterface.ParameterTab.DefaultMidpoint">
-            <summary>
-            Default midpoint value to center the fractal image.
             </summary>
         </member>
         <member name="P:Fractarium.UserInterface.ParameterTab.BindImageSizeToWindow">
@@ -454,20 +520,21 @@
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
         </member>
-        <member name="M:Fractarium.UserInterface.ParameterTab.HandleTextBoxInput(Avalonia.Controls.TextBox,System.Boolean,Avalonia.Input.KeyEventArgs)">
+        <member name="M:Fractarium.UserInterface.ParameterTab.ReactToTextBoxInput(Avalonia.Controls.TextBox,System.Boolean,Avalonia.Input.KeyEventArgs)">
             <summary>
-            Sets a text box's styling to the appropriate style depending on the correctness of user input and
-            initiates rendering if the enter key was pressed.
+            Sets a text box's styling to the appropriate style and disables the render button depending on the
+            correctness of user input. Also initiates rendering if the enter key was pressed.
             </summary>
             <param name="box">The box where user input occurred.</param>
             <param name="parsed">Whether the input could be parsed correctly.</param>
             <param name="e">Data associated with the key event from input.</param>
         </member>
-        <member name="M:Fractarium.UserInterface.ParameterTab.DisableRenderIfInvalidInput">
+        <member name="M:Fractarium.UserInterface.ParameterTab.Prepare(System.String)">
             <summary>
-            Disables the render button if one of the parameter text boxes relevant to the selected fractal type
-            does not contain valid input.
+            Removes all whitespace from a string. To be used to ignore whitespace in text box inputs.
             </summary>
+            <param name="text">A text box's text.</param>
+            <returns>The input without whitespace.</returns>
         </member>
     </members>
 </doc>

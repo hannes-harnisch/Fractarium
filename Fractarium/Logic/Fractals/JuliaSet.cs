@@ -7,16 +7,17 @@ namespace Fractarium.Logic.Fractals
 	/// </summary>
 	public class JuliaSet : Fractal
 	{
-		private Complex JuliaConst;
+		private Complex JConst;
 
 		/// <summary>
 		/// Assigns all required parameters.
 		/// </summary>
 		/// <param name="parameters">Required base parameters.</param>
+		/// <param name="palette">Required color palette.</param>
 		/// <param name="juliaConstant">The Julia constant parameter.</param>
-		public JuliaSet(BaseParameters parameters, Complex juliaConstant) : base(parameters)
+		public JuliaSet(BaseParameters parameters, Palette palette, Complex juliaConstant) : base(parameters, palette)
 		{
-			JuliaConst = juliaConstant;
+			JConst = juliaConstant;
 		}
 
 		/// <summary>
@@ -32,10 +33,10 @@ namespace Fractarium.Logic.Fractals
 			nextR = 0;
 			nextI = 0;
 			int iteration = 0;
-			for(; iteration < P.IterationLimit; iteration++)
+			for(; iteration < Params.IterationLimit; iteration++)
 			{
-				nextR = r * r - i * i + JuliaConst.Real;
-				nextI = 2 * r * i - JuliaConst.Imaginary;
+				nextR = r * r - i * i + JConst.Real;
+				nextI = 2 * r * i - JConst.Imaginary;
 				r = nextR;
 				i = nextI;
 				if(r * r + i * i > DivergenceLimit)

@@ -9,7 +9,8 @@
 		/// Assigns all required parameters.
 		/// </summary>
 		/// <param name="parameters">Required base parameters.</param>
-		public MandelbrotSet(BaseParameters parameters) : base(parameters) { }
+		/// <param name="palette">Required color palette.</param>
+		public MandelbrotSet(BaseParameters parameters, Palette palette) : base(parameters, palette) { }
 
 		/// <summary>
 		/// Iterates a complex point according to a specific fractal type's formula.
@@ -26,7 +27,7 @@
 			double firstR = r;
 			double firstI = i;
 			int iteration = 0;
-			for(; iteration < P.IterationLimit; iteration++)
+			for(; iteration < Params.IterationLimit; iteration++)
 			{
 				nextR = r * r - i * i + firstR;
 				nextI = 2 * r * i + firstI;

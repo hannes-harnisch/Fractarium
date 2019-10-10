@@ -16,7 +16,7 @@
 					Margin="10"
 					Click="Render"
 					Name="RenderButton">Render</Button>
-			<TabControl>
+			<TabControl Name="Menu">
 				<TabItem Header="Parameters">
 					<ui:ParameterTab/>
 				</TabItem>
