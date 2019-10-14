@@ -52,12 +52,11 @@ namespace Fractarium.Logic.Fractals
 					*(bitmap + x + y * Params.Width) = Palette.ElementColor;
 				else
 				{
-					//double normalized = iteration - Math.Log(Math.Sqrt(nextR * nextR + nextI * nextI)) / 0.693147f;
+					//double normalized = iteration - Math.Log(Math.Log(nextR * nextR + nextI * nextI, 2) / 2, 2);
 					*(bitmap + x + y * Params.Width) = Palette.ColorFromFraction((double)iteration / Params.IterationLimit);
 				}
 			});
 		}
-		// 
 
 		/// <summary>
 		/// Iterates a complex point according to a specific fractal type's formula.

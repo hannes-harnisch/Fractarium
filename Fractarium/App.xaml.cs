@@ -1,4 +1,7 @@
-﻿using Avalonia;
+﻿using System;
+using System.Drawing;
+
+using Avalonia;
 using Avalonia.Markup.Xaml;
 
 using Fractarium.UserInterface;
@@ -14,6 +17,11 @@ namespace Fractarium
 		/// Gets a static reference to the running instance's window.
 		/// </summary>
 		public static MainWindow Context => (MainWindow)Current.MainWindow;
+
+		/// <summary>
+		/// Returns the value by which the screen DPI is enhanced through the display settings.
+		/// </summary>
+		public static float ScreenEnhancement => Graphics.FromHwnd(IntPtr.Zero).DpiX / 96;
 
 		/// <summary>
 		/// Initializes associated XAML objects.

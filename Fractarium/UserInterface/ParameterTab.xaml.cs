@@ -82,10 +82,12 @@ namespace Fractarium.UserInterface
 				if(BindImageSizeToWindow)
 				{
 					var width = this.Find<TextBox>("Width");
-					width.Text = ((int)bounds.Width).ToString();
+					width.Text = ((int)(bounds.Width * App.ScreenEnhancement)).ToString();
 					OnPositiveIntInput(width, null);
+
+					double h = (bounds.Height - App.Context.Find<TabControl>("Menu").Bounds.Height) * App.ScreenEnhancement;
 					var height = this.Find<TextBox>("Height");
-					height.Text = ((int)(bounds.Height - App.Context.Find<TabControl>("Menu").Bounds.Height)).ToString();
+					height.Text = ((int)h).ToString();
 					OnPositiveIntInput(height, null);
 				}
 			});
@@ -109,7 +111,7 @@ namespace Fractarium.UserInterface
 					case "IterationLimit":
 						App.Context.Params.IterationLimit = result; break;
 					case "ZoomFactor":
-						App.Context.Params.ZoomFactor = result; break;
+						App.Context.ZoomFactor = result; break;
 				}
 			ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}

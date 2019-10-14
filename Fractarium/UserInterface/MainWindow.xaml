@@ -9,8 +9,9 @@
 		x:Class="Fractarium.UserInterface.MainWindow"
 		WindowState="Maximized"
 		Title="Fractarium">
-	<StackPanel>
-		<StackPanel Orientation="Horizontal"
+	<DockPanel>
+		<StackPanel DockPanel.Dock="Top"
+					Orientation="Horizontal"
 					Spacing="5">
 			<Button Padding="10"
 					Margin="10"
@@ -18,10 +19,11 @@
 					Name="RenderButton">Render</Button>
 			<TabControl Name="Menu">
 				<TabItem Header="Parameters">
-					<ui:ParameterTab/>
+					<ui:ParameterTab Name="ParameterTab"/>
 				</TabItem>
 			</TabControl>
 		</StackPanel>
-		<Image Name="Image"/>
-	</StackPanel>
+		<Image Name="Image"
+			   PointerReleased="Zoom"/>
+	</DockPanel>
 </Window>

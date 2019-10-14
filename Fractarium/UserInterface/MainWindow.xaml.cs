@@ -3,6 +3,7 @@ using System.Numerics;
 
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
@@ -27,6 +28,11 @@ namespace Fractarium.UserInterface
 		/// Holds the parameter values most recently parsed from the parameter tab.
 		/// </summary>
 		public BaseParameters Params = new BaseParameters();
+
+		/// <summary>
+		/// How much the scale is multiplied after clicking on a point in the image.
+		/// </summary>
+		public int ZoomFactor { get; set; }
 
 		/// <summary>
 		/// The constant coefficient used for fractals related to the Julia set.
@@ -104,6 +110,32 @@ namespace Fractarium.UserInterface
 				img.Source = new Bitmap(PixelFormat.Bgra8888, (IntPtr)ptr, size, dpi, stride);
 				img.InvalidateVisual();
 			}
+		}
+
+		/// <summary>
+		/// Zooms into the image by evaluating mouse position, updating parameters and re-rendering.
+		/// </summary>
+		/// <param name="sender">Source of the event.</param>
+		/// <param name="e">Data associated with the event.</param>
+		public void Zoom(object sender, PointerReleasedEventArgs e)
+		{
+			int x = (int)(e.GetPosition(this.Find<Image>("Image")).X * App.ScreenEnhancement);
+			int y = (int)(e.GetPosition(this.Find<Image>("Image")).Y * App.ScreenEnhancement);
+			double r = (double)(x - Params.Width / 2) / Params.Scale + Params.Midpoint.Real;
+			double i = (double)(y - Params.Height / 2) / Params.Scale - Params.Midpoint.Imaginary;
+
+			var parameterTab = this.Find<ParameterTab>("ParameterTab");
+
+			var midpointBox = parameterTab.Find<TextBox>("Midpoint");
+			midpointBox.Text = ComplexUtil.ToString(new Complex(r, i));
+			parameterTab.OnComplexInput(midpointBox, null);
+
+			int exp = e.MouseButton == MouseButton.Right ? -1 : 1;
+			var scaleBox = parameterTab.Find<TextBox>("Scale");
+			scaleBox.Text = ((ulong)(Params.Scale * Math.Pow(ZoomFactor, exp))).ToString();
+			parameterTab.OnLongInput(scaleBox, null);
+
+			Render(null, null);
 		}
 	}
 }

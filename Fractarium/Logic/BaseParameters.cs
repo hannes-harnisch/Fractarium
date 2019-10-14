@@ -23,11 +23,6 @@ namespace Fractarium.Logic
 		public int IterationLimit { get; set; }
 
 		/// <summary>
-		/// How much the scale is multiplied after clicking on a point in the image.
-		/// </summary>
-		public int ZoomFactor { get; set; }
-
-		/// <summary>
 		/// How far the image is zoomed in.
 		/// </summary>
 		public ulong Scale { get; set; }
