@@ -42,9 +42,10 @@ namespace Fractarium.Logic
 		/// <returns>The string representation.</returns>
 		public static string ToString(Complex c)
 		{
+			string format = "0." + new string('#', 339);
+			string real = c.Real.ToString(format, CultureInfo.InvariantCulture);
+			string imaginary = c.Imaginary.ToString(format, CultureInfo.InvariantCulture);
 			string s = "";
-			string real = c.Real.ToString(CultureInfo.InvariantCulture);
-			string imaginary = c.Imaginary.ToString(CultureInfo.InvariantCulture);
 			if(!ZeroRegex.IsMatch(real))
 			{
 				s += real;

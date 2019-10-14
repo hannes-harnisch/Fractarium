@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace Fractarium.Logic.Fractals
@@ -33,6 +34,23 @@ namespace Fractarium.Logic.Fractals
 		{
 			Params = parameters;
 			Palette = palette;
+			HalfWidth = Params.Width / 2;
+			HalfHeight = Params.Height / 2;
+		}
+
+		private readonly int HalfWidth;
+		private readonly int HalfHeight;
+		/// <summary>
+		/// Calculates the complex point from the given pixel coordinates and fractal parameters.
+		/// </summary>
+		/// <param name="x">The pixel's X coordinate.</param>
+		/// <param name="y">The pixel's Y coordinate.</param>
+		/// <returns>The corresponding point on the complex plane.</returns>
+		public Complex GetPointFromPixel(int x, int y)
+		{
+			double r = (double)(x - HalfWidth) / Params.Scale + Params.Midpoint.Real;
+			double i = (double)(y - HalfHeight) / Params.Scale + Params.Midpoint.Imaginary;
+			return new Complex(r, i);
 		}
 
 		/// <summary>
@@ -45,9 +63,8 @@ namespace Fractarium.Logic.Fractals
 			{
 				int x = pixel / Params.Height;
 				int y = pixel % Params.Height;
-				double r = (double)(x - Params.Width / 2) / Params.Scale + Params.Midpoint.Real;
-				double i = (double)(y - Params.Height / 2) / Params.Scale - Params.Midpoint.Imaginary;
-				int iteration = IteratePoint(r, i, out double nextR, out double nextI);
+				var c = GetPointFromPixel(x, y);
+				int iteration = IteratePoint(c.Real, c.Imaginary, out double nextR, out double nextI);
 				if(iteration == Params.IterationLimit)
 					*(bitmap + x + y * Params.Width) = Palette.ElementColor;
 				else

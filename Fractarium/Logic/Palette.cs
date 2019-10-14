@@ -7,6 +7,8 @@ namespace Fractarium.Logic
 	/// </summary>
 	public struct Palette
 	{
+		public const int MaxColors = 20;
+
 		private byte[,] Colors;
 
 		private double Ratio;

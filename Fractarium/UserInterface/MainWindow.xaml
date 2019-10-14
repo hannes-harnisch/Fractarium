@@ -21,6 +21,9 @@
 				<TabItem Header="Parameters">
 					<ui:ParameterTab Name="ParameterTab"/>
 				</TabItem>
+				<TabItem Header="Color">
+					<ui:ColorTab Name="ColorTab"/>
+				</TabItem>
 			</TabControl>
 		</StackPanel>
 		<Image Name="Image"

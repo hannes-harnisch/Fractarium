@@ -203,6 +203,14 @@
             <param name="parameters">Required base parameters.</param>
             <param name="palette">Required color palette.</param>
         </member>
+        <member name="M:Fractarium.Logic.Fractals.Fractal.GetPointFromPixel(System.Int32,System.Int32)">
+            <summary>
+            Calculates the complex point from the given pixel coordinates and fractal parameters.
+            </summary>
+            <param name="x">The pixel's X coordinate.</param>
+            <param name="y">The pixel's Y coordinate.</param>
+            <returns>The corresponding point on the complex plane.</returns>
+        </member>
         <member name="M:Fractarium.Logic.Fractals.Fractal.DrawImage(System.Int32*)">
             <summary>
             Draws the image of the fractal starting on a 32-bit unsigned integer pointer.
@@ -441,9 +449,24 @@
             <param name="iterationFraction">How close the iteration count of a point is to the iteration limit.</param>
             <returns>An ARGB color as a 32-bit integer.</returns>
         </member>
+        <member name="T:Fractarium.UserInterface.ColorTab">
+            <summary>
+            The main menu tab where the color palette can be manipulated.
+            </summary>
+        </member>
+        <member name="M:Fractarium.UserInterface.ColorTab.#ctor">
+            <summary>
+            Initializes associated XAML objects.
+            </summary>
+        </member>
         <member name="T:Fractarium.UserInterface.MainWindow">
             <summary>
             Holds the content of the main window.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.MainWindow.Fractal">
+            <summary>
+            Holds a reference to the currently displayed fractal.
             </summary>
         </member>
         <member name="P:Fractarium.UserInterface.MainWindow.FractalType">

@@ -20,6 +20,11 @@ namespace Fractarium.UserInterface
 	public class MainWindow : Window
 	{
 		/// <summary>
+		/// Holds a reference to the currently displayed fractal.
+		/// </summary>
+		public Fractal Fractal { get; set; }
+
+		/// <summary>
 		/// The currently selected fractal type.
 		/// </summary>
 		public FractalType FractalType { get; set; }
@@ -75,32 +80,31 @@ namespace Fractarium.UserInterface
 			if(!this.Find<Button>("RenderButton").IsEnabled)
 				return;
 
-			Fractal fractal = null;
 			switch(FractalType)
 			{
 				case FractalType.MandelbrotSet:
-					fractal = new MandelbrotSet(Params, Palette); break;
+					Fractal = new MandelbrotSet(Params, Palette); break;
 				case FractalType.JuliaSet:
-					fractal = new JuliaSet(Params, Palette, JuliaConstant); break;
+					Fractal = new JuliaSet(Params, Palette, JuliaConstant); break;
 				case FractalType.PhoenixSet:
-					fractal = new PhoenixSet(Params, Palette, JuliaConstant, PhoenixConstant); break;
+					Fractal = new PhoenixSet(Params, Palette, JuliaConstant, PhoenixConstant); break;
 				case FractalType.BurningShipSet:
-					fractal = new BurningShipSet(Params, Palette); break;
+					Fractal = new BurningShipSet(Params, Palette); break;
 				case FractalType.BurningShipJuliaSet:
-					fractal = new BurningShipJuliaSet(Params, Palette, JuliaConstant); break;
+					Fractal = new BurningShipJuliaSet(Params, Palette, JuliaConstant); break;
 				case FractalType.MultibrotSet:
-					fractal = new MultibrotSet(Params, Palette, MultibrotExponent); break;
+					Fractal = new MultibrotSet(Params, Palette, MultibrotExponent); break;
 				case FractalType.MultiJuliaSet:
-					fractal = new MultiJuliaSet(Params, Palette, MultibrotExponent, JuliaConstant); break;
+					Fractal = new MultiJuliaSet(Params, Palette, MultibrotExponent, JuliaConstant); break;
 				case FractalType.TricornSet:
-					fractal = new TricornSet(Params, Palette); break;
+					Fractal = new TricornSet(Params, Palette); break;
 					//case FractalType.LyapunovFractal:
 					//fractal = new LyapunovFractal(Params); break;
 			}
 
 			fixed(int* ptr = &(new int[Params.Width * Params.Height])[0])
 			{
-				fractal.DrawImage(ptr);
+				Fractal.DrawImage(ptr);
 
 				var size = new PixelSize(Params.Width, Params.Height);
 				var dpi = new Avalonia.Vector(96, 96);
@@ -121,13 +125,11 @@ namespace Fractarium.UserInterface
 		{
 			int x = (int)(e.GetPosition(this.Find<Image>("Image")).X * App.ScreenEnhancement);
 			int y = (int)(e.GetPosition(this.Find<Image>("Image")).Y * App.ScreenEnhancement);
-			double r = (double)(x - Params.Width / 2) / Params.Scale + Params.Midpoint.Real;
-			double i = (double)(y - Params.Height / 2) / Params.Scale - Params.Midpoint.Imaginary;
 
 			var parameterTab = this.Find<ParameterTab>("ParameterTab");
 
 			var midpointBox = parameterTab.Find<TextBox>("Midpoint");
-			midpointBox.Text = ComplexUtil.ToString(new Complex(r, i));
+			midpointBox.Text = ComplexUtil.ToString(Fractal.GetPointFromPixel(x, y));
 			parameterTab.OnComplexInput(midpointBox, null);
 
 			int exp = e.MouseButton == MouseButton.Right ? -1 : 1;
