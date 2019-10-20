@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Threading.Tasks;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -77,9 +78,11 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public unsafe void Render(object sender, RoutedEventArgs e)
 		{
-			if(!this.Find<Button>("RenderButton").IsEnabled)
+			var button = this.Find<Button>("RenderButton");
+			if(!button.IsEnabled)
 				return;
 
+			button.IsEnabled = false;
 			switch(FractalType)
 			{
 				case FractalType.MandelbrotSet:
@@ -114,6 +117,7 @@ namespace Fractarium.UserInterface
 				img.Source = new Bitmap(PixelFormat.Bgra8888, (IntPtr)ptr, size, dpi, stride);
 				img.InvalidateVisual();
 			}
+			button.IsEnabled = true;
 		}
 
 		/// <summary>
@@ -123,8 +127,8 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void Zoom(object sender, PointerReleasedEventArgs e)
 		{
-			int x = (int)(e.GetPosition(this.Find<Image>("Image")).X * App.ScreenEnhancement);
-			int y = (int)(e.GetPosition(this.Find<Image>("Image")).Y * App.ScreenEnhancement);
+			int x = (int)(e.GetPosition((Image)sender).X * App.ScreenEnhancement);
+			int y = (int)(e.GetPosition((Image)sender).Y * App.ScreenEnhancement);
 
 			var parameterTab = this.Find<ParameterTab>("ParameterTab");
 

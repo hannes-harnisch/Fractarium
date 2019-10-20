@@ -76,27 +76,27 @@
             Utilities for handling complex numbers.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.ComplexUtil.ComplexRegex">
+        <member name="F:Fractarium.Logic.ComplexUtil.Complex">
             <summary>
             Matches a complex number.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.ComplexUtil.NegOneRegex">
+        <member name="F:Fractarium.Logic.ComplexUtil.MinusOne">
             <summary>
             Matches a string that contains the number -1.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.ComplexUtil.ZeroRegex">
+        <member name="F:Fractarium.Logic.ComplexUtil.Zero">
             <summary>
             Matches a string that contains the number 0.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.ComplexUtil.PosOneRegex">
+        <member name="F:Fractarium.Logic.ComplexUtil.PlusOne">
             <summary>
             Matches a string that contains the number 1.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.ComplexUtil.PosNumRegex">
+        <member name="F:Fractarium.Logic.ComplexUtil.PositiveNumber">
             <summary>
             Matches a string that contains any positive real number.
             </summary>
@@ -205,7 +205,7 @@
         </member>
         <member name="M:Fractarium.Logic.Fractals.Fractal.GetPointFromPixel(System.Int32,System.Int32)">
             <summary>
-            Calculates the complex point from the given pixel coordinates and fractal parameters.
+            Calculates the complex point from the fractal parameters and given pixel coordinates.
             </summary>
             <param name="x">The pixel's X coordinate.</param>
             <param name="y">The pixel's Y coordinate.</param>
@@ -589,7 +589,7 @@
             <param name="parsed">Whether the input could be parsed correctly.</param>
             <param name="e">Data associated with the key event from input.</param>
         </member>
-        <member name="M:Fractarium.UserInterface.ParameterTab.Prepare(System.String)">
+        <member name="M:Fractarium.UserInterface.ParameterTab.Clean(System.String)">
             <summary>
             Removes all whitespace from a string. To be used to ignore whitespace in text box inputs.
             </summary>

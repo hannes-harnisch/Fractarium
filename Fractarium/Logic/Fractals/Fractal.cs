@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Fractarium.Logic.Fractals
@@ -13,7 +14,7 @@ namespace Fractarium.Logic.Fractals
 		/// For most fractals, when the sum of squares of a complex point's components after iteration surpasses 4,
 		/// it is considered to be divergent.
 		/// </summary>
-		protected const int DivergenceLimit = 4;
+		protected const int DivergenceLimit = 50;
 
 		/// <summary>
 		/// Basic parameters needed to generate a fractal image.
@@ -24,6 +25,10 @@ namespace Fractarium.Logic.Fractals
 		/// Palette of colors with which different iteration counts are colored.
 		/// </summary>
 		private readonly Palette Palette;
+
+		private readonly int HalfWidth;
+
+		private readonly int HalfHeight;
 
 		/// <summary>
 		/// Assigns all required parameters.
@@ -38,14 +43,13 @@ namespace Fractarium.Logic.Fractals
 			HalfHeight = Params.Height / 2;
 		}
 
-		private readonly int HalfWidth;
-		private readonly int HalfHeight;
 		/// <summary>
-		/// Calculates the complex point from the given pixel coordinates and fractal parameters.
+		/// Calculates the complex point from the fractal parameters and given pixel coordinates.
 		/// </summary>
 		/// <param name="x">The pixel's X coordinate.</param>
 		/// <param name="y">The pixel's Y coordinate.</param>
 		/// <returns>The corresponding point on the complex plane.</returns>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public Complex GetPointFromPixel(int x, int y)
 		{
 			double r = (double)(x - HalfWidth) / Params.Scale + Params.Midpoint.Real;
@@ -69,8 +73,8 @@ namespace Fractarium.Logic.Fractals
 					*(bitmap + x + y * Params.Width) = Palette.ElementColor;
 				else
 				{
-					//double normalized = iteration - Math.Log(Math.Log(nextR * nextR + nextI * nextI, 2) / 2, 2);
-					*(bitmap + x + y * Params.Width) = Palette.ColorFromFraction((double)iteration / Params.IterationLimit);
+					double normalized = iteration - Math.Log(Math.Log(Math.Sqrt(nextR * nextR + nextI * nextI), 2), 2);
+					*(bitmap + x + y * Params.Width) = Palette.ColorFromFraction(normalized / Params.IterationLimit);
 				}
 			});
 		}
@@ -83,6 +87,7 @@ namespace Fractarium.Logic.Fractals
 		/// <param name="nextR">Real component of the next complex number after break condition was reached.</param>
 		/// <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
 		/// <returns>How many iterations were cycled through.</returns>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public abstract int IteratePoint(double r, double i, out double nextR, out double nextI);
 	}
 }

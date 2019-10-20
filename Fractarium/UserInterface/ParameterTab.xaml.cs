@@ -100,7 +100,7 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnPositiveIntInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = int.TryParse(Prepare(((TextBox)sender).Text), out int result) && result > 0;
+			bool parsed = int.TryParse(Clean(((TextBox)sender).Text), out int result) && result > 0;
 			if(parsed)
 				switch(((TextBox)sender).Name)
 				{
@@ -123,7 +123,7 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnLongInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = ulong.TryParse(Prepare(((TextBox)sender).Text), out ulong result) && result != 0;
+			bool parsed = ulong.TryParse(Clean(((TextBox)sender).Text), out ulong result) && result != 0;
 			if(parsed)
 				App.Context.Params.Scale = result;
 			ReactToTextBoxInput((TextBox)sender, parsed, e);
@@ -136,7 +136,7 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnComplexInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = ComplexUtil.TryParse(Prepare(((TextBox)sender).Text), out var result);
+			bool parsed = ComplexUtil.TryParse(Clean(((TextBox)sender).Text), out var result);
 			if(parsed)
 				switch(((TextBox)sender).Name)
 				{
@@ -157,7 +157,7 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnFloatingPointInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = double.TryParse(Prepare(((TextBox)sender).Text), NumberStyles.Any,
+			bool parsed = double.TryParse(Clean(((TextBox)sender).Text), NumberStyles.Any,
 				CultureInfo.InvariantCulture, out double result);
 			if(parsed)
 				App.Context.MultibrotExponent = result;
@@ -187,7 +187,7 @@ namespace Fractarium.UserInterface
 		/// </summary>
 		/// <param name="text">A text box's text.</param>
 		/// <returns>The input without whitespace.</returns>
-		private static string Prepare(string text)
+		private static string Clean(string text)
 		{
 			return Regex.Replace(text, @"\s+", "");
 		}

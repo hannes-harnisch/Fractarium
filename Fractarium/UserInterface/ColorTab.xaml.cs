@@ -9,12 +9,15 @@ namespace Fractarium.UserInterface
 	/// </summary>
 	public class ColorTab : UserControl
 	{
+		public string[] ComboBoxEntries { get; set; }
+
 		/// <summary>
 		/// Initializes associated XAML objects.
 		/// </summary>
 		public ColorTab()
 		{
 			AvaloniaXamlLoader.Load(this);
+			DataContext = this;
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Fractarium.Logic
 {
@@ -38,15 +39,16 @@ namespace Fractarium.Logic
 		/// </summary>
 		/// <param name="iterationFraction">How close the iteration count of a point is to the iteration limit.</param>
 		/// <returns>An ARGB color as a 32-bit integer.</returns>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public int ColorFromFraction(double iterationFraction)
 		{
 			int i = (int)Math.Ceiling(iterationFraction / Ratio);
 			double v = (iterationFraction + Ratio * (1 - i)) / Ratio;
-			int alpha = (int)(Colors[i, 0] + Math.Round(v * (Colors[i + 1, 0] - Colors[i, 0]))) << 24;
-			int red = (int)(Colors[i, 1] + Math.Round(v * (Colors[i + 1, 1] - Colors[i, 1]))) << 16;
-			int green = (int)(Colors[i, 2] + Math.Round(v * (Colors[i + 1, 2] - Colors[i, 2]))) << 8;
-			int blue = (int)(Colors[i, 3] + Math.Round(v * (Colors[i + 1, 3] - Colors[i, 3])));
-			return alpha + red + green + blue;
+			int a = (int)(Colors[i, 0] + Math.Round(v * (Colors[i + 1, 0] - Colors[i, 0]))) << 24;
+			int r = (int)(Colors[i, 1] + Math.Round(v * (Colors[i + 1, 1] - Colors[i, 1]))) << 16;
+			int g = (int)(Colors[i, 2] + Math.Round(v * (Colors[i + 1, 2] - Colors[i, 2]))) << 8;
+			int b = (int)(Colors[i, 3] + Math.Round(v * (Colors[i + 1, 3] - Colors[i, 3])));
+			return a + r + g + b;
 		}
 	}
 }
