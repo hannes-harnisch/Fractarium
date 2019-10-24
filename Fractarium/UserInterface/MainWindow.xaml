@@ -15,10 +15,9 @@
 					Orientation="Horizontal"
 					Height="150"
 					Spacing="5">
-			<Button	Click="Render"
+			<Button	Click="InitRender"
 					Name="RenderButton"
-					Padding="15"
-					Margin="15">Render</Button>
+					Padding="15">Render</Button>
 			<TabControl Name="Menu">
 				<TabItem Header="Parameters">
 					<ui:ParameterTab Name="ParameterTab"/>

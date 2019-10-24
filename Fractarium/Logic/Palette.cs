@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 
 namespace Fractarium.Logic
@@ -8,28 +9,36 @@ namespace Fractarium.Logic
 	/// </summary>
 	public struct Palette
 	{
-		public const int MaxColors = 20;
+		/// <summary>
+		/// Maximum amount of colors allowed in a palette excluding the set element color.
+		/// </summary>
+		public const int MaxColors = 100;
 
 		private byte[,] Colors;
 
 		private double Ratio;
 
 		/// <summary>
+		/// Amount of colors in the palette excluding the set element color.
+		/// </summary>
+		public int Size => Colors.GetLength(0) - 1;
+
+		/// <summary>
 		/// Holds the color representing a point that is part of a set-based fractal's respective set.
 		/// </summary>
 		public int ElementColor { get; private set; }
 
-		public Palette(int size)
+		/// <summary>
+		/// Instantiates a new palette from the given list of hexadecimal ARGB colors.
+		/// </summary>
+		/// <param name="colors">ARGB Colors given as hexadecimal strings.</param>
+		public Palette(params string[] colors)
 		{
-			Colors = new byte[,]
-			{
-				{ 0xFF, 0x00, 0x00, 0x00 },
-				{ 0xFF, 0x00, 0x00, 0xFF },
-				{ 0xFF, 0xFF, 0x00, 0xFF },
-				{ 0xFF, 0xFF, 0x00, 0x00 },
-				{ 0xFF, 0xFF, 0xFF, 0x00 },
-				{ 0xFF, 0xFF, 0xFF, 0xFF }
-			};
+			Colors = new byte[colors.Length, 4];
+			for(int i = 0; i < colors.Length; i++)
+				for(int j = 0; j < 4; j++)
+					Colors[i, j] = byte.Parse(colors[i].Substring(j * 2, 2), NumberStyles.HexNumber);
+
 			Ratio = 1 / (double)(Colors.GetLength(0) - 2);
 			ElementColor = (Colors[0, 0] << 24) + (Colors[0, 1] << 16) + (Colors[0, 2] << 8) + Colors[0, 3];
 		}
@@ -49,6 +58,16 @@ namespace Fractarium.Logic
 			int g = (int)(Colors[i, 2] + Math.Round(v * (Colors[i + 1, 2] - Colors[i, 2]))) << 8;
 			int b = (int)(Colors[i, 3] + Math.Round(v * (Colors[i + 1, 3] - Colors[i, 3])));
 			return a + r + g + b;
+		}
+
+		public unsafe void DrawContinuousPreview(int width, int height, int* ptr)
+		{
+
+		}
+
+		public unsafe void DrawDiscretePreview(int width, int height, int* ptr)
+		{
+
 		}
 	}
 }

@@ -14,7 +14,7 @@ namespace Fractarium
 		/// <param name="args">Optional arguments given in the command line.</param>
 		public static void Main(string[] args)
 		{
-			BuildAvaloniaApp().Start((app, appArgs) => app.Run(App.Context), args);
+			BuildAvaloniaApp().Start((app, appArgs) => app.Run(App.Window), args);
 		}
 
 		/// <summary>

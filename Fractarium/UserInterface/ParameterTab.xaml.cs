@@ -37,7 +37,7 @@ namespace Fractarium.UserInterface
 		public void OnFractalTypeSelected(object sender, SelectionChangedEventArgs e)
 		{
 			bool[] disableTextBoxes = new bool[3];
-			switch(App.Context.FractalType = FractalTypes.ByName(((ComboBox)sender).SelectedItem.ToString()))
+			switch(App.Window.Context.FractalType = FractalTypes.ByName(((ComboBox)sender).SelectedItem.ToString()))
 			{
 				case FractalType.JuliaSet:
 				case FractalType.BurningShipJuliaSet:
@@ -78,15 +78,15 @@ namespace Fractarium.UserInterface
 				switch(((TextBox)sender).Name)
 				{
 					case "Width":
-						App.Context.Params.Width = result; break;
+						App.Window.Context.Params.Width = result; break;
 					case "Height":
-						App.Context.Params.Height = result; break;
+						App.Window.Context.Params.Height = result; break;
 					case "IterationLimit":
-						App.Context.Params.IterationLimit = result; break;
+						App.Window.Context.Params.IterationLimit = result; break;
 					case "ZoomFactor":
-						App.Context.ZoomFactor = result; break;
+						App.Window.Context.ZoomFactor = result; break;
 				}
-			App.Context.ReactToTextBoxInput((TextBox)sender, parsed, e);
+			App.Window.ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 
 		/// <summary>
@@ -98,8 +98,8 @@ namespace Fractarium.UserInterface
 		{
 			bool parsed = ulong.TryParse(Clean(((TextBox)sender).Text), out ulong result) && result != 0;
 			if(parsed)
-				App.Context.Params.Scale = result;
-			App.Context.ReactToTextBoxInput((TextBox)sender, parsed, e);
+				App.Window.Context.Params.Scale = result;
+			App.Window.ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 
 		/// <summary>
@@ -114,13 +114,13 @@ namespace Fractarium.UserInterface
 				switch(((TextBox)sender).Name)
 				{
 					case "Midpoint":
-						App.Context.Params.Midpoint = result; break;
+						App.Window.Context.Params.Midpoint = result; break;
 					case "JuliaConstant":
-						App.Context.JuliaConstant = result; break;
+						App.Window.Context.JuliaConstant = result; break;
 					case "PhoenixConstant":
-						App.Context.PhoenixConstant = result; break;
+						App.Window.Context.PhoenixConstant = result; break;
 				}
-			App.Context.ReactToTextBoxInput((TextBox)sender, parsed, e);
+			App.Window.ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 
 		/// <summary>
@@ -130,11 +130,10 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnFloatingPointInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = double.TryParse(Clean(((TextBox)sender).Text), NumberStyles.Any,
-				CultureInfo.InvariantCulture, out double result);
+			bool parsed = double.TryParse(Clean(((TextBox)sender).Text), NumberStyles.Any, App.CI, out double result);
 			if(parsed)
-				App.Context.MultibrotExponent = result;
-			App.Context.ReactToTextBoxInput((TextBox)sender, parsed, e);
+				App.Window.Context.MultibrotExponent = result;
+			App.Window.ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 
 		/// <summary>

@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Linq;
-using System.Numerics;
 
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 
 using Fractarium.Logic;
-using Fractarium.Logic.Fractals;
 
 namespace Fractarium.UserInterface
 {
@@ -21,44 +17,9 @@ namespace Fractarium.UserInterface
 	public class MainWindow : Window
 	{
 		/// <summary>
-		/// Holds a reference to the currently displayed fractal.
+		/// Holds the data context for the entire user interface.
 		/// </summary>
-		public Fractal Fractal { get; set; }
-
-		/// <summary>
-		/// The currently selected fractal type.
-		/// </summary>
-		public FractalType FractalType { get; set; }
-
-		/// <summary>
-		/// Holds the parameter values most recently parsed from the parameter tab.
-		/// </summary>
-		public BaseParameters Params = new BaseParameters();
-
-		/// <summary>
-		/// How much the scale is multiplied after clicking on a point in the image.
-		/// </summary>
-		public int ZoomFactor { get; set; }
-
-		/// <summary>
-		/// The constant coefficient used for fractals related to the Julia set.
-		/// </summary>
-		public Complex JuliaConstant { get; set; }
-
-		/// <summary>
-		/// The constant coefficient used in the Phoenix set.
-		/// </summary>
-		public Complex PhoenixConstant { get; set; }
-
-		/// <summary>
-		/// The constant coefficient used for fractals related to the Multibrot set.
-		/// </summary>
-		public double MultibrotExponent { get; set; }
-
-		/// <summary>
-		/// Holds the currently selected color palette.
-		/// </summary>
-		public Palette Palette = new Palette(6);
+		public AppContext Context = new AppContext();
 
 		private bool MenuInitialized = false;
 
@@ -111,6 +72,8 @@ namespace Fractarium.UserInterface
 				zoomFactor.Text = "2";
 				ParameterTab.OnPositiveIntInput(zoomFactor, null);
 
+				ColorTab.Update(Context.Palette);
+
 				MenuInitialized = true;
 			}
 		}
@@ -131,53 +94,22 @@ namespace Fractarium.UserInterface
 			RenderButton.IsEnabled = !enabledBoxes.Any(t => t.Classes.Contains("Error"));
 
 			if(e?.Key == Key.Enter)
-				Render(null, null);
+				InitRender(null, null);
 		}
 
 		/// <summary>
-		/// Uses current parameters to render a fractal image on the image's bitmap.
+		/// Used to start the rendering process from the user interface.
 		/// </summary>
 		/// <param name="sender">Source of the event.</param>
 		/// <param name="e">Data associated with the event.</param>
-		public unsafe void Render(object sender, RoutedEventArgs e)
+		public void InitRender(object sender, RoutedEventArgs e)
 		{
 			if(!RenderButton.IsEnabled)
 				return;
 
-			switch(FractalType)
-			{
-				case FractalType.MandelbrotSet:
-					Fractal = new MandelbrotSet(Params, Palette); break;
-				case FractalType.JuliaSet:
-					Fractal = new JuliaSet(Params, Palette, JuliaConstant); break;
-				case FractalType.PhoenixSet:
-					Fractal = new PhoenixSet(Params, Palette, JuliaConstant, PhoenixConstant); break;
-				case FractalType.BurningShipSet:
-					Fractal = new BurningShipSet(Params, Palette); break;
-				case FractalType.BurningShipJuliaSet:
-					Fractal = new BurningShipJuliaSet(Params, Palette, JuliaConstant); break;
-				case FractalType.MultibrotSet:
-					Fractal = new MultibrotSet(Params, Palette, MultibrotExponent); break;
-				case FractalType.MultiJuliaSet:
-					Fractal = new MultiJuliaSet(Params, Palette, MultibrotExponent, JuliaConstant); break;
-				case FractalType.TricornSet:
-					Fractal = new TricornSet(Params, Palette); break;
-					//case FractalType.LyapunovFractal:
-					//fractal = new LyapunovFractal(Params); break;
-			}
-
-			fixed(int* ptr = &(new int[Params.Width * Params.Height])[0])
-			{
-				Fractal.DrawImage(ptr);
-
-				var size = new PixelSize(Params.Width, Params.Height);
-				var dpi = new Avalonia.Vector(96, 96);
-				int stride = 4 * Params.Width;
-
-				var img = this.Find<Image>("Image");
-				img.Source = new Bitmap(PixelFormat.Bgra8888, (IntPtr)ptr, size, dpi, stride);
-				img.InvalidateVisual();
-			}
+			var img = this.Find<Image>("Image");
+			img.Source = Context.Render();
+			img.InvalidateVisual();
 		}
 
 		/// <summary>
@@ -191,15 +123,15 @@ namespace Fractarium.UserInterface
 			int y = (int)(e.GetPosition((Image)sender).Y * App.ScreenEnhancement);
 
 			var midpointBox = ParameterTab.Find<TextBox>("Midpoint");
-			midpointBox.Text = ComplexUtil.ToString(Fractal.GetPointFromPixel(x, y));
+			midpointBox.Text = ComplexUtil.ToString(Context.Fractal.GetPointFromPixel(x, y));
 			ParameterTab.OnComplexInput(midpointBox, null);
 
 			int exp = e.MouseButton == MouseButton.Right ? -1 : 1;
 			var scaleBox = ParameterTab.Find<TextBox>("Scale");
-			scaleBox.Text = ((ulong)(Params.Scale * Math.Pow(ZoomFactor, exp))).ToString();
+			scaleBox.Text = ((ulong)(Context.Params.Scale * Math.Pow(Context.ZoomFactor, exp))).ToString();
 			ParameterTab.OnLongInput(scaleBox, null);
 
-			Render(null, null);
+			InitRender(null, null);
 		}
 	}
 }

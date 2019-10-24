@@ -9,7 +9,7 @@
             Encapsulates the Fractarium desktop app.
             </summary>
         </member>
-        <member name="F:Fractarium.App.Context">
+        <member name="F:Fractarium.App.Window">
             <summary>
             Gets a static reference to the running instance's window.
             </summary>
@@ -19,10 +19,24 @@
             Returns the value by which the screen DPI is enhanced through the display settings.
             </summary>
         </member>
+        <member name="P:Fractarium.App.CI">
+            <summary>
+            Determines the global locale for the app.
+            </summary>
+        </member>
         <member name="M:Fractarium.App.Initialize">
             <summary>
             Initializes associated XAML objects.
             </summary>
+        </member>
+        <member name="M:Fractarium.App.MakeDefaultBitmap(System.Int32,System.Int32,System.Int32*)">
+            <summary>
+            Returns an Avalonia bitmap fitted to the platform configuration.
+            </summary>
+            <param name="width">The width in pixels.</param>
+            <param name="height">The height in pixels.</param>
+            <param name="ptr">A handle from an array encoding the pixels.</param>
+            <returns>A bitmap with an image.</returns>
         </member>
         <member name="T:Fractarium.Fractarium">
             <summary>
@@ -76,37 +90,10 @@
             Utilities for handling complex numbers.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.ComplexUtil.Complex">
+        <member name="F:Fractarium.Logic.ComplexUtil.ComplexRegex">
             <summary>
             Matches a complex number.
             </summary>
-        </member>
-        <member name="F:Fractarium.Logic.ComplexUtil.MinusOne">
-            <summary>
-            Matches a string that contains the number -1.
-            </summary>
-        </member>
-        <member name="F:Fractarium.Logic.ComplexUtil.Zero">
-            <summary>
-            Matches a string that contains the number 0.
-            </summary>
-        </member>
-        <member name="F:Fractarium.Logic.ComplexUtil.PlusOne">
-            <summary>
-            Matches a string that contains the number 1.
-            </summary>
-        </member>
-        <member name="F:Fractarium.Logic.ComplexUtil.PositiveNumber">
-            <summary>
-            Matches a string that contains any positive real number.
-            </summary>
-        </member>
-        <member name="M:Fractarium.Logic.ComplexUtil.ToString(System.Numerics.Complex)">
-            <summary>
-            Generates a concise string representation of a complex number.
-            </summary>
-            <param name="c">The complex input.</param>
-            <returns>The string representation.</returns>
         </member>
         <member name="M:Fractarium.Logic.ComplexUtil.TryParse(System.String,System.Numerics.Complex@)">
             <summary>
@@ -116,19 +103,12 @@
             <param name="result">A complex number parsed from the string or zero if parsing failed.</param>
             <returns>Whether the conversion succeeded or failed.</returns>
         </member>
-        <member name="M:Fractarium.Logic.ComplexUtil.ParseReal(System.String)">
+        <member name="M:Fractarium.Logic.ComplexUtil.ToString(System.Numerics.Complex)">
             <summary>
-            Extracts the real part of a string representing a complex number.
+            Generates a string representation of a complex number.
             </summary>
-            <param name="s">String representing a complex number.</param>
-            <returns>The real part of the complex number.</returns>
-        </member>
-        <member name="M:Fractarium.Logic.ComplexUtil.ParseImaginary(System.String)">
-            <summary>
-            Extracts the imaginary part of a string representing a complex number.
-            </summary>
-            <param name="s">String representing a complex number.</param>
-            <returns>The imaginary part of the complex number.</returns>
+            <param name="c">The complex input.</param>
+            <returns>The string representation.</returns>
         </member>
         <member name="T:Fractarium.Logic.Fractals.BurningShipJuliaSet">
             <summary>
@@ -437,10 +417,26 @@
             Represents a list of ARGB colors that serves as the basis for coloring a fractal image.
             </summary>
         </member>
+        <member name="F:Fractarium.Logic.Palette.MaxColors">
+            <summary>
+            Maximum amount of colors allowed in a palette excluding the set element color.
+            </summary>
+        </member>
+        <member name="P:Fractarium.Logic.Palette.Size">
+            <summary>
+            Amount of colors in the palette excluding the set element color.
+            </summary>
+        </member>
         <member name="P:Fractarium.Logic.Palette.ElementColor">
             <summary>
             Holds the color representing a point that is part of a set-based fractal's respective set.
             </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Palette.#ctor(System.String[])">
+            <summary>
+            Instantiates a new palette from the given list of hexadecimal ARGB colors.
+            </summary>
+            <param name="colors">ARGB Colors given as hexadecimal strings.</param>
         </member>
         <member name="M:Fractarium.Logic.Palette.ColorFromFraction(System.Double)">
             <summary>
@@ -448,6 +444,57 @@
             </summary>
             <param name="iterationFraction">How close the iteration count of a point is to the iteration limit.</param>
             <returns>An ARGB color as a 32-bit integer.</returns>
+        </member>
+        <member name="T:Fractarium.UserInterface.AppContext">
+            <summary>
+            Represents the data context for the entire user interface.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.AppContext.Fractal">
+            <summary>
+            Holds a reference to the currently displayed fractal.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.AppContext.FractalType">
+            <summary>
+            The currently selected fractal type.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.AppContext.ZoomFactor">
+            <summary>
+            How much the scale is multiplied after clicking on a point in the image.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.AppContext.JuliaConstant">
+            <summary>
+            The constant coefficient used for fractals related to the Julia set.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.AppContext.PhoenixConstant">
+            <summary>
+            The constant coefficient used in the Phoenix set.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.AppContext.MultibrotExponent">
+            <summary>
+            The constant coefficient used for fractals related to the Multibrot set.
+            </summary>
+        </member>
+        <member name="F:Fractarium.UserInterface.AppContext.Params">
+            <summary>
+            Holds the parameter values most recently parsed from the parameter tab.
+            </summary>
+        </member>
+        <member name="F:Fractarium.UserInterface.AppContext.Palette">
+            <summary>
+            Holds the currently selected color palette.
+            </summary>
+        </member>
+        <member name="M:Fractarium.UserInterface.AppContext.Render">
+            <summary>
+            Uses current parameters to render a fractal image.
+            </summary>
+            <returns>An Avalonia bitmap holding the image.</returns>
         </member>
         <member name="T:Fractarium.UserInterface.ColorTab">
             <summary>
@@ -459,49 +506,20 @@
             Initializes associated XAML objects.
             </summary>
         </member>
+        <member name="M:Fractarium.UserInterface.ColorTab.Update(Fractarium.Logic.Palette)">
+            <summary>
+            Performs all UI updates for when a palette is set in the data context.
+            </summary>
+            <param name="palette">The palette on which the updates should be based.</param>
+        </member>
         <member name="T:Fractarium.UserInterface.MainWindow">
             <summary>
             Holds the content of the main window.
             </summary>
         </member>
-        <member name="P:Fractarium.UserInterface.MainWindow.Fractal">
+        <member name="F:Fractarium.UserInterface.MainWindow.Context">
             <summary>
-            Holds a reference to the currently displayed fractal.
-            </summary>
-        </member>
-        <member name="P:Fractarium.UserInterface.MainWindow.FractalType">
-            <summary>
-            The currently selected fractal type.
-            </summary>
-        </member>
-        <member name="F:Fractarium.UserInterface.MainWindow.Params">
-            <summary>
-            Holds the parameter values most recently parsed from the parameter tab.
-            </summary>
-        </member>
-        <member name="P:Fractarium.UserInterface.MainWindow.ZoomFactor">
-            <summary>
-            How much the scale is multiplied after clicking on a point in the image.
-            </summary>
-        </member>
-        <member name="P:Fractarium.UserInterface.MainWindow.JuliaConstant">
-            <summary>
-            The constant coefficient used for fractals related to the Julia set.
-            </summary>
-        </member>
-        <member name="P:Fractarium.UserInterface.MainWindow.PhoenixConstant">
-            <summary>
-            The constant coefficient used in the Phoenix set.
-            </summary>
-        </member>
-        <member name="P:Fractarium.UserInterface.MainWindow.MultibrotExponent">
-            <summary>
-            The constant coefficient used for fractals related to the Multibrot set.
-            </summary>
-        </member>
-        <member name="F:Fractarium.UserInterface.MainWindow.Palette">
-            <summary>
-            Holds the currently selected color palette.
+            Holds the data context for the entire user interface.
             </summary>
         </member>
         <member name="M:Fractarium.UserInterface.MainWindow.#ctor">
@@ -525,9 +543,9 @@
             <param name="parsed">Whether the input could be parsed correctly.</param>
             <param name="e">Data associated with the key event from input.</param>
         </member>
-        <member name="M:Fractarium.UserInterface.MainWindow.Render(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+        <member name="M:Fractarium.UserInterface.MainWindow.InitRender(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
             <summary>
-            Uses current parameters to render a fractal image on the image's bitmap.
+            Used to start the rendering process from the user interface.
             </summary>
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
