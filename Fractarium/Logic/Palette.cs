@@ -14,14 +14,17 @@ namespace Fractarium.Logic
 		/// </summary>
 		public const int MaxColors = 100;
 
-		private byte[,] Colors;
+		/// <summary>
+		/// Holds the palette colors as a 2D byte array.
+		/// </summary>
+		private byte[,] P;
 
 		private double Ratio;
 
 		/// <summary>
 		/// Amount of colors in the palette excluding the set element color.
 		/// </summary>
-		public int Size => Colors.GetLength(0) - 1;
+		public int Size => P.GetLength(0) - 1;
 
 		/// <summary>
 		/// Holds the color representing a point that is part of a set-based fractal's respective set.
@@ -34,13 +37,13 @@ namespace Fractarium.Logic
 		/// <param name="colors">ARGB Colors given as hexadecimal strings.</param>
 		public Palette(params string[] colors)
 		{
-			Colors = new byte[colors.Length, 4];
+			P = new byte[colors.Length, 4];
 			for(int i = 0; i < colors.Length; i++)
 				for(int j = 0; j < 4; j++)
-					Colors[i, j] = byte.Parse(colors[i].Substring(j * 2, 2), NumberStyles.HexNumber);
+					P[i, j] = byte.Parse(colors[i].Substring(j * 2, 2), NumberStyles.HexNumber);
 
-			Ratio = 1 / (double)(Colors.GetLength(0) - 2);
-			ElementColor = (Colors[0, 0] << 24) + (Colors[0, 1] << 16) + (Colors[0, 2] << 8) + Colors[0, 3];
+			Ratio = 1 / (double)(P.GetLength(0) - 2);
+			ElementColor = (P[0, 0] << 24) + (P[0, 1] << 16) + (P[0, 2] << 8) + P[0, 3];
 		}
 
 		/// <summary>
@@ -53,21 +56,47 @@ namespace Fractarium.Logic
 		{
 			int i = (int)Math.Ceiling(iterationFraction / Ratio);
 			double v = (iterationFraction + Ratio * (1 - i)) / Ratio;
-			int a = (int)(Colors[i, 0] + Math.Round(v * (Colors[i + 1, 0] - Colors[i, 0]))) << 24;
-			int r = (int)(Colors[i, 1] + Math.Round(v * (Colors[i + 1, 1] - Colors[i, 1]))) << 16;
-			int g = (int)(Colors[i, 2] + Math.Round(v * (Colors[i + 1, 2] - Colors[i, 2]))) << 8;
-			int b = (int)(Colors[i, 3] + Math.Round(v * (Colors[i + 1, 3] - Colors[i, 3])));
+			int a = (int)(P[i, 0] + Math.Round(v * (P[i + 1, 0] - P[i, 0]))) << 24;
+			int r = (int)(P[i, 1] + Math.Round(v * (P[i + 1, 1] - P[i, 1]))) << 16;
+			int g = (int)(P[i, 2] + Math.Round(v * (P[i + 1, 2] - P[i, 2]))) << 8;
+			int b = (int)(P[i, 3] + Math.Round(v * (P[i + 1, 3] - P[i, 3])));
 			return a + r + g + b;
 		}
 
+		/// <summary>
+		/// Draws a depiction of the palette with the colors blending together like a gradient.
+		/// </summary>
+		/// <param name="width">Width of the bitmap.</param>
+		/// <param name="height">Height of the bitmap.</param>
+		/// <param name="ptr">Handle to the array encoding the bitmap.</param>
 		public unsafe void DrawContinuousPreview(int width, int height, int* ptr)
 		{
-
+			for(int x = 0; x < width; x++)
+				for(int y = 0; y < height; y++)
+					if(x == 0 || y == 0 || x == width - 1 || y == height - 1)
+						*(ptr + x + y * width) = ElementColor;
+					else
+						*(ptr + x + y * width) = ColorFromFraction(x / (double)width);
 		}
 
+		/// <summary>
+		/// Draws a depiction of the palette with the colors visible as rectangles without blending.
+		/// </summary>
+		/// <param name="width">Width of the bitmap.</param>
+		/// <param name="height">Height of the bitmap.</param>
+		/// <param name="ptr">Handle to the array encoding the bitmap.</param>
 		public unsafe void DrawDiscretePreview(int width, int height, int* ptr)
 		{
-
+			double r = 1 / (double)(P.GetLength(0) - 1);
+			for(int x = 0; x < width; x++)
+				for(int y = 0; y < height; y++)
+					if(x == 0 || y == 0 || x == width - 1 || y == height - 1)
+						*(ptr + x + y * width) = ElementColor;
+					else
+					{
+						int i = (int)Math.Ceiling(x / (double)width / r);
+						*(ptr + x + y * width) = (P[i, 0] << 24) + (P[i, 1] << 16) + (P[i, 2] << 8) + P[i, 3];
+					}
 		}
 	}
 }

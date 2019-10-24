@@ -11,7 +11,7 @@
 		<Style Selector="Button">
 			<Setter Property="Margin">10</Setter>
 		</Style>
-		<Style Selector="Grid > TextBlock">
+		<Style Selector="Grid > TextBlock, Grid > Image">
 			<Setter Property="Margin">0,5,10,0</Setter>
 		</Style>
 		<Style Selector="ComboBox, TextBox, ButtonSpinner">

@@ -23,6 +23,8 @@ namespace Fractarium.UserInterface
 
 		private bool MenuInitialized = false;
 
+		private bool ImageVisuallyOverlapped = false;
+
 		private readonly Button RenderButton;
 
 		private readonly ParameterTab ParameterTab;
@@ -119,6 +121,9 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void Zoom(object sender, PointerReleasedEventArgs e)
 		{
+			if(ImageVisuallyOverlapped)
+				return;
+
 			int x = (int)(e.GetPosition((Image)sender).X * App.ScreenEnhancement);
 			int y = (int)(e.GetPosition((Image)sender).Y * App.ScreenEnhancement);
 

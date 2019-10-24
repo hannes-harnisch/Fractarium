@@ -422,6 +422,11 @@
             Maximum amount of colors allowed in a palette excluding the set element color.
             </summary>
         </member>
+        <member name="F:Fractarium.Logic.Palette.P">
+            <summary>
+            Holds the palette colors as a 2D byte array.
+            </summary>
+        </member>
         <member name="P:Fractarium.Logic.Palette.Size">
             <summary>
             Amount of colors in the palette excluding the set element color.
@@ -444,6 +449,22 @@
             </summary>
             <param name="iterationFraction">How close the iteration count of a point is to the iteration limit.</param>
             <returns>An ARGB color as a 32-bit integer.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.Palette.DrawContinuousPreview(System.Int32,System.Int32,System.Int32*)">
+            <summary>
+            Draws a depiction of the palette with the colors blending together like a gradient.
+            </summary>
+            <param name="width">Width of the bitmap.</param>
+            <param name="height">Height of the bitmap.</param>
+            <param name="ptr">Handle to the array encoding the bitmap.</param>
+        </member>
+        <member name="M:Fractarium.Logic.Palette.DrawDiscretePreview(System.Int32,System.Int32,System.Int32*)">
+            <summary>
+            Draws a depiction of the palette with the colors visible as rectangles without blending.
+            </summary>
+            <param name="width">Width of the bitmap.</param>
+            <param name="height">Height of the bitmap.</param>
+            <param name="ptr">Handle to the array encoding the bitmap.</param>
         </member>
         <member name="T:Fractarium.UserInterface.AppContext">
             <summary>

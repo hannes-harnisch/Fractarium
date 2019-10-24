@@ -27,8 +27,8 @@ namespace Fractarium.UserInterface
 			this.Find<TextBlock>("PaletteSize").Text = palette.Size.ToString();
 			SetColorSelectionEntries(palette.Size);
 
-			int previewWidth = 50;
-			int previewHeight = 15;
+			int previewWidth = 100;
+			int previewHeight = 35;
 
 			var continuousPreview = this.Find<Image>("ContinuousPreview");
 			fixed(int* ptr = &(new int[previewWidth * previewHeight])[0])
