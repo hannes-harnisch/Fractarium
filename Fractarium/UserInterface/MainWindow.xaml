@@ -8,7 +8,8 @@
 		d:DesignHeight="450"
 		x:Class="Fractarium.UserInterface.MainWindow"
 		WindowState="Maximized"
-		Title="Fractarium">
+		Title="Fractarium"
+		Activated="InitializeMenu">
 	<DockPanel>
 		<StackPanel DockPanel.Dock="Top"
 					Orientation="Horizontal"
@@ -16,8 +17,8 @@
 					Spacing="5">
 			<Button	Click="Render"
 					Name="RenderButton"
-					Padding="30"
-					Margin="20">Render</Button>
+					Padding="15"
+					Margin="15">Render</Button>
 			<TabControl Name="Menu">
 				<TabItem Header="Parameters">
 					<ui:ParameterTab Name="ParameterTab"/>

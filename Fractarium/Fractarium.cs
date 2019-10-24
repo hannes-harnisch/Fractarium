@@ -1,8 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Logging.Serilog;
 
-using Fractarium.UserInterface;
-
 namespace Fractarium
 {
 	/// <summary>
@@ -16,7 +14,7 @@ namespace Fractarium
 		/// <param name="args">Optional arguments given in the command line.</param>
 		public static void Main(string[] args)
 		{
-			BuildAvaloniaApp().Start((app, appArgs) => app.Run(new MainWindow()), args);
+			BuildAvaloniaApp().Start((app, appArgs) => app.Run(App.Context), args);
 		}
 
 		/// <summary>

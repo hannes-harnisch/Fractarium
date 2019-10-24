@@ -7,7 +7,8 @@
 			 d:DesignHeight="125"
 			 x:Class="Fractarium.UserInterface.ColorTab">
 	<Grid RowDefinitions="Auto,Auto,Auto,Auto"
-		  ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+		  ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+		  Name="Grid">
 		<Image Grid.Row="0"
 			   Grid.Column="0"
 			   Grid.RowSpan="2"
@@ -18,13 +19,43 @@
 			   Name="DiscretePreview"/>
 		<TextBlock Grid.Row="0"
 				   Grid.Column="1">Palette size</TextBlock>
-		<TextBox Grid.Row="1"
-				 Grid.Column="1"
-				 Name="PaletteSize"/>
+		<ButtonSpinner Grid.Row="1"
+					   Grid.Column="1"
+					   Spin="OnPaletteSizeSpin"
+					   Height="26.4">
+			<ButtonSpinner.Content>
+				<TextBlock Margin="4">5</TextBlock>
+			</ButtonSpinner.Content>
+		</ButtonSpinner>
 		<TextBlock Grid.Row="2"
 				   Grid.Column="1">Select color</TextBlock>
 		<ComboBox Grid.Row="3"
 				  Grid.Column="1"
-				  Items="{Binding ComboBoxEntries}"/>
+				  SelectionChanged="OnColorSelected"
+				  Name="ColorSelector"/>
+		<Image Grid.Row="1"
+			   Grid.Column="2"
+			   Grid.RowSpan="2"
+			   Name="ColorPreview"/>
+		<TextBlock Grid.Row="0"
+				   Grid.Column="3">Alpha</TextBlock>
+		<TextBox Grid.Row="1"
+				 Grid.Column="3"
+				 Name="Alpha"/>
+		<TextBlock Grid.Row="2"
+				   Grid.Column="3">Red</TextBlock>
+		<TextBox Grid.Row="3"
+				 Grid.Column="3"
+				 Name="Red"/>
+		<TextBlock Grid.Row="0"
+				   Grid.Column="4">Green</TextBlock>
+		<TextBox Grid.Row="1"
+				 Grid.Column="4"
+				 Name="Green"/>
+		<TextBlock Grid.Row="2"
+				   Grid.Column="4">Blue</TextBlock>
+		<TextBox Grid.Row="3"
+				 Grid.Column="4"
+				 Name="Blue"/>
 	</Grid>
 </UserControl>

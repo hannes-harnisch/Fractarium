@@ -9,7 +9,7 @@
             Encapsulates the Fractarium desktop app.
             </summary>
         </member>
-        <member name="P:Fractarium.App.Context">
+        <member name="F:Fractarium.App.Context">
             <summary>
             Gets a static reference to the running instance's window.
             </summary>
@@ -509,6 +509,22 @@
             Initializes associated XAML objects.
             </summary>
         </member>
+        <member name="M:Fractarium.UserInterface.MainWindow.InitializeMenu(System.Object,System.EventArgs)">
+            <summary>
+            Performs initialization operations for the user interface that can't be otherwise implemented.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.MainWindow.ReactToTextBoxInput(Avalonia.Controls.TextBox,System.Boolean,Avalonia.Input.KeyEventArgs)">
+            <summary>
+            Sets a text box's styling to the appropriate style and disables the render button depending on the
+            correctness of user input. Also initiates rendering if the enter key was pressed.
+            </summary>
+            <param name="box">The box where user input occurred.</param>
+            <param name="parsed">Whether the input could be parsed correctly.</param>
+            <param name="e">Data associated with the key event from input.</param>
+        </member>
         <member name="M:Fractarium.UserInterface.MainWindow.Render(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
             <summary>
             Uses current parameters to render a fractal image on the image's bitmap.
@@ -545,13 +561,6 @@
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
         </member>
-        <member name="M:Fractarium.UserInterface.ParameterTab.OnBindImageSizeToWindow(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
-            <summary>
-            Attaches event handlers reacting to size changes of the main window for width and height parameters.
-            </summary>
-            <param name="sender">Source of the event.</param>
-            <param name="e">Data associated with the event.</param>
-        </member>
         <member name="M:Fractarium.UserInterface.ParameterTab.OnPositiveIntInput(System.Object,Avalonia.Input.KeyEventArgs)">
             <summary>
             Handles user input for parameters that are interpreted as positive integers.
@@ -579,15 +588,6 @@
             </summary>
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
-        </member>
-        <member name="M:Fractarium.UserInterface.ParameterTab.ReactToTextBoxInput(Avalonia.Controls.TextBox,System.Boolean,Avalonia.Input.KeyEventArgs)">
-            <summary>
-            Sets a text box's styling to the appropriate style and disables the render button depending on the
-            correctness of user input. Also initiates rendering if the enter key was pressed.
-            </summary>
-            <param name="box">The box where user input occurred.</param>
-            <param name="parsed">Whether the input could be parsed correctly.</param>
-            <param name="e">Data associated with the key event from input.</param>
         </member>
         <member name="M:Fractarium.UserInterface.ParameterTab.Clean(System.String)">
             <summary>

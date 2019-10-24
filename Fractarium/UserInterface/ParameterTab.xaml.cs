@@ -1,12 +1,8 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
 using Fractarium.Logic;
@@ -22,7 +18,7 @@ namespace Fractarium.UserInterface
 		/// <summary>
 		/// Indicates whether width and height parameters should be adapted to the window size.
 		/// </summary>
-		public bool BindImageSizeToWindow { get; set; }
+		public bool BindImageSizeToWindow { get; set; } = true;
 
 		/// <summary>
 		/// Initializes associated XAML objects.
@@ -71,29 +67,6 @@ namespace Fractarium.UserInterface
 		}
 
 		/// <summary>
-		/// Attaches event handlers reacting to size changes of the main window for width and height parameters.
-		/// </summary>
-		/// <param name="sender">Source of the event.</param>
-		/// <param name="e">Data associated with the event.</param>
-		public void OnBindImageSizeToWindow(object sender, RoutedEventArgs e)
-		{
-			App.Context.GetObservable(BoundsProperty).Subscribe(bounds =>
-			{
-				if(BindImageSizeToWindow)
-				{
-					var width = this.Find<TextBox>("Width");
-					width.Text = ((int)(bounds.Width * App.ScreenEnhancement)).ToString();
-					OnPositiveIntInput(width, null);
-
-					double h = (bounds.Height - App.Context.Find<TabControl>("Menu").Bounds.Height) * App.ScreenEnhancement;
-					var height = this.Find<TextBox>("Height");
-					height.Text = ((int)h).ToString();
-					OnPositiveIntInput(height, null);
-				}
-			});
-		}
-
-		/// <summary>
 		/// Handles user input for parameters that are interpreted as positive integers.
 		/// </summary>
 		/// <param name="sender">Source of the event.</param>
@@ -113,7 +86,7 @@ namespace Fractarium.UserInterface
 					case "ZoomFactor":
 						App.Context.ZoomFactor = result; break;
 				}
-			ReactToTextBoxInput((TextBox)sender, parsed, e);
+			App.Context.ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 
 		/// <summary>
@@ -126,7 +99,7 @@ namespace Fractarium.UserInterface
 			bool parsed = ulong.TryParse(Clean(((TextBox)sender).Text), out ulong result) && result != 0;
 			if(parsed)
 				App.Context.Params.Scale = result;
-			ReactToTextBoxInput((TextBox)sender, parsed, e);
+			App.Context.ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 
 		/// <summary>
@@ -147,7 +120,7 @@ namespace Fractarium.UserInterface
 					case "PhoenixConstant":
 						App.Context.PhoenixConstant = result; break;
 				}
-			ReactToTextBoxInput((TextBox)sender, parsed, e);
+			App.Context.ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 
 		/// <summary>
@@ -161,25 +134,7 @@ namespace Fractarium.UserInterface
 				CultureInfo.InvariantCulture, out double result);
 			if(parsed)
 				App.Context.MultibrotExponent = result;
-			ReactToTextBoxInput((TextBox)sender, parsed, e);
-		}
-
-		/// <summary>
-		/// Sets a text box's styling to the appropriate style and disables the render button depending on the
-		/// correctness of user input. Also initiates rendering if the enter key was pressed.
-		/// </summary>
-		/// <param name="box">The box where user input occurred.</param>
-		/// <param name="parsed">Whether the input could be parsed correctly.</param>
-		/// <param name="e">Data associated with the key event from input.</param>
-		public void ReactToTextBoxInput(TextBox box, bool parsed, KeyEventArgs e)
-		{
-			box.Classes = new Classes(parsed ? "" : "Error");
-
-			var enabledBoxes = ((Grid)Content).Children.Where(c => c is TextBox t && t.IsEnabled);
-			App.Context.Find<Button>("RenderButton").IsEnabled = !enabledBoxes.Any(t => t.Classes.Contains("Error"));
-
-			if(e?.Key == Key.Enter)
-				App.Context.Render(null, null);
+			App.Context.ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 
 		/// <summary>

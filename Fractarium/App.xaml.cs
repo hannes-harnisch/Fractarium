@@ -16,7 +16,7 @@ namespace Fractarium
 		/// <summary>
 		/// Gets a static reference to the running instance's window.
 		/// </summary>
-		public static MainWindow Context => (MainWindow)Current.MainWindow;
+		public static readonly MainWindow Context = new MainWindow();
 
 		/// <summary>
 		/// Returns the value by which the screen DPI is enhanced through the display settings.

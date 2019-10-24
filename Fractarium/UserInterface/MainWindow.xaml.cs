@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
-using System.Threading.Tasks;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -60,6 +60,14 @@ namespace Fractarium.UserInterface
 		/// </summary>
 		public Palette Palette = new Palette(6);
 
+		private bool MenuInitialized = false;
+
+		private readonly Button RenderButton;
+
+		private readonly ParameterTab ParameterTab;
+
+		private readonly ColorTab ColorTab;
+
 		/// <summary>
 		/// Initializes associated XAML objects.
 		/// </summary>
@@ -69,6 +77,61 @@ namespace Fractarium.UserInterface
 #if DEBUG
 			this.AttachDevTools();
 #endif
+			RenderButton = this.Find<Button>("RenderButton");
+			ParameterTab = this.Find<ParameterTab>("ParameterTab");
+			ColorTab = this.Find<ColorTab>("ColorTab");
+		}
+
+		/// <summary>
+		/// Performs initialization operations for the user interface that can't be otherwise implemented.
+		/// </summary>
+		/// <param name="sender">Source of the event.</param>
+		/// <param name="e">Data associated with the event.</param>
+		public void InitializeMenu(object sender, EventArgs e)
+		{
+			if(!MenuInitialized)
+			{
+				this.GetObservable(BoundsProperty).Subscribe(bounds =>
+				{
+					if(ParameterTab.BindImageSizeToWindow)
+					{
+						var width = ParameterTab.Find<TextBox>("Width");
+						width.Text = ((int)(bounds.Width * App.ScreenEnhancement)).ToString();
+						ParameterTab.OnPositiveIntInput(width, null);
+
+						double h = (bounds.Height - this.Find<TabControl>("Menu").Bounds.Height) * App.ScreenEnhancement;
+						var height = ParameterTab.Find<TextBox>("Height");
+						height.Text = ((int)h).ToString();
+						ParameterTab.OnPositiveIntInput(height, null);
+					}
+				});
+				ParameterTab.Find<ComboBox>("FractalType").SelectedIndex = 0;
+
+				var zoomFactor = ParameterTab.Find<TextBox>("ZoomFactor");
+				zoomFactor.Text = "2";
+				ParameterTab.OnPositiveIntInput(zoomFactor, null);
+
+				MenuInitialized = true;
+			}
+		}
+
+		/// <summary>
+		/// Sets a text box's styling to the appropriate style and disables the render button depending on the
+		/// correctness of user input. Also initiates rendering if the enter key was pressed.
+		/// </summary>
+		/// <param name="box">The box where user input occurred.</param>
+		/// <param name="parsed">Whether the input could be parsed correctly.</param>
+		/// <param name="e">Data associated with the key event from input.</param>
+		public void ReactToTextBoxInput(TextBox box, bool parsed, KeyEventArgs e)
+		{
+			box.Classes = new Classes(parsed ? "" : "Error");
+
+			var enabledBoxes = ParameterTab.Find<Grid>("Grid").Children.Where(c => c is TextBox t && t.IsEnabled).ToList();
+			enabledBoxes.AddRange(ColorTab.Find<Grid>("Grid").Children.Where(c => c is TextBox));
+			RenderButton.IsEnabled = !enabledBoxes.Any(t => t.Classes.Contains("Error"));
+
+			if(e?.Key == Key.Enter)
+				Render(null, null);
 		}
 
 		/// <summary>
@@ -78,11 +141,9 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public unsafe void Render(object sender, RoutedEventArgs e)
 		{
-			var button = this.Find<Button>("RenderButton");
-			if(!button.IsEnabled)
+			if(!RenderButton.IsEnabled)
 				return;
 
-			button.IsEnabled = false;
 			switch(FractalType)
 			{
 				case FractalType.MandelbrotSet:
@@ -117,7 +178,6 @@ namespace Fractarium.UserInterface
 				img.Source = new Bitmap(PixelFormat.Bgra8888, (IntPtr)ptr, size, dpi, stride);
 				img.InvalidateVisual();
 			}
-			button.IsEnabled = true;
 		}
 
 		/// <summary>
@@ -130,16 +190,14 @@ namespace Fractarium.UserInterface
 			int x = (int)(e.GetPosition((Image)sender).X * App.ScreenEnhancement);
 			int y = (int)(e.GetPosition((Image)sender).Y * App.ScreenEnhancement);
 
-			var parameterTab = this.Find<ParameterTab>("ParameterTab");
-
-			var midpointBox = parameterTab.Find<TextBox>("Midpoint");
+			var midpointBox = ParameterTab.Find<TextBox>("Midpoint");
 			midpointBox.Text = ComplexUtil.ToString(Fractal.GetPointFromPixel(x, y));
-			parameterTab.OnComplexInput(midpointBox, null);
+			ParameterTab.OnComplexInput(midpointBox, null);
 
 			int exp = e.MouseButton == MouseButton.Right ? -1 : 1;
-			var scaleBox = parameterTab.Find<TextBox>("Scale");
+			var scaleBox = ParameterTab.Find<TextBox>("Scale");
 			scaleBox.Text = ((ulong)(Params.Scale * Math.Pow(ZoomFactor, exp))).ToString();
-			parameterTab.OnLongInput(scaleBox, null);
+			ParameterTab.OnLongInput(scaleBox, null);
 
 			Render(null, null);
 		}

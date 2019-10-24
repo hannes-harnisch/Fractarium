@@ -11,7 +11,7 @@
 		<Style Selector="Grid > TextBlock">
 			<Setter Property="Margin">0,5,10,0</Setter>
 		</Style>
-		<Style Selector="ComboBox, TextBox">
+		<Style Selector="ComboBox, TextBox, ButtonSpinner">
 			<Setter Property="Margin">0,0,10,5</Setter>
 		</Style>
 		<Style Selector="CheckBox">
