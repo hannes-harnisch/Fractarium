@@ -25,22 +25,22 @@ namespace Fractarium.UserInterface
 		/// <summary>
 		/// How much the scale is multiplied after clicking on a point in the image.
 		/// </summary>
-		public int ZoomFactor { get; set; }
+		public int ZoomFactor { get; set; } = 2;
 
 		/// <summary>
 		/// The constant coefficient used for fractals related to the Julia set.
 		/// </summary>
-		public Complex JuliaConstant { get; set; }
+		public Complex JuliaConstant { get; set; } = Complex.Zero;
 
 		/// <summary>
 		/// The constant coefficient used in the Phoenix set.
 		/// </summary>
-		public Complex PhoenixConstant { get; set; }
+		public Complex PhoenixConstant { get; set; } = Complex.Zero;
 
 		/// <summary>
 		/// The constant coefficient used for fractals related to the Multibrot set.
 		/// </summary>
-		public double MultibrotExponent { get; set; }
+		public double MultibrotExponent { get; set; } = 2;
 
 		/// <summary>
 		/// Holds the parameter values most recently parsed from the parameter tab.

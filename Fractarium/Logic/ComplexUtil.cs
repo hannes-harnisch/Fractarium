@@ -51,7 +51,7 @@ namespace Fractarium.Logic
 		/// </summary>
 		/// <param name="c">The complex input.</param>
 		/// <returns>The string representation.</returns>
-		public static string ToString(Complex c)
+		public static string ProperString(this Complex c)
 		{
 			string s = c.Real.ToString(Format, App.CI);
 			if(c.Imaginary >= 0)

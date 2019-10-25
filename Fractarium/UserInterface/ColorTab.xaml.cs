@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 
 using Fractarium.Logic;
@@ -27,24 +28,24 @@ namespace Fractarium.UserInterface
 			this.Find<TextBlock>("PaletteSize").Text = palette.Size.ToString();
 			SetColorSelectionEntries(palette.Size);
 
-			int previewWidth = 100;
-			int previewHeight = 35;
+			const int previewWidth = 150;
+			const int previewHeight = 40;
 
 			var continuousPreview = this.Find<Image>("ContinuousPreview");
 			fixed(int* ptr = &(new int[previewWidth * previewHeight])[0])
 			{
 				palette.DrawContinuousPreview(previewWidth, previewHeight, ptr);
 				continuousPreview.Source = App.MakeDefaultBitmap(previewWidth, previewHeight, ptr);
-				continuousPreview.InvalidateVisual();
 			}
+			continuousPreview.InvalidateVisual();
 
 			var discretePreview = this.Find<Image>("DiscretePreview");
 			fixed(int* ptr = &(new int[previewWidth * previewHeight])[0])
 			{
 				palette.DrawDiscretePreview(previewWidth, previewHeight, ptr);
 				discretePreview.Source = App.MakeDefaultBitmap(previewWidth, previewHeight, ptr);
-				discretePreview.InvalidateVisual();
 			}
+			discretePreview.InvalidateVisual();
 		}
 
 		public void SetColorSelectionEntries(int paletteSize)
@@ -59,8 +60,7 @@ namespace Fractarium.UserInterface
 		public void OnPaletteSizeSpin(object sender, SpinEventArgs e)
 		{
 			var spinner = (TextBlock)((ButtonSpinner)sender).Content;
-			int.TryParse(spinner.Text, out int result);
-			int size = e.Direction == SpinDirection.Increase ? ++result : --result;
+			int size = int.Parse(spinner.Text) + (e.Direction == SpinDirection.Increase ? 1 : -1);
 			if(size > 0 && size < Palette.MaxColors)
 			{
 				spinner.Text = size.ToString();
@@ -70,7 +70,6 @@ namespace Fractarium.UserInterface
 
 		public void OnColorSelected(object sender, SelectionChangedEventArgs e)
 		{
-
 		}
 	}
 }

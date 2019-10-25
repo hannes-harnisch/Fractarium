@@ -23,9 +23,9 @@ namespace Fractarium.UserInterface
 
 		private bool MenuInitialized = false;
 
-		private bool ImageVisuallyOverlapped = false;
+		private bool AnyInvalidInput = false;
 
-		private readonly Button RenderButton;
+		private readonly Controls Controls = new Controls();
 
 		private readonly ParameterTab ParameterTab;
 
@@ -40,9 +40,11 @@ namespace Fractarium.UserInterface
 #if DEBUG
 			this.AttachDevTools();
 #endif
-			RenderButton = this.Find<Button>("RenderButton");
 			ParameterTab = this.Find<ParameterTab>("ParameterTab");
 			ColorTab = this.Find<ColorTab>("ColorTab");
+
+			Controls.AddRange(ParameterTab.Find<Grid>("Grid").Children);
+			Controls.AddRange(ColorTab.Find<Grid>("Grid").Children);
 		}
 
 		/// <summary>
@@ -69,13 +71,12 @@ namespace Fractarium.UserInterface
 					}
 				});
 				ParameterTab.Find<ComboBox>("FractalType").SelectedIndex = 0;
-
-				var zoomFactor = ParameterTab.Find<TextBox>("ZoomFactor");
-				zoomFactor.Text = "2";
-				ParameterTab.OnPositiveIntInput(zoomFactor, null);
+				ParameterTab.Find<TextBox>("ZoomFactor").Text = Context.ZoomFactor.ToString();
+				ParameterTab.Find<TextBox>("JuliaConstant").Text = Context.JuliaConstant.ProperString();
+				ParameterTab.Find<TextBox>("PhoenixConstant").Text = Context.PhoenixConstant.ProperString();
+				ParameterTab.Find<TextBox>("MultibrotExponent").Text = Context.MultibrotExponent.ToString();
 
 				ColorTab.Update(Context.Palette);
-
 				MenuInitialized = true;
 			}
 		}
@@ -91,9 +92,8 @@ namespace Fractarium.UserInterface
 		{
 			box.Classes = new Classes(parsed ? "" : "Error");
 
-			var enabledBoxes = ParameterTab.Find<Grid>("Grid").Children.Where(c => c is TextBox t && t.IsEnabled).ToList();
-			enabledBoxes.AddRange(ColorTab.Find<Grid>("Grid").Children.Where(c => c is TextBox));
-			RenderButton.IsEnabled = !enabledBoxes.Any(t => t.Classes.Contains("Error"));
+			AnyInvalidInput = Controls.Any(control => control.Classes.Contains("Error"));
+			this.Find<Button>("RenderButton").IsEnabled = !AnyInvalidInput;
 
 			if(e?.Key == Key.Enter)
 				InitRender(null, null);
@@ -106,12 +106,12 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void InitRender(object sender, RoutedEventArgs e)
 		{
-			if(!RenderButton.IsEnabled)
-				return;
-
-			var img = this.Find<Image>("Image");
-			img.Source = Context.Render();
-			img.InvalidateVisual();
+			if(!AnyInvalidInput)
+			{
+				var img = this.Find<Image>("Image");
+				img.Source = Context.Render();
+				img.InvalidateVisual();
+			}
 		}
 
 		/// <summary>
@@ -121,14 +121,11 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void Zoom(object sender, PointerReleasedEventArgs e)
 		{
-			if(ImageVisuallyOverlapped)
-				return;
-
 			int x = (int)(e.GetPosition((Image)sender).X * App.ScreenEnhancement);
 			int y = (int)(e.GetPosition((Image)sender).Y * App.ScreenEnhancement);
 
 			var midpointBox = ParameterTab.Find<TextBox>("Midpoint");
-			midpointBox.Text = ComplexUtil.ToString(Context.Fractal.GetPointFromPixel(x, y));
+			midpointBox.Text = Context.Fractal.GetPointFromPixel(x, y).ProperString();
 			ParameterTab.OnComplexInput(midpointBox, null);
 
 			int exp = e.MouseButton == MouseButton.Right ? -1 : 1;

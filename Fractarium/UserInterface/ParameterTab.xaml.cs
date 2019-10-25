@@ -130,7 +130,8 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnFloatingPointInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = double.TryParse(Clean(((TextBox)sender).Text), NumberStyles.Any, App.CI, out double result);
+			bool parsed = double.TryParse(Clean(((TextBox)sender).Text), NumberStyles.Any, App.CI, out double result)
+				&& result != 0;
 			if(parsed)
 				App.Window.Context.MultibrotExponent = result;
 			App.Window.ReactToTextBoxInput((TextBox)sender, parsed, e);

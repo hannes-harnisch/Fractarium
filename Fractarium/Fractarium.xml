@@ -103,7 +103,7 @@
             <param name="result">A complex number parsed from the string or zero if parsing failed.</param>
             <returns>Whether the conversion succeeded or failed.</returns>
         </member>
-        <member name="M:Fractarium.Logic.ComplexUtil.ToString(System.Numerics.Complex)">
+        <member name="M:Fractarium.Logic.ComplexUtil.ProperString(System.Numerics.Complex)">
             <summary>
             Generates a string representation of a complex number.
             </summary>
@@ -123,15 +123,13 @@
             <param name="palette">Required color palette.</param>
             <param name="juliaConstant">The Julia constant parameter.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.BurningShipJuliaSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+        <member name="M:Fractarium.Logic.Fractals.BurningShipJuliaSet.IteratePoint(System.Double,System.Double)">
             <summary>
             Iterates a complex point according to a specific fractal type's formula.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
-            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
-            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
-            <returns>How many iterations were cycled through.</returns>
+            <returns>The color of the given point based on the iteration.</returns>
         </member>
         <member name="T:Fractarium.Logic.Fractals.BurningShipSet">
             <summary>
@@ -145,15 +143,13 @@
             <param name="parameters">Required base parameters.</param>
             <param name="palette">Required color palette.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.BurningShipSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+        <member name="M:Fractarium.Logic.Fractals.BurningShipSet.IteratePoint(System.Double,System.Double)">
             <summary>
             Iterates a complex point according to a specific fractal type's formula.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
-            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
-            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
-            <returns>How many iterations were cycled through.</returns>
+            <returns>The color of the given point based on the iteration.</returns>
         </member>
         <member name="T:Fractarium.Logic.Fractals.Fractal">
             <summary>
@@ -197,15 +193,22 @@
             </summary>
             <param name="bitmap">Pointer to the first bitmap pixel.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.Fractal.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+        <member name="M:Fractarium.Logic.Fractals.Fractal.IteratePoint(System.Double,System.Double)">
             <summary>
             Iterates a complex point according to a specific fractal type's formula.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <returns>The color of the given point based on the iteration.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.Fractal.Normalize(System.Int32,System.Double,System.Double)">
+            <summary>
+            Normalizes the iteration value of a complex point to facilitate smoother coloring.
+            </summary>
+            <param name="iteration">The iteration value to be normalized.</param>
             <param name="nextR">Real component of the next complex number after break condition was reached.</param>
             <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
-            <returns>How many iterations were cycled through.</returns>
+            <returns>The normalized iteration value.</returns>
         </member>
         <member name="T:Fractarium.Logic.Fractals.FractalType">
             <summary>
@@ -287,15 +290,13 @@
             <param name="palette">Required color palette.</param>
             <param name="juliaConstant">The Julia constant parameter.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.JuliaSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+        <member name="M:Fractarium.Logic.Fractals.JuliaSet.IteratePoint(System.Double,System.Double)">
             <summary>
             Iterates a complex point according to a specific fractal type's formula.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
-            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
-            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
-            <returns>How many iterations were cycled through.</returns>
+            <returns>The color of the given point based on the iteration.</returns>
         </member>
         <member name="T:Fractarium.Logic.Fractals.MandelbrotSet">
             <summary>
@@ -309,15 +310,13 @@
             <param name="parameters">Required base parameters.</param>
             <param name="palette">Required color palette.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+        <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.IteratePoint(System.Double,System.Double)">
             <summary>
             Iterates a complex point according to a specific fractal type's formula.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
-            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
-            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
-            <returns>How many iterations were cycled through.</returns>
+            <returns>The color of the given point based on the iteration.</returns>
         </member>
         <member name="T:Fractarium.Logic.Fractals.MultibrotSet">
             <summary>
@@ -332,15 +331,13 @@
             <param name="palette">Required color palette.</param>
             <param name="exponent">Exponent required for the Multibrot set.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.MultibrotSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+        <member name="M:Fractarium.Logic.Fractals.MultibrotSet.IteratePoint(System.Double,System.Double)">
             <summary>
             Iterates a complex point according to a specific fractal type's formula.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
-            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
-            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
-            <returns>How many iterations were cycled through.</returns>
+            <returns>The color of the given point based on the iteration.</returns>
         </member>
         <member name="T:Fractarium.Logic.Fractals.MultiJuliaSet">
             <summary>
@@ -356,15 +353,13 @@
             <param name="exponent">Exponent required for the Multibrot set.</param>
             <param name="juliaConstant">The Julia constant parameter.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.MultiJuliaSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+        <member name="M:Fractarium.Logic.Fractals.MultiJuliaSet.IteratePoint(System.Double,System.Double)">
             <summary>
             Iterates a complex point according to a specific fractal type's formula.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
-            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
-            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
-            <returns>How many iterations were cycled through.</returns>
+            <returns>The color of the given point based on the iteration.</returns>
         </member>
         <member name="T:Fractarium.Logic.Fractals.PhoenixSet">
             <summary>
@@ -380,15 +375,13 @@
             <param name="juliaConstant">The Julia constant parameter.</param>
             <param name="phoenixConstant">The Phoenix constant parameter.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.PhoenixSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+        <member name="M:Fractarium.Logic.Fractals.PhoenixSet.IteratePoint(System.Double,System.Double)">
             <summary>
             Iterates a complex point according to a specific fractal type's formula.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
-            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
-            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
-            <returns>How many iterations were cycled through.</returns>
+            <returns>The color of the given point based on the iteration.</returns>
         </member>
         <member name="T:Fractarium.Logic.Fractals.TricornSet">
             <summary>
@@ -402,15 +395,13 @@
             <param name="parameters">Required base parameters.</param>
             <param name="palette">Required color palette.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.TricornSet.IteratePoint(System.Double,System.Double,System.Double@,System.Double@)">
+        <member name="M:Fractarium.Logic.Fractals.TricornSet.IteratePoint(System.Double,System.Double)">
             <summary>
             Iterates a complex point according to a specific fractal type's formula.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
-            <param name="nextR">Real component of the next complex number after break condition was reached.</param>
-            <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
-            <returns>How many iterations were cycled through.</returns>
+            <returns>The color of the given point based on the iteration.</returns>
         </member>
         <member name="T:Fractarium.Logic.Palette">
             <summary>
@@ -443,7 +434,7 @@
             </summary>
             <param name="colors">ARGB Colors given as hexadecimal strings.</param>
         </member>
-        <member name="M:Fractarium.Logic.Palette.ColorFromFraction(System.Double)">
+        <member name="M:Fractarium.Logic.Palette.GradientColor(System.Double)">
             <summary>
             Calculates a color between two palette colors based on a pixel's iteration count and the iteration limit.
             </summary>

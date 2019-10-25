@@ -52,7 +52,7 @@ namespace Fractarium.Logic
 		/// <param name="iterationFraction">How close the iteration count of a point is to the iteration limit.</param>
 		/// <returns>An ARGB color as a 32-bit integer.</returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public int ColorFromFraction(double iterationFraction)
+		public int GradientColor(double iterationFraction)
 		{
 			int i = (int)Math.Ceiling(iterationFraction / Ratio);
 			double v = (iterationFraction + Ratio * (1 - i)) / Ratio;
@@ -76,7 +76,7 @@ namespace Fractarium.Logic
 					if(x == 0 || y == 0 || x == width - 1 || y == height - 1)
 						*(ptr + x + y * width) = ElementColor;
 					else
-						*(ptr + x + y * width) = ColorFromFraction(x / (double)width);
+						*(ptr + x + y * width) = GradientColor(x / (double)width);
 		}
 
 		/// <summary>

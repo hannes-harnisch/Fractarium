@@ -24,7 +24,7 @@ namespace Fractarium.Logic.Fractals
 		/// <summary>
 		/// Palette of colors with which different iteration counts are colored.
 		/// </summary>
-		private readonly Palette Palette;
+		protected readonly Palette Palette;
 
 		private readonly int HalfWidth;
 
@@ -68,14 +68,7 @@ namespace Fractarium.Logic.Fractals
 				int x = pixel / Params.Height;
 				int y = pixel % Params.Height;
 				var c = GetPointFromPixel(x, y);
-				int iteration = IteratePoint(c.Real, c.Imaginary, out double nextR, out double nextI);
-				if(iteration == Params.IterationLimit)
-					*(bitmap + x + y * Params.Width) = Palette.ElementColor;
-				else
-				{
-					double normalized = iteration - Math.Log(Math.Log(Math.Sqrt(nextR * nextR + nextI * nextI), 2), 2);
-					*(bitmap + x + y * Params.Width) = Palette.ColorFromFraction(normalized / Params.IterationLimit);
-				}
+				*(bitmap + x + y * Params.Width) = IteratePoint(c.Real, c.Imaginary);
 			});
 		}
 
@@ -84,10 +77,20 @@ namespace Fractarium.Logic.Fractals
 		/// </summary>
 		/// <param name="r">Real component of the complex point to be iterated.</param>
 		/// <param name="i">Imaginary component of the complex point to be iterated.</param>
+		/// <returns>The color of the given point based on the iteration.</returns>
+		public abstract int IteratePoint(double r, double i);
+
+		/// <summary>
+		/// Normalizes the iteration value of a complex point to facilitate smoother coloring.
+		/// </summary>
+		/// <param name="iteration">The iteration value to be normalized.</param>
 		/// <param name="nextR">Real component of the next complex number after break condition was reached.</param>
 		/// <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
-		/// <returns>How many iterations were cycled through.</returns>
+		/// <returns>The normalized iteration value.</returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public abstract int IteratePoint(double r, double i, out double nextR, out double nextI);
+		protected double Normalize(int iteration, double nextR, double nextI)
+		{
+			return iteration - Math.Log(Math.Log(Math.Sqrt(nextR * nextR + nextI * nextI), 2), 2);
+		}
 	}
 }
