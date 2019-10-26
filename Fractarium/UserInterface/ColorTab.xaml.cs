@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 
@@ -22,6 +26,19 @@ namespace Fractarium.UserInterface
 
 		private const int PreviewHeight = 40;
 
+		private static readonly Dictionary<string, int> ColorByteIndices = new Dictionary<string, int>()
+		{
+			["Alpha"] = 0,
+			["Red"] = 1,
+			["Green"] = 2,
+			["Blue"] = 3,
+		};
+
+		private static readonly Regex HexColorRegex
+			= new Regex(@"^#([A-Fa-f\d]{2})([A-Fa-f\d]{2})([A-Fa-f\d]{2})([A-Fa-f\d]{2})$");
+
+		private readonly ComboBox ColorSelector;
+
 		/// <summary>
 		/// Initializes associated XAML objects.
 		/// </summary>
@@ -29,6 +46,7 @@ namespace Fractarium.UserInterface
 		{
 			AvaloniaXamlLoader.Load(this);
 			DataContext = this;
+			ColorSelector = this.Find<ComboBox>("ColorSelector");
 		}
 
 		/// <summary>
@@ -42,7 +60,7 @@ namespace Fractarium.UserInterface
 			items[0] = "Set element color";
 			for(int i = 1; i < items.Length; i++)
 				items[i] = $"Color #{i}";
-			this.Find<ComboBox>("ColorSelector").Items = items;
+			ColorSelector.Items = items;
 
 			var continuousPreview = this.Find<Image>("ContinuousPreview");
 			fixed(int* ptr = &(new int[PreviewWidth * PreviewHeight])[0])
@@ -92,14 +110,66 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnColorSelected(object sender, SelectionChangedEventArgs e)
 		{
-			byte[] color = App.Window.Context.Palette[((ComboBox)sender).SelectedIndex];
-			ColorPreview.Color = new Color(color[0], color[1], color[2], color[3]);
+			if(ColorSelector.SelectedIndex == -1)
+				ColorSelector.SelectedIndex = 0;
+			else
+			{
+				byte[] color = App.Window.Context.Palette[ColorSelector.SelectedIndex];
+				ColorPreview.Color = new Color(color[0], color[1], color[2], color[3]);
 
-			this.Find<TextBox>("HexColor").Text = $"#{color[0]:X2}{color[1]:X2}{color[2]:X2}{color[3]:X2}";
-			this.Find<TextBox>("Alpha").Text = color[0].ToString();
-			this.Find<TextBox>("Red").Text = color[1].ToString();
-			this.Find<TextBox>("Green").Text = color[2].ToString();
-			this.Find<TextBox>("Blue").Text = color[3].ToString();
+				this.Find<TextBox>("HexColor").Text = $"#{color[0]:X2}{color[1]:X2}{color[2]:X2}{color[3]:X2}";
+				foreach(var i in ColorByteIndices)
+					this.Find<TextBox>(i.Key).Text = color[i.Value].ToString();
+			}
+		}
+
+		/// <summary>
+		/// Handles user input in the hex color text box.
+		/// </summary>
+		/// <param name="sender">Source of the event.</param>
+		/// <param name="e">Data associated with the event.</param>
+		public void OnHexColorInput(object sender, KeyEventArgs e)
+		{
+			var match = HexColorRegex.Match(((TextBox)sender).Text);
+			if(match.Success)
+			{
+				foreach(int i in ColorByteIndices.Values)
+				{
+					byte value = byte.Parse(match.Groups[i + 1].Value, NumberStyles.HexNumber);
+					App.Window.Context.Palette[ColorSelector.SelectedIndex, i] = value;
+				}
+				OnColorSelected(null, null);
+			}
+			App.Window.ReactToTextBoxInput((TextBox)sender, match.Success, e);
+			UpdateControls();
+		}
+
+		/// <summary>
+		/// Handles user input in the color component text boxes.
+		/// </summary>
+		/// <param name="sender">Source of the event.</param>
+		/// <param name="e">Data associated with the event.</param>
+		public void OnColorComponentInput(object sender, KeyEventArgs e)
+		{
+			bool parsed = byte.TryParse(Clean(((TextBox)sender).Text), out byte result);
+			if(parsed)
+			{
+				int byteIndex = ColorByteIndices[((TextBox)sender).Name];
+				App.Window.Context.Palette[ColorSelector.SelectedIndex, byteIndex] = result;
+				OnColorSelected(null, null);
+			}
+			App.Window.ReactToTextBoxInput((TextBox)sender, parsed, e);
+			UpdateControls();
+		}
+
+		/// <summary>
+		/// Removes all whitespace from a string. To be used to ignore whitespace in text box inputs.
+		/// </summary>
+		/// <param name="text">A text box's text.</param>
+		/// <returns>The input without whitespace.</returns>
+		private static string Clean(string text)
+		{
+			return Regex.Replace(text, @"\s+", "");
 		}
 	}
 }

@@ -448,6 +448,14 @@
             <param name="key">Index of the palette color.</param>
             <returns>The palette color as an array of 4 bytes.</returns>
         </member>
+        <member name="P:Fractarium.Logic.Palette.Item(System.Int32,System.Int32)">
+            <summary>
+            Allows the manipulation of individual bytes of the palette.
+            </summary>
+            <param name="color">Indexes the color of the palette.</param>
+            <param name="colorByte">Indexes the byte of the ARGB color.</param>
+            <returns>The value of the indexed color and color byte.</returns>
+        </member>
         <member name="M:Fractarium.Logic.Palette.Add(System.Byte[])">
             <summary>
             Adds the given color to the palette.
@@ -559,6 +567,27 @@
             </summary>
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ColorTab.OnHexColorInput(System.Object,Avalonia.Input.KeyEventArgs)">
+            <summary>
+            Handles user input in the hex color text box.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ColorTab.OnColorComponentInput(System.Object,Avalonia.Input.KeyEventArgs)">
+            <summary>
+            Handles user input in the color component text boxes.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ColorTab.Clean(System.String)">
+            <summary>
+            Removes all whitespace from a string. To be used to ignore whitespace in text box inputs.
+            </summary>
+            <param name="text">A text box's text.</param>
+            <returns>The input without whitespace.</returns>
         </member>
         <member name="T:Fractarium.UserInterface.MainWindow">
             <summary>

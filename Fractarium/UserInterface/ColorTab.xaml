@@ -52,26 +52,31 @@
 				   Grid.Column="3">Hex color</TextBlock>
 		<TextBox Grid.Row="3"
 				 Grid.Column="3"
-				 Name="HexColor"/>
+				 Name="HexColor"
+				 KeyUp="OnHexColorInput"/>
 		<TextBlock Grid.Row="0"
 				   Grid.Column="4">Alpha</TextBlock>
 		<TextBox Grid.Row="1"
 				 Grid.Column="4"
-				 Name="Alpha"/>
+				 Name="Alpha"
+				 KeyUp="OnColorComponentInput"/>
 		<TextBlock Grid.Row="2"
 				   Grid.Column="4">Red</TextBlock>
 		<TextBox Grid.Row="3"
 				 Grid.Column="4"
-				 Name="Red"/>
+				 Name="Red"
+				 KeyUp="OnColorComponentInput"/>
 		<TextBlock Grid.Row="0"
 				   Grid.Column="5">Green</TextBlock>
 		<TextBox Grid.Row="1"
 				 Grid.Column="5"
-				 Name="Green"/>
+				 Name="Green"
+				 KeyUp="OnColorComponentInput"/>
 		<TextBlock Grid.Row="2"
 				   Grid.Column="5">Blue</TextBlock>
 		<TextBox Grid.Row="3"
 				 Grid.Column="5"
-				 Name="Blue"/>
+				 Name="Blue"
+				 KeyUp="OnColorComponentInput"/>
 	</Grid>
 </UserControl>

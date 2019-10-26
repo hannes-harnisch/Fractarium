@@ -71,6 +71,22 @@ namespace Fractarium.Logic
 		public byte[] this[int key] => new[] { P[key, 0], P[key, 1], P[key, 2], P[key, 3] };
 
 		/// <summary>
+		/// Allows the manipulation of individual bytes of the palette.
+		/// </summary>
+		/// <param name="color">Indexes the color of the palette.</param>
+		/// <param name="colorByte">Indexes the byte of the ARGB color.</param>
+		/// <returns>The value of the indexed color and color byte.</returns>
+		public byte this[int color, int colorByte]
+		{
+			get => P[color, colorByte];
+			set
+			{
+				P[color, colorByte] = value;
+				ElementColor = (P[0, 0] << 24) + (P[0, 1] << 16) + (P[0, 2] << 8) + P[0, 3];
+			}
+		}
+
+		/// <summary>
 		/// Adds the given color to the palette.
 		/// </summary>
 		/// <param name="color">The new color as an array of 4 bytes.</param>
