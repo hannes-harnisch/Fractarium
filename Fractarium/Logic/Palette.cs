@@ -64,6 +64,45 @@ namespace Fractarium.Logic
 		}
 
 		/// <summary>
+		/// Gets the palette color given by the index. To get the set element color, use key 0.
+		/// </summary>
+		/// <param name="key">Index of the palette color.</param>
+		/// <returns>The palette color as an array of 4 bytes.</returns>
+		public byte[] this[int key] => new[] { P[key, 0], P[key, 1], P[key, 2], P[key, 3] };
+
+		/// <summary>
+		/// Adds the given color to the palette.
+		/// </summary>
+		/// <param name="color">The new color as an array of 4 bytes.</param>
+		public void Add(byte[] color)
+		{
+			byte[,] newPalette = new byte[P.GetLength(0) + 1, 4];
+			for(int i = 0; i < P.GetLength(0); i++)
+				for(int j = 0; j < 4; j++)
+					newPalette[i, j] = P[i, j];
+
+			for(int i = 0; i < 4; i++)
+				newPalette[newPalette.GetLength(0) - 1, i] = color[i];
+
+			P = newPalette;
+			Ratio = 1 / (double)(P.GetLength(0) - 2);
+		}
+
+		/// <summary>
+		/// Removes the last color of the palette.
+		/// </summary>
+		public void RemoveLast()
+		{
+			byte[,] newPalette = new byte[P.GetLength(0) - 1, 4];
+			for(int i = 0; i < newPalette.GetLength(0); i++)
+				for(int j = 0; j < 4; j++)
+					newPalette[i, j] = P[i, j];
+
+			P = newPalette;
+			Ratio = 1 / (double)(P.GetLength(0) - 2);
+		}
+
+		/// <summary>
 		/// Draws a depiction of the palette with the colors blending together like a gradient.
 		/// </summary>
 		/// <param name="width">Width of the bitmap.</param>

@@ -19,17 +19,17 @@ namespace Fractarium.UserInterface
 		/// <summary>
 		/// Holds the data context for the entire user interface.
 		/// </summary>
-		public AppContext Context = new AppContext();
-
-		private bool MenuInitialized = false;
-
-		private bool AnyInvalidInput = false;
+		public readonly AppContext Context = new AppContext();
 
 		private readonly Controls Controls = new Controls();
 
 		private readonly ParameterTab ParameterTab;
 
 		private readonly ColorTab ColorTab;
+
+		private bool MenuInitialized = false;
+
+		private bool AnyInvalidInput = false;
 
 		/// <summary>
 		/// Initializes associated XAML objects.
@@ -76,7 +76,7 @@ namespace Fractarium.UserInterface
 				ParameterTab.Find<TextBox>("PhoenixConstant").Text = Context.PhoenixConstant.ProperString();
 				ParameterTab.Find<TextBox>("MultibrotExponent").Text = Context.MultibrotExponent.ToString();
 
-				ColorTab.Update(Context.Palette);
+				ColorTab.UpdateControls();
 				MenuInitialized = true;
 			}
 		}

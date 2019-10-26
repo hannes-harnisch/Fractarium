@@ -32,13 +32,11 @@ namespace Fractarium.Logic
 				string im = match.Groups[2].Value;
 				if(im == "")
 					im = match.Groups[7].Value;
-				switch(im)
-				{
-					case "": im = "0"; break;
-					case "i":
-					case "+i": im = "1"; break;
-					case "-i": im = "-1"; break;
-				}
+				if(im == "")
+					im = "0";
+				if(im.Length < 3)
+					im = im.Replace('i', '1');
+
 				result = new Complex(double.Parse(re, App.CI), double.Parse(im.TrimEnd('i'), App.CI));
 			}
 			else

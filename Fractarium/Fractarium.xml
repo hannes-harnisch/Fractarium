@@ -441,6 +441,24 @@
             <param name="iterationFraction">How close the iteration count of a point is to the iteration limit.</param>
             <returns>An ARGB color as a 32-bit integer.</returns>
         </member>
+        <member name="P:Fractarium.Logic.Palette.Item(System.Int32)">
+            <summary>
+            Gets the palette color given by the index. To get the set element color, use key 0.
+            </summary>
+            <param name="key">Index of the palette color.</param>
+            <returns>The palette color as an array of 4 bytes.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.Palette.Add(System.Byte[])">
+            <summary>
+            Adds the given color to the palette.
+            </summary>
+            <param name="color">The new color as an array of 4 bytes.</param>
+        </member>
+        <member name="M:Fractarium.Logic.Palette.RemoveLast">
+            <summary>
+            Removes the last color of the palette.
+            </summary>
+        </member>
         <member name="M:Fractarium.Logic.Palette.DrawContinuousPreview(System.Int32,System.Int32,System.Int32*)">
             <summary>
             Draws a depiction of the palette with the colors blending together like a gradient.
@@ -513,16 +531,34 @@
             The main menu tab where the color palette can be manipulated.
             </summary>
         </member>
+        <member name="P:Fractarium.UserInterface.ColorTab.ColorPreview">
+            <summary>
+            Holds the color of the color preview.
+            </summary>
+        </member>
         <member name="M:Fractarium.UserInterface.ColorTab.#ctor">
             <summary>
             Initializes associated XAML objects.
             </summary>
         </member>
-        <member name="M:Fractarium.UserInterface.ColorTab.Update(Fractarium.Logic.Palette)">
+        <member name="M:Fractarium.UserInterface.ColorTab.UpdateControls">
             <summary>
             Performs all UI updates for when a palette is set in the data context.
             </summary>
-            <param name="palette">The palette on which the updates should be based.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ColorTab.OnPaletteSizeSpin(System.Object,Avalonia.Controls.SpinEventArgs)">
+            <summary>
+            Handles the event for when the palette size spinner was used.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ColorTab.OnColorSelected(System.Object,Avalonia.Controls.SelectionChangedEventArgs)">
+            <summary>
+            Handles the event for when a color is selected in the color selector.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
         </member>
         <member name="T:Fractarium.UserInterface.MainWindow">
             <summary>
