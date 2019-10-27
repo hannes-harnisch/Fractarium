@@ -77,6 +77,8 @@ namespace Fractarium.UserInterface
 				ParameterTab.Find<TextBox>("MultibrotExponent").Text = Context.MultibrotExponent.ToString();
 
 				ColorTab.UpdateControls();
+				ColorTab.ColorSelector.SelectedIndex = 0;
+
 				MenuInitialized = true;
 			}
 		}

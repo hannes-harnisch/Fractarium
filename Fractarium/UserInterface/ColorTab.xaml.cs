@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 
@@ -22,6 +22,11 @@ namespace Fractarium.UserInterface
 		/// </summary>
 		public SolidColorBrush ColorPreview { get; set; } = new SolidColorBrush();
 
+		/// <summary>
+		/// The color selection combo box in the tab.
+		/// </summary>
+		public readonly ComboBox ColorSelector;
+
 		private const int PreviewWidth = 150;
 
 		private const int PreviewHeight = 40;
@@ -36,8 +41,6 @@ namespace Fractarium.UserInterface
 
 		private static readonly Regex HexColorRegex
 			= new Regex(@"^#([A-Fa-f\d]{2})([A-Fa-f\d]{2})([A-Fa-f\d]{2})([A-Fa-f\d]{2})$");
-
-		private readonly ComboBox ColorSelector;
 
 		/// <summary>
 		/// Initializes associated XAML objects.
@@ -77,6 +80,18 @@ namespace Fractarium.UserInterface
 				discretePreview.Source = App.MakeDefaultBitmap(PreviewWidth, PreviewHeight, ptr);
 			}
 			discretePreview.InvalidateVisual();
+			UpdateButtonsEnabled();
+		}
+
+		/// <summary>
+		/// Enables the color widening and removal buttons based on whether current palette bounds are reached.
+		/// </summary>
+		public void UpdateButtonsEnabled()
+		{
+			this.Find<Button>("WidenColor").IsEnabled = ColorSelector.SelectedIndex > 0
+				&& App.Window.Context.Palette.Size <= Palette.MaxColors;
+			this.Find<Button>("RemoveColor").IsEnabled = ColorSelector.SelectedIndex > 0
+				&& App.Window.Context.Palette.Size > 1;
 		}
 
 		/// <summary>
@@ -86,19 +101,14 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnPaletteSizeSpin(object sender, SpinEventArgs e)
 		{
-			var spinner = (TextBlock)((ButtonSpinner)sender).Content;
-			int size = int.Parse(spinner.Text) + (e.Direction == SpinDirection.Increase ? 1 : -1);
-			if(size > 0 && size < Palette.MaxColors)
+			var sizeLabel = this.Find<TextBlock>("PaletteSize");
+			int size = int.Parse(sizeLabel.Text) + (e.Direction == SpinDirection.Increase ? 1 : -1);
+			if(size > 0 && size <= Palette.MaxColors)
 			{
 				if(e.Direction == SpinDirection.Increase)
-				{
-					byte[] newColor = new byte[4];
-					new Random().NextBytes(newColor);
-					newColor[0] = 0xFF;
-					App.Window.Context.Palette.Add(newColor);
-				}
+					App.Window.Context.Palette.AppendRandom();
 				else
-					App.Window.Context.Palette.RemoveLast();
+					App.Window.Context.Palette.RemoveAt(size + 1);
 				UpdateControls();
 			}
 		}
@@ -121,6 +131,7 @@ namespace Fractarium.UserInterface
 				foreach(var i in ColorByteIndices)
 					this.Find<TextBox>(i.Key).Text = color[i.Value].ToString();
 			}
+			UpdateButtonsEnabled();
 		}
 
 		/// <summary>
@@ -130,12 +141,14 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnHexColorInput(object sender, KeyEventArgs e)
 		{
-			var match = HexColorRegex.Match(((TextBox)sender).Text);
+			string text = App.PrepareInput(((TextBox)sender).Text);
+			var match = HexColorRegex.Match(text);
 			if(match.Success)
 			{
-				foreach(int i in ColorByteIndices.Values)
+				for(int i = 0; i < 4; i++)
 				{
-					byte value = byte.Parse(match.Groups[i + 1].Value, NumberStyles.HexNumber);
+					string hexPart = match.Groups[i + 1].Value;
+					byte value = byte.Parse(hexPart, NumberStyles.HexNumber);
 					App.Window.Context.Palette[ColorSelector.SelectedIndex, i] = value;
 				}
 				OnColorSelected(null, null);
@@ -151,7 +164,8 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnColorComponentInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = byte.TryParse(Clean(((TextBox)sender).Text), out byte result);
+			string text = App.PrepareInput(((TextBox)sender).Text);
+			bool parsed = byte.TryParse(text, out byte result);
 			if(parsed)
 			{
 				int byteIndex = ColorByteIndices[((TextBox)sender).Name];
@@ -163,13 +177,27 @@ namespace Fractarium.UserInterface
 		}
 
 		/// <summary>
-		/// Removes all whitespace from a string. To be used to ignore whitespace in text box inputs.
+		/// Handles input for when a user wants to widen a color in the palette.
 		/// </summary>
-		/// <param name="text">A text box's text.</param>
-		/// <returns>The input without whitespace.</returns>
-		private static string Clean(string text)
+		/// <param name="sender">Source of the event.</param>
+		/// <param name="e">Data associated with the event.</param>
+		public void OnWidenColor(object sender, RoutedEventArgs e)
 		{
-			return Regex.Replace(text, @"\s+", "");
+			App.Window.Context.Palette.DuplicateAt(ColorSelector.SelectedIndex);
+			ColorSelector.SelectedIndex += 1;
+			UpdateControls();
+		}
+
+		/// <summary>
+		/// Handles input for when a user wants to remove a color from the palette.
+		/// </summary>
+		/// <param name="sender">Source of the event.</param>
+		/// <param name="e">Data associated with the event.</param>
+		public void OnRemoveColor(object sender, RoutedEventArgs e)
+		{
+			App.Window.Context.Palette.RemoveAt(ColorSelector.SelectedIndex);
+			ColorSelector.SelectedIndex -= 1;
+			UpdateControls();
 		}
 	}
 }

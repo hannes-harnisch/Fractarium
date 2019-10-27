@@ -7,7 +7,7 @@
 			 d:DesignHeight="125"
 			 x:Class="Fractarium.UserInterface.ColorTab">
 	<Grid RowDefinitions="Auto,Auto,Auto,Auto"
-		  ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+		  ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
 		  Name="Grid">
 		<Button Grid.Row="0"
 				Grid.Column="0"
@@ -78,5 +78,15 @@
 				 Grid.Column="5"
 				 Name="Blue"
 				 KeyUp="OnColorComponentInput"/>
+		<Button Grid.Row="0"
+				Grid.Column="6"
+				Grid.RowSpan="2"
+				Click="OnWidenColor"
+				Name="WidenColor">Widen color</Button>
+		<Button Grid.Row="2"
+				Grid.Column="6"
+				Grid.RowSpan="2"
+				Click="OnRemoveColor"
+				Name="RemoveColor">Remove color</Button>
 	</Grid>
 </UserControl>

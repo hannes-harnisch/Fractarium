@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Text.RegularExpressions;
 
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -37,7 +36,8 @@ namespace Fractarium.UserInterface
 		public void OnFractalTypeSelected(object sender, SelectionChangedEventArgs e)
 		{
 			bool[] disableTextBoxes = new bool[3];
-			switch(App.Window.Context.FractalType = FractalTypes.ByName(((ComboBox)sender).SelectedItem.ToString()))
+			App.Window.Context.FractalType = FractalTypes.ByName(((ComboBox)sender).SelectedItem.ToString());
+			switch(App.Window.Context.FractalType)
 			{
 				case FractalType.JuliaSet:
 				case FractalType.BurningShipJuliaSet:
@@ -73,7 +73,8 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnPositiveIntInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = int.TryParse(Clean(((TextBox)sender).Text), out int result) && result > 0;
+			string text = App.PrepareInput(((TextBox)sender).Text);
+			bool parsed = int.TryParse(text, out int result) && result > 0;
 			if(parsed)
 				switch(((TextBox)sender).Name)
 				{
@@ -96,7 +97,8 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnLongInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = ulong.TryParse(Clean(((TextBox)sender).Text), out ulong result) && result != 0;
+			string text = App.PrepareInput(((TextBox)sender).Text);
+			bool parsed = ulong.TryParse(text, out ulong result) && result != 0;
 			if(parsed)
 				App.Window.Context.Params.Scale = result;
 			App.Window.ReactToTextBoxInput((TextBox)sender, parsed, e);
@@ -109,7 +111,8 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnComplexInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = ComplexUtil.TryParse(Clean(((TextBox)sender).Text), out var result);
+			string text = App.PrepareInput(((TextBox)sender).Text);
+			bool parsed = ComplexUtil.TryParse(text, out var result);
 			if(parsed)
 				switch(((TextBox)sender).Name)
 				{
@@ -130,21 +133,11 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnFloatingPointInput(object sender, KeyEventArgs e)
 		{
-			bool parsed = double.TryParse(Clean(((TextBox)sender).Text), NumberStyles.Any, App.CI, out double result)
-				&& result != 0;
+			string text = App.PrepareInput(((TextBox)sender).Text);
+			bool parsed = double.TryParse(text, NumberStyles.Any, App.CI, out double result) && result != 0;
 			if(parsed)
 				App.Window.Context.MultibrotExponent = result;
 			App.Window.ReactToTextBoxInput((TextBox)sender, parsed, e);
-		}
-
-		/// <summary>
-		/// Removes all whitespace from a string. To be used to ignore whitespace in text box inputs.
-		/// </summary>
-		/// <param name="text">A text box's text.</param>
-		/// <returns>The input without whitespace.</returns>
-		private static string Clean(string text)
-		{
-			return Regex.Replace(text, @"\s+", "");
 		}
 	}
 }

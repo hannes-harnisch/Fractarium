@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 using Avalonia;
 using Avalonia.Markup.Xaml;
@@ -11,7 +12,7 @@ using Fractarium.UserInterface;
 namespace Fractarium
 {
 	/// <summary>
-	/// Encapsulates the Fractarium desktop app.
+	/// Encapsulates the Fractarium desktop app and contains utility functions for the user interface.
 	/// </summary>
 	public class App : Application
 	{
@@ -50,6 +51,16 @@ namespace Fractarium
 			var size = new PixelSize(width, height);
 			var dpi = new Vector(96, 96);
 			return new Bitmap(PixelFormat.Bgra8888, (IntPtr)ptr, size, dpi, 4 * width);
+		}
+
+		/// <summary>
+		/// Removes all whitespace from a string. To be used to ignore whitespace in text box inputs.
+		/// </summary>
+		/// <param name="text">A text box's text.</param>
+		/// <returns>The input without whitespace.</returns>
+		public static string PrepareInput(string text)
+		{
+			return Regex.Replace(text, @"\s+", "");
 		}
 	}
 }

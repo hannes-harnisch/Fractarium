@@ -6,7 +6,7 @@
     <members>
         <member name="T:Fractarium.App">
             <summary>
-            Encapsulates the Fractarium desktop app.
+            Encapsulates the Fractarium desktop app and contains utility functions for the user interface.
             </summary>
         </member>
         <member name="F:Fractarium.App.Window">
@@ -37,6 +37,13 @@
             <param name="height">The height in pixels.</param>
             <param name="ptr">A handle from an array encoding the pixels.</param>
             <returns>A bitmap with an image.</returns>
+        </member>
+        <member name="M:Fractarium.App.PrepareInput(System.String)">
+            <summary>
+            Removes all whitespace from a string. To be used to ignore whitespace in text box inputs.
+            </summary>
+            <param name="text">A text box's text.</param>
+            <returns>The input without whitespace.</returns>
         </member>
         <member name="T:Fractarium.Fractarium">
             <summary>
@@ -413,9 +420,14 @@
             Maximum amount of colors allowed in a palette excluding the set element color.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.Palette.P">
+        <member name="F:Fractarium.Logic.Palette.C">
             <summary>
             Holds the palette colors as a 2D byte array.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Palette.Ratio">
+            <summary>
+            Indicates after how much of the iteration fraction a different color should be targeted for the gradient.
             </summary>
         </member>
         <member name="P:Fractarium.Logic.Palette.Size">
@@ -456,16 +468,25 @@
             <param name="colorByte">Indexes the byte of the ARGB color.</param>
             <returns>The value of the indexed color and color byte.</returns>
         </member>
-        <member name="M:Fractarium.Logic.Palette.Add(System.Byte[])">
+        <member name="M:Fractarium.Logic.Palette.AppendRandom">
             <summary>
-            Adds the given color to the palette.
+            Appends a random new color to the end of the palette, unless it would exceed maximum size.
             </summary>
-            <param name="color">The new color as an array of 4 bytes.</param>
+            <returns>Whether a color could be appended.</returns>
         </member>
-        <member name="M:Fractarium.Logic.Palette.RemoveLast">
+        <member name="M:Fractarium.Logic.Palette.DuplicateAt(System.Int32)">
             <summary>
-            Removes the last color of the palette.
+            Inserts the color found at the specified index next to itself, unless it would exceed maximum size.
             </summary>
+            <param name="index">Indexes the color to be duplicated.</param>
+            <returns>Whether the color could be duplicated.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.Palette.RemoveAt(System.Int32)">
+            <summary>
+            Removes the specified color of the palette, unless there would be no gradient colors left.
+            </summary>
+            <param name="index">Number of the color to be removed.</param>
+            <returns>Whether the color could be removed.</returns>
         </member>
         <member name="M:Fractarium.Logic.Palette.DrawContinuousPreview(System.Int32,System.Int32,System.Int32*)">
             <summary>
@@ -544,6 +565,11 @@
             Holds the color of the color preview.
             </summary>
         </member>
+        <member name="F:Fractarium.UserInterface.ColorTab.ColorSelector">
+            <summary>
+            The color selection combo box in the tab.
+            </summary>
+        </member>
         <member name="M:Fractarium.UserInterface.ColorTab.#ctor">
             <summary>
             Initializes associated XAML objects.
@@ -552,6 +578,11 @@
         <member name="M:Fractarium.UserInterface.ColorTab.UpdateControls">
             <summary>
             Performs all UI updates for when a palette is set in the data context.
+            </summary>
+        </member>
+        <member name="M:Fractarium.UserInterface.ColorTab.UpdateButtonsEnabled">
+            <summary>
+            Enables the color widening and removal buttons based on whether current palette bounds are reached.
             </summary>
         </member>
         <member name="M:Fractarium.UserInterface.ColorTab.OnPaletteSizeSpin(System.Object,Avalonia.Controls.SpinEventArgs)">
@@ -582,12 +613,19 @@
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
         </member>
-        <member name="M:Fractarium.UserInterface.ColorTab.Clean(System.String)">
+        <member name="M:Fractarium.UserInterface.ColorTab.OnWidenColor(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
             <summary>
-            Removes all whitespace from a string. To be used to ignore whitespace in text box inputs.
+            Handles input for when a user wants to widen a color in the palette.
             </summary>
-            <param name="text">A text box's text.</param>
-            <returns>The input without whitespace.</returns>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ColorTab.OnRemoveColor(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Handles input for when a user wants to remove a color from the palette.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
         </member>
         <member name="T:Fractarium.UserInterface.MainWindow">
             <summary>
@@ -683,13 +721,6 @@
             </summary>
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
-        </member>
-        <member name="M:Fractarium.UserInterface.ParameterTab.Clean(System.String)">
-            <summary>
-            Removes all whitespace from a string. To be used to ignore whitespace in text box inputs.
-            </summary>
-            <param name="text">A text box's text.</param>
-            <returns>The input without whitespace.</returns>
         </member>
     </members>
 </doc>

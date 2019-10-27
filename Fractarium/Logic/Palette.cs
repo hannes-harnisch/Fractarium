@@ -10,26 +10,29 @@ namespace Fractarium.Logic
 	public struct Palette
 	{
 		/// <summary>
-		/// Maximum amount of colors allowed in a palette excluding the set element color.
-		/// </summary>
-		public const int MaxColors = 100;
-
-		/// <summary>
 		/// Holds the palette colors as a 2D byte array.
 		/// </summary>
-		private byte[,] P;
+		private byte[,] C;
 
-		private double Ratio;
+		/// <summary>
+		/// Indicates after how much of the iteration fraction a different color should be targeted for the gradient.
+		/// </summary>
+		private double Ratio => 1 / (double)(C.GetLength(0) - 2);
+
+		/// <summary>
+		/// Maximum amount of colors allowed in a palette excluding the set element color.
+		/// </summary>
+		public const int MaxColors = 200;
 
 		/// <summary>
 		/// Amount of colors in the palette excluding the set element color.
 		/// </summary>
-		public int Size => P.GetLength(0) - 1;
+		public int Size => C.GetLength(0) - 1;
 
 		/// <summary>
 		/// Holds the color representing a point that is part of a set-based fractal's respective set.
 		/// </summary>
-		public int ElementColor { get; private set; }
+		public int ElementColor => (C[0, 0] << 24) + (C[0, 1] << 16) + (C[0, 2] << 8) + C[0, 3];
 
 		/// <summary>
 		/// Instantiates a new palette from the given list of hexadecimal ARGB colors.
@@ -37,13 +40,10 @@ namespace Fractarium.Logic
 		/// <param name="colors">ARGB Colors given as hexadecimal strings.</param>
 		public Palette(params string[] colors)
 		{
-			P = new byte[colors.Length, 4];
+			C = new byte[colors.Length, 4];
 			for(int i = 0; i < colors.Length; i++)
 				for(int j = 0; j < 4; j++)
-					P[i, j] = byte.Parse(colors[i].Substring(j * 2, 2), NumberStyles.HexNumber);
-
-			Ratio = 1 / (double)(P.GetLength(0) - 2);
-			ElementColor = (P[0, 0] << 24) + (P[0, 1] << 16) + (P[0, 2] << 8) + P[0, 3];
+					C[i, j] = byte.Parse(colors[i].Substring(j * 2, 2), NumberStyles.HexNumber);
 		}
 
 		/// <summary>
@@ -56,10 +56,10 @@ namespace Fractarium.Logic
 		{
 			int i = (int)Math.Ceiling(iterationFraction / Ratio);
 			double v = (iterationFraction + Ratio * (1 - i)) / Ratio;
-			int a = (int)(P[i, 0] + Math.Round(v * (P[i + 1, 0] - P[i, 0]))) << 24;
-			int r = (int)(P[i, 1] + Math.Round(v * (P[i + 1, 1] - P[i, 1]))) << 16;
-			int g = (int)(P[i, 2] + Math.Round(v * (P[i + 1, 2] - P[i, 2]))) << 8;
-			int b = (int)(P[i, 3] + Math.Round(v * (P[i + 1, 3] - P[i, 3])));
+			int a = (int)(C[i, 0] + Math.Round(v * (C[i + 1, 0] - C[i, 0]))) << 24;
+			int r = (int)(C[i, 1] + Math.Round(v * (C[i + 1, 1] - C[i, 1]))) << 16;
+			int g = (int)(C[i, 2] + Math.Round(v * (C[i + 1, 2] - C[i, 2]))) << 8;
+			int b = (int)(C[i, 3] + Math.Round(v * (C[i + 1, 3] - C[i, 3])));
 			return a + r + g + b;
 		}
 
@@ -68,7 +68,7 @@ namespace Fractarium.Logic
 		/// </summary>
 		/// <param name="key">Index of the palette color.</param>
 		/// <returns>The palette color as an array of 4 bytes.</returns>
-		public byte[] this[int key] => new[] { P[key, 0], P[key, 1], P[key, 2], P[key, 3] };
+		public byte[] this[int key] => new[] { C[key, 0], C[key, 1], C[key, 2], C[key, 3] };
 
 		/// <summary>
 		/// Allows the manipulation of individual bytes of the palette.
@@ -78,44 +78,76 @@ namespace Fractarium.Logic
 		/// <returns>The value of the indexed color and color byte.</returns>
 		public byte this[int color, int colorByte]
 		{
-			get => P[color, colorByte];
-			set
-			{
-				P[color, colorByte] = value;
-				ElementColor = (P[0, 0] << 24) + (P[0, 1] << 16) + (P[0, 2] << 8) + P[0, 3];
-			}
+			get => C[color, colorByte];
+			set => C[color, colorByte] = value;
 		}
 
 		/// <summary>
-		/// Adds the given color to the palette.
+		/// Appends a random new color to the end of the palette, unless it would exceed maximum size.
 		/// </summary>
-		/// <param name="color">The new color as an array of 4 bytes.</param>
-		public void Add(byte[] color)
+		/// <returns>Whether a color could be appended.</returns>
+		public bool AppendRandom()
 		{
-			byte[,] newPalette = new byte[P.GetLength(0) + 1, 4];
-			for(int i = 0; i < P.GetLength(0); i++)
-				for(int j = 0; j < 4; j++)
-					newPalette[i, j] = P[i, j];
+			if(Size == MaxColors)
+				return false;
 
+			byte[,] newPalette = new byte[C.GetLength(0) + 1, 4];
+			for(int i = 0; i < C.GetLength(0); i++)
+				for(int j = 0; j < 4; j++)
+					newPalette[i, j] = C[i, j];
+
+			byte[] newColor = new byte[4];
+			new Random().NextBytes(newColor);
+			newColor[0] = 0xFF;
 			for(int i = 0; i < 4; i++)
-				newPalette[newPalette.GetLength(0) - 1, i] = color[i];
+				newPalette[newPalette.GetLength(0) - 1, i] = newColor[i];
 
-			P = newPalette;
-			Ratio = 1 / (double)(P.GetLength(0) - 2);
+			C = newPalette;
+			return true;
 		}
 
 		/// <summary>
-		/// Removes the last color of the palette.
+		/// Inserts the color found at the specified index next to itself, unless it would exceed maximum size.
 		/// </summary>
-		public void RemoveLast()
+		/// <param name="index">Indexes the color to be duplicated.</param>
+		/// <returns>Whether the color could be duplicated.</returns>
+		public bool DuplicateAt(int index)
 		{
-			byte[,] newPalette = new byte[P.GetLength(0) - 1, 4];
-			for(int i = 0; i < newPalette.GetLength(0); i++)
-				for(int j = 0; j < 4; j++)
-					newPalette[i, j] = P[i, j];
+			if(Size == MaxColors)
+				return false;
 
-			P = newPalette;
-			Ratio = 1 / (double)(P.GetLength(0) - 2);
+			byte[,] newPalette = new byte[C.GetLength(0) + 1, 4];
+			for(int i = 0; i < index + 1; i++)
+				for(int j = 0; j < 4; j++)
+					newPalette[i, j] = C[i, j];
+
+			for(int i = index; i < C.GetLength(0); i++)
+				for(int j = 0; j < 4; j++)
+					newPalette[i + 1, j] = C[i, j];
+			C = newPalette;
+			return true;
+		}
+
+		/// <summary>
+		/// Removes the specified color of the palette, unless there would be no gradient colors left.
+		/// </summary>
+		/// <param name="index">Number of the color to be removed.</param>
+		/// <returns>Whether the color could be removed.</returns>
+		public bool RemoveAt(int index)
+		{
+			if(Size == 1)
+				return false;
+
+			byte[,] newPalette = new byte[C.GetLength(0) - 1, 4];
+			for(int i = 0; i < index; i++)
+				for(int j = 0; j < 4; j++)
+					newPalette[i, j] = C[i, j];
+
+			for(int i = index + 1; i < C.GetLength(0); i++)
+				for(int j = 0; j < 4; j++)
+					newPalette[i - 1, j] = C[i, j];
+			C = newPalette;
+			return true;
 		}
 
 		/// <summary>
@@ -142,7 +174,7 @@ namespace Fractarium.Logic
 		/// <param name="ptr">Handle to the array encoding the bitmap.</param>
 		public unsafe void DrawDiscretePreview(int width, int height, int* ptr)
 		{
-			double r = 1 / (double)(P.GetLength(0) - 1);
+			double r = 1 / (double)(C.GetLength(0) - 1);
 			for(int x = 0; x < width; x++)
 				for(int y = 0; y < height; y++)
 					if(x == 0 || y == 0 || x == width - 1 || y == height - 1)
@@ -150,7 +182,7 @@ namespace Fractarium.Logic
 					else
 					{
 						int i = (int)Math.Ceiling(x / (double)width / r);
-						*(ptr + x + y * width) = (P[i, 0] << 24) + (P[i, 1] << 16) + (P[i, 2] << 8) + P[i, 3];
+						*(ptr + x + y * width) = (C[i, 0] << 24) + (C[i, 1] << 16) + (C[i, 2] << 8) + C[i, 3];
 					}
 		}
 	}
