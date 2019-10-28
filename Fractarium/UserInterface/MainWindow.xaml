@@ -28,6 +28,7 @@
 			</TabControl>
 		</StackPanel>
 		<Image Name="Image"
-			   PointerReleased="Zoom"/>
+			   PointerReleased="TrackMouseOnImage"
+			   DoubleTapped="Zoom"/>
 	</DockPanel>
 </Window>

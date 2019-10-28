@@ -90,7 +90,8 @@ namespace Fractarium.Logic.Fractals
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		protected double Normalize(int iteration, double nextR, double nextI)
 		{
-			return iteration - Math.Log(Math.Log(Math.Sqrt(nextR * nextR + nextI * nextI), 2), 2);
+			double value = iteration - Math.Log(Math.Log(Math.Sqrt(nextR * nextR + nextI * nextI), 2), 2);
+			return value < 0 ? 0 : value;
 		}
 	}
 }

@@ -31,6 +31,12 @@ namespace Fractarium.UserInterface
 
 		private bool AnyInvalidInput = false;
 
+		private int ImageCursorX;
+
+		private int ImageCursorY;
+
+		private MouseButton ImageClickMouseButton;
+
 		/// <summary>
 		/// Initializes associated XAML objects.
 		/// </summary>
@@ -117,23 +123,34 @@ namespace Fractarium.UserInterface
 		}
 
 		/// <summary>
-		/// Zooms into the image by evaluating mouse position, updating parameters and re-rendering.
+		/// Tracks the image pixel position of the mouse when moved over the image.
 		/// </summary>
 		/// <param name="sender">Source of the event.</param>
 		/// <param name="e">Data associated with the event.</param>
-		public void Zoom(object sender, PointerReleasedEventArgs e)
+		public void TrackMouseOnImage(object sender, PointerReleasedEventArgs e)
 		{
-			int x = (int)(e.GetPosition((Image)sender).X * App.ScreenEnhancement);
-			int y = (int)(e.GetPosition((Image)sender).Y * App.ScreenEnhancement);
+			// TODO: multiply by image resizing
+			ImageCursorX = (int)(e.GetPosition((Image)sender).X * App.ScreenEnhancement);
+			ImageCursorY = (int)(e.GetPosition((Image)sender).Y * App.ScreenEnhancement);
+			ImageClickMouseButton = e.MouseButton;
+		}
 
-			var midpointBox = ParameterTab.Find<TextBox>("Midpoint");
-			midpointBox.Text = Context.Fractal.GetPointFromPixel(x, y).ProperString();
-			ParameterTab.OnComplexInput(midpointBox, null);
+		/// <summary>
+		/// Zooms into the image by evaluating tracked mouse input data, updating parameters and re-rendering.
+		/// Cannot extract mouse input data from event parameter due to framework design.
+		/// </summary>
+		/// <param name="sender">Source of the event.</param>
+		/// <param name="e">Data associated with the event.</param>
+		public void Zoom(object sender, RoutedEventArgs e)
+		{
+			var midpoint = ParameterTab.Find<TextBox>("Midpoint");
+			midpoint.Text = Context.Fractal.GetPointFromPixel(ImageCursorX, ImageCursorY).ProperString();
+			ParameterTab.OnComplexInput(midpoint, null);
 
-			int exp = e.MouseButton == MouseButton.Right ? -1 : 1;
-			var scaleBox = ParameterTab.Find<TextBox>("Scale");
-			scaleBox.Text = ((ulong)(Context.Params.Scale * Math.Pow(Context.ZoomFactor, exp))).ToString();
-			ParameterTab.OnLongInput(scaleBox, null);
+			int exp = ImageClickMouseButton == MouseButton.Right ? -1 : 1;
+			var scale = ParameterTab.Find<TextBox>("Scale");
+			scale.Text = ((ulong)(Context.Params.Scale * Math.Pow(Context.ZoomFactor, exp))).ToString();
+			ParameterTab.OnLongInput(scale, null);
 
 			InitRender(null, null);
 		}

@@ -11,18 +11,22 @@
 		  Name="Grid">
 		<Button Grid.Row="0"
 				Grid.Column="0"
-				Grid.RowSpan="2">Save palette</Button>
+				Grid.RowSpan="2"
+				Classes="ColorTab">Save palette</Button>
 		<Button Grid.Row="2"
 				Grid.Column="0"
-				Grid.RowSpan="2">Load palette</Button>
+				Grid.RowSpan="2"
+				Classes="ColorTab">Load palette</Button>
 		<Image Grid.Row="0"
 			   Grid.Column="1"
 			   Grid.RowSpan="2"
-			   Name="ContinuousPreview"/>
+			   Name="ContinuousPreview"
+			   PointerReleased="SelectColorFromPreview"/>
 		<Image Grid.Row="2"
 			   Grid.Column="1"
 			   Grid.RowSpan="2"
-			   Name="DiscretePreview"/>
+			   Name="DiscretePreview"
+			   PointerReleased="SelectColorFromPreview"/>
 		<TextBlock Grid.Row="0"
 				   Grid.Column="2">Palette size</TextBlock>
 		<ButtonSpinner Grid.Row="1"
@@ -82,11 +86,13 @@
 				Grid.Column="6"
 				Grid.RowSpan="2"
 				Click="OnWidenColor"
-				Name="WidenColor">Widen color</Button>
+				Name="WidenColor"
+				Classes="ColorTab">Widen color</Button>
 		<Button Grid.Row="2"
 				Grid.Column="6"
 				Grid.RowSpan="2"
 				Click="OnRemoveColor"
-				Name="RemoveColor">Remove color</Button>
+				Name="RemoveColor"
+				Classes="ColorTab">Remove color</Button>
 	</Grid>
 </UserControl>

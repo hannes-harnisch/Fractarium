@@ -415,19 +415,24 @@
             Represents a list of ARGB colors that serves as the basis for coloring a fractal image.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.Palette.MaxColors">
-            <summary>
-            Maximum amount of colors allowed in a palette excluding the set element color.
-            </summary>
-        </member>
         <member name="F:Fractarium.Logic.Palette.C">
             <summary>
             Holds the palette colors as a 2D byte array.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.Palette.Ratio">
+        <member name="P:Fractarium.Logic.Palette.Ratio">
             <summary>
             Indicates after how much of the iteration fraction a different color should be targeted for the gradient.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Palette.MaxColors">
+            <summary>
+            Maximum amount of colors allowed in a palette excluding the set element color.
+            </summary>
+        </member>
+        <member name="F:Fractarium.Logic.Palette.MinColors">
+            <summary>
+            Minimum amount of colors allowed in a palette excluding the set element color.
             </summary>
         </member>
         <member name="P:Fractarium.Logic.Palette.Size">
@@ -585,6 +590,13 @@
             Enables the color widening and removal buttons based on whether current palette bounds are reached.
             </summary>
         </member>
+        <member name="M:Fractarium.UserInterface.ColorTab.SelectColorFromPreview(System.Object,Avalonia.Input.PointerReleasedEventArgs)">
+            <summary>
+            Sets the color selector to what color was clicked on in the preview.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
         <member name="M:Fractarium.UserInterface.ColorTab.OnPaletteSizeSpin(System.Object,Avalonia.Controls.SpinEventArgs)">
             <summary>
             Handles the event for when the palette size spinner was used.
@@ -665,9 +677,17 @@
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
         </member>
-        <member name="M:Fractarium.UserInterface.MainWindow.Zoom(System.Object,Avalonia.Input.PointerReleasedEventArgs)">
+        <member name="M:Fractarium.UserInterface.MainWindow.TrackMouseOnImage(System.Object,Avalonia.Input.PointerReleasedEventArgs)">
             <summary>
-            Zooms into the image by evaluating mouse position, updating parameters and re-rendering.
+            Tracks the image pixel position of the mouse when moved over the image.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.MainWindow.Zoom(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Zooms into the image by evaluating tracked mouse input data, updating parameters and re-rendering.
+            Cannot extract mouse input data from event parameter due to framework design.
             </summary>
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>

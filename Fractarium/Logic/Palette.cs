@@ -22,7 +22,12 @@ namespace Fractarium.Logic
 		/// <summary>
 		/// Maximum amount of colors allowed in a palette excluding the set element color.
 		/// </summary>
-		public const int MaxColors = 200;
+		public const int MaxColors = 64;
+
+		/// <summary>
+		/// Minimum amount of colors allowed in a palette excluding the set element color.
+		/// </summary>
+		public const int MinColors = 2;
 
 		/// <summary>
 		/// Amount of colors in the palette excluding the set element color.
@@ -135,10 +140,10 @@ namespace Fractarium.Logic
 		/// <returns>Whether the color could be removed.</returns>
 		public bool RemoveAt(int index)
 		{
-			if(Size == 1)
+			if(Size == MinColors)
 				return false;
 
-			byte[,] newPalette = new byte[C.GetLength(0) - 1, 4];
+			byte[,] newPalette = new byte[Size, 4];
 			for(int i = 0; i < index; i++)
 				for(int j = 0; j < 4; j++)
 					newPalette[i, j] = C[i, j];
@@ -174,14 +179,13 @@ namespace Fractarium.Logic
 		/// <param name="ptr">Handle to the array encoding the bitmap.</param>
 		public unsafe void DrawDiscretePreview(int width, int height, int* ptr)
 		{
-			double r = 1 / (double)(C.GetLength(0) - 1);
 			for(int x = 0; x < width; x++)
 				for(int y = 0; y < height; y++)
 					if(x == 0 || y == 0 || x == width - 1 || y == height - 1)
 						*(ptr + x + y * width) = ElementColor;
 					else
 					{
-						int i = (int)Math.Ceiling(x / (double)width / r);
+						int i = (int)Math.Ceiling(x / (double)width * Size);
 						*(ptr + x + y * width) = (C[i, 0] << 24) + (C[i, 1] << 16) + (C[i, 2] << 8) + C[i, 3];
 					}
 		}

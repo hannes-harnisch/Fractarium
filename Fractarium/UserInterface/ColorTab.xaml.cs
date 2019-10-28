@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -89,9 +90,21 @@ namespace Fractarium.UserInterface
 		public void UpdateButtonsEnabled()
 		{
 			this.Find<Button>("WidenColor").IsEnabled = ColorSelector.SelectedIndex > 0
-				&& App.Window.Context.Palette.Size <= Palette.MaxColors;
+				&& App.Window.Context.Palette.Size < Palette.MaxColors;
 			this.Find<Button>("RemoveColor").IsEnabled = ColorSelector.SelectedIndex > 0
-				&& App.Window.Context.Palette.Size > 1;
+				&& App.Window.Context.Palette.Size > Palette.MinColors;
+		}
+
+		/// <summary>
+		/// Sets the color selector to what color was clicked on in the preview.
+		/// </summary>
+		/// <param name="sender">Source of the event.</param>
+		/// <param name="e">Data associated with the event.</param>
+		public void SelectColorFromPreview(object sender, PointerReleasedEventArgs e)
+		{
+			double x = e.GetPosition((Image)sender).X;
+			double colorFraction = x / PreviewWidth * App.Window.Context.Palette.Size;
+			ColorSelector.SelectedIndex = (int)Math.Ceiling(colorFraction);
 		}
 
 		/// <summary>
@@ -103,7 +116,7 @@ namespace Fractarium.UserInterface
 		{
 			var sizeLabel = this.Find<TextBlock>("PaletteSize");
 			int size = int.Parse(sizeLabel.Text) + (e.Direction == SpinDirection.Increase ? 1 : -1);
-			if(size > 0 && size <= Palette.MaxColors)
+			if(size >= Palette.MinColors && size <= Palette.MaxColors)
 			{
 				if(e.Direction == SpinDirection.Increase)
 					App.Window.Context.Palette.AppendRandom();
@@ -184,8 +197,8 @@ namespace Fractarium.UserInterface
 		public void OnWidenColor(object sender, RoutedEventArgs e)
 		{
 			App.Window.Context.Palette.DuplicateAt(ColorSelector.SelectedIndex);
-			ColorSelector.SelectedIndex += 1;
 			UpdateControls();
+			ColorSelector.SelectedIndex += 1;
 		}
 
 		/// <summary>
