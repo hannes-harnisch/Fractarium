@@ -31,9 +31,9 @@ namespace Fractarium.UserInterface
 
 		private bool AnyInvalidInput = false;
 
-		private int ImageCursorX;
+		private double ImageCursorX;
 
-		private int ImageCursorY;
+		private double ImageCursorY;
 
 		private MouseButton ImageClickMouseButton;
 
@@ -70,7 +70,8 @@ namespace Fractarium.UserInterface
 						width.Text = ((int)(bounds.Width * App.ScreenEnhancement)).ToString();
 						ParameterTab.OnPositiveIntInput(width, null);
 
-						double h = (bounds.Height - this.Find<TabControl>("Menu").Bounds.Height) * App.ScreenEnhancement;
+						double menuHeight = this.Find<TabControl>("Menu").Bounds.Height;
+						double h = (bounds.Height - menuHeight) * App.ScreenEnhancement;
 						var height = ParameterTab.Find<TextBox>("Height");
 						height.Text = ((int)h).ToString();
 						ParameterTab.OnPositiveIntInput(height, null);
@@ -98,9 +99,12 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the key event from input.</param>
 		public void ReactToTextBoxInput(TextBox box, bool parsed, KeyEventArgs e)
 		{
-			box.Classes = new Classes(parsed ? "" : "Error");
+			if(parsed)
+				box.Classes.Remove("Error");
+			else
+				box.Classes.Add("Error");
 
-			AnyInvalidInput = Controls.Any(control => control.Classes.Contains("Error"));
+			AnyInvalidInput = Controls.Any(c => c.IsEnabled && c.Classes.Contains("Error"));
 			this.Find<Button>("RenderButton").IsEnabled = !AnyInvalidInput;
 
 			if(e?.Key == Key.Enter)
@@ -130,8 +134,8 @@ namespace Fractarium.UserInterface
 		public void TrackMouseOnImage(object sender, PointerReleasedEventArgs e)
 		{
 			// TODO: multiply by image resizing
-			ImageCursorX = (int)(e.GetPosition((Image)sender).X * App.ScreenEnhancement);
-			ImageCursorY = (int)(e.GetPosition((Image)sender).Y * App.ScreenEnhancement);
+			ImageCursorX = e.GetPosition((Image)sender).X * App.ScreenEnhancement;
+			ImageCursorY = e.GetPosition((Image)sender).Y * App.ScreenEnhancement;
 			ImageClickMouseButton = e.MouseButton;
 		}
 

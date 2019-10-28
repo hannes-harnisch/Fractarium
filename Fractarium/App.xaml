@@ -16,10 +16,18 @@
 		</Style>
 		<Style Selector="ComboBox, TextBox, ButtonSpinner">
 			<Setter Property="Margin">0,0,10,5</Setter>
-			<Setter Property="MinWidth">120</Setter>
 		</Style>
 		<Style Selector="CheckBox">
 			<Setter Property="Margin">0,0,10,0</Setter>
+		</Style>
+		<Style Selector=".Narrow">
+			<Setter Property="MinWidth">50</Setter>
+		</Style>
+		<Style Selector=".NormalWide">
+			<Setter Property="MinWidth">75</Setter>
+		</Style>
+		<Style Selector=".Wide">
+			<Setter Property="MinWidth">125</Setter>
 		</Style>
 		<Style Selector="TextBox.Error">
 			<Setter Property="Background">

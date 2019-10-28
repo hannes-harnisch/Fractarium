@@ -50,10 +50,10 @@ namespace Fractarium.Logic.Fractals
 		/// <param name="y">The pixel's Y coordinate.</param>
 		/// <returns>The corresponding point on the complex plane.</returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public Complex GetPointFromPixel(int x, int y)
+		public Complex GetPointFromPixel(double x, double y)
 		{
-			double r = (double)(x - HalfWidth) / Params.Scale + Params.Midpoint.Real;
-			double i = (double)(y - HalfHeight) / Params.Scale + Params.Midpoint.Imaginary;
+			double r = (x - HalfWidth) / Params.Scale + Params.Midpoint.Real;
+			double i = (y - HalfHeight) / Params.Scale + Params.Midpoint.Imaginary;
 			return new Complex(r, i);
 		}
 

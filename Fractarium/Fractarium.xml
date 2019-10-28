@@ -186,7 +186,7 @@
             <param name="parameters">Required base parameters.</param>
             <param name="palette">Required color palette.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.Fractal.GetPointFromPixel(System.Int32,System.Int32)">
+        <member name="M:Fractarium.Logic.Fractals.Fractal.GetPointFromPixel(System.Double,System.Double)">
             <summary>
             Calculates the complex point from the fractal parameters and given pixel coordinates.
             </summary>
