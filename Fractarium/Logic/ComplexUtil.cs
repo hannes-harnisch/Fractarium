@@ -45,16 +45,33 @@ namespace Fractarium.Logic
 		}
 
 		/// <summary>
-		/// Generates a string representation of a complex number.
+		/// Generates a concise string representation of a complex number.
 		/// </summary>
 		/// <param name="c">The complex input.</param>
 		/// <returns>The string representation.</returns>
-		public static string ProperString(this Complex c)
+		public static string MathString(this Complex c)
 		{
-			string s = c.Real.ToString(Format, App.CI);
-			if(c.Imaginary >= 0)
-				s += "+";
-			return s + c.Imaginary.ToString(Format, App.CI) + "i";
+			if(c == Complex.Zero)
+				return "0";
+			string s = "";
+			string re = c.Real.ToString(Format, App.CI);
+			string im = c.Imaginary.ToString(Format, App.CI);
+			if(c.Real != 0)
+			{
+				s += re;
+				if(c.Imaginary > 0)
+					s += "+";
+			}
+			if(c.Imaginary != 0)
+			{
+				if(c.Imaginary == 1)
+					s += "i";
+				else if(c.Imaginary == -1)
+					s += "-i";
+				else
+					s += im + "i";
+			}
+			return s;
 		}
 		private static readonly string Format = "0." + new string('#', 339);
 	}

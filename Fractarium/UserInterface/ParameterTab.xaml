@@ -19,7 +19,8 @@
 				  Name="FractalType"/>
 		<CheckBox Grid.Row="2"
 				  Grid.Column="0"
-				  IsChecked="{Binding BindImageSizeToWindow}">Bind image size to window size</CheckBox>
+				  IsChecked="{Binding BindImageSizeToWindow}"
+				  Click="OnBindImageSizeToWindow">Bind image size to window size</CheckBox>
 		<CheckBox Grid.Row="3"
 				  Grid.Column="0">Use arbitrary-precision arithmetic</CheckBox>
 		<TextBlock Grid.Row="0"

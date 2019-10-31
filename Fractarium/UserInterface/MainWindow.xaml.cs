@@ -62,31 +62,37 @@ namespace Fractarium.UserInterface
 		{
 			if(!MenuInitialized)
 			{
-				this.GetObservable(BoundsProperty).Subscribe(bounds =>
-				{
-					if(ParameterTab.BindImageSizeToWindow)
-					{
-						var width = ParameterTab.Find<TextBox>("Width");
-						width.Text = ((int)(bounds.Width * App.ScreenEnhancement)).ToString();
-						ParameterTab.OnPositiveIntInput(width, null);
-
-						double menuHeight = this.Find<TabControl>("Menu").Bounds.Height;
-						double h = (bounds.Height - menuHeight) * App.ScreenEnhancement;
-						var height = ParameterTab.Find<TextBox>("Height");
-						height.Text = ((int)h).ToString();
-						ParameterTab.OnPositiveIntInput(height, null);
-					}
-				});
+				this.GetObservable(BoundsProperty).Subscribe(SetSizeParametersFromBounds);
 				ParameterTab.Find<ComboBox>("FractalType").SelectedIndex = 0;
 				ParameterTab.Find<TextBox>("ZoomFactor").Text = Context.ZoomFactor.ToString();
-				ParameterTab.Find<TextBox>("JuliaConstant").Text = Context.JuliaConstant.ProperString();
-				ParameterTab.Find<TextBox>("PhoenixConstant").Text = Context.PhoenixConstant.ProperString();
+				ParameterTab.Find<TextBox>("JuliaConstant").Text = Context.JuliaConstant.MathString();
+				ParameterTab.Find<TextBox>("PhoenixConstant").Text = Context.PhoenixConstant.MathString();
 				ParameterTab.Find<TextBox>("MultibrotExponent").Text = Context.MultibrotExponent.ToString();
 
 				ColorTab.UpdateControls();
 				ColorTab.ColorSelector.SelectedIndex = 0;
 
 				MenuInitialized = true;
+			}
+		}
+
+		/// <summary>
+		/// If the option is enabled, sets the image width and height parameters from the window size.
+		/// </summary>
+		/// <param name="bounds">Bounds property of the window.</param>
+		public void SetSizeParametersFromBounds(Rect bounds)
+		{
+			if(ParameterTab.BindImageSizeToWindow)
+			{
+				var widthBox = ParameterTab.Find<TextBox>("Width");
+				widthBox.Text = ((int)(bounds.Width * App.ScreenEnhancement)).ToString();
+				ParameterTab.OnPositiveIntInput(widthBox, null);
+
+				double menuHeight = this.Find<TabControl>("Menu").Bounds.Height;
+				double h = (bounds.Height - menuHeight) * App.ScreenEnhancement;
+				var heightBox = ParameterTab.Find<TextBox>("Height");
+				heightBox.Text = ((int)h).ToString();
+				ParameterTab.OnPositiveIntInput(heightBox, null);
 			}
 		}
 
@@ -133,9 +139,8 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void TrackMouseOnImage(object sender, PointerReleasedEventArgs e)
 		{
-			// TODO: multiply by image resizing
-			ImageCursorX = e.GetPosition((Image)sender).X * App.ScreenEnhancement;
-			ImageCursorY = e.GetPosition((Image)sender).Y * App.ScreenEnhancement;
+			ImageCursorX = Context.Params.Width * e.GetPosition((Image)sender).X / ((Image)sender).Bounds.Width;
+			ImageCursorY = Context.Params.Height * e.GetPosition((Image)sender).Y / ((Image)sender).Bounds.Height;
 			ImageClickMouseButton = e.MouseButton;
 		}
 
@@ -148,12 +153,16 @@ namespace Fractarium.UserInterface
 		public void Zoom(object sender, RoutedEventArgs e)
 		{
 			var midpoint = ParameterTab.Find<TextBox>("Midpoint");
-			midpoint.Text = Context.Fractal.GetPointFromPixel(ImageCursorX, ImageCursorY).ProperString();
+			midpoint.Text = Context.Fractal.GetPointFromPixel(ImageCursorX, ImageCursorY).MathString();
 			ParameterTab.OnComplexInput(midpoint, null);
 
-			int exp = ImageClickMouseButton == MouseButton.Right ? -1 : 1;
+			ulong newScale;
+			if(ImageClickMouseButton == MouseButton.Right)
+				newScale = Context.Params.Scale / (ulong)Context.ZoomFactor;
+			else
+				newScale = Context.Params.Scale * (ulong)Context.ZoomFactor;
 			var scale = ParameterTab.Find<TextBox>("Scale");
-			scale.Text = ((ulong)(Context.Params.Scale * Math.Pow(Context.ZoomFactor, exp))).ToString();
+			scale.Text = newScale.ToString();
 			ParameterTab.OnLongInput(scale, null);
 
 			InitRender(null, null);

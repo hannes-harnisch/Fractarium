@@ -143,7 +143,7 @@ namespace Fractarium.Logic
 			if(Size == MinColors)
 				return false;
 
-			byte[,] newPalette = new byte[Size, 4];
+			byte[,] newPalette = new byte[C.GetLength(0) - 1, 4];
 			for(int i = 0; i < index; i++)
 				for(int j = 0; j < 4; j++)
 					newPalette[i, j] = C[i, j];

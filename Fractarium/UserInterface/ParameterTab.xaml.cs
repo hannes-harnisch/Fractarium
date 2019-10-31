@@ -2,6 +2,7 @@
 
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
 using Fractarium.Logic;
@@ -53,17 +54,27 @@ namespace Fractarium.UserInterface
 			this.Find<TextBox>("PhoenixConstant").IsEnabled = disableTextBoxes[1];
 			this.Find<TextBox>("MultibrotExponent").IsEnabled = disableTextBoxes[2];
 
-			var iterationLimit = this.Find<TextBox>("IterationLimit");
-			iterationLimit.Text = "100";
-			OnPositiveIntInput(iterationLimit, null);
+			var iterationLimitBox = this.Find<TextBox>("IterationLimit");
+			iterationLimitBox.Text = "100";
+			OnPositiveIntInput(iterationLimitBox, null);
 
-			var scale = this.Find<TextBox>("Scale");
-			scale.Text = "200";
-			OnLongInput(scale, null);
+			var scaleBox = this.Find<TextBox>("Scale");
+			scaleBox.Text = "200";
+			OnLongInput(scaleBox, null);
 
-			var midpoint = this.Find<TextBox>("Midpoint");
-			midpoint.Text = "0";
-			OnComplexInput(midpoint, null);
+			var midpointBox = this.Find<TextBox>("Midpoint");
+			midpointBox.Text = "0";
+			OnComplexInput(midpointBox, null);
+		}
+
+		/// <summary>
+		/// Handles the event when someone clicks the check box for binding the image size to window size.
+		/// </summary>
+		/// <param name="sender">Source of the event.</param>
+		/// <param name="e">Data associated with the event.</param>
+		public void OnBindImageSizeToWindow(object sender, RoutedEventArgs e)
+		{
+			App.Window.SetSizeParametersFromBounds(App.Window.Bounds);
 		}
 
 		/// <summary>

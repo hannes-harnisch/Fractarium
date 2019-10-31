@@ -110,9 +110,9 @@
             <param name="result">A complex number parsed from the string or zero if parsing failed.</param>
             <returns>Whether the conversion succeeded or failed.</returns>
         </member>
-        <member name="M:Fractarium.Logic.ComplexUtil.ProperString(System.Numerics.Complex)">
+        <member name="M:Fractarium.Logic.ComplexUtil.MathString(System.Numerics.Complex)">
             <summary>
-            Generates a string representation of a complex number.
+            Generates a concise string representation of a complex number.
             </summary>
             <param name="c">The complex input.</param>
             <returns>The string representation.</returns>
@@ -661,6 +661,12 @@
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
         </member>
+        <member name="M:Fractarium.UserInterface.MainWindow.SetSizeParametersFromBounds(Avalonia.Rect)">
+            <summary>
+            If the option is enabled, sets the image width and height parameters from the window size.
+            </summary>
+            <param name="bounds">Bounds property of the window.</param>
+        </member>
         <member name="M:Fractarium.UserInterface.MainWindow.ReactToTextBoxInput(Avalonia.Controls.TextBox,System.Boolean,Avalonia.Input.KeyEventArgs)">
             <summary>
             Sets a text box's styling to the appropriate style and disables the render button depending on the
@@ -710,6 +716,13 @@
         <member name="M:Fractarium.UserInterface.ParameterTab.OnFractalTypeSelected(System.Object,Avalonia.Controls.SelectionChangedEventArgs)">
             <summary>
             Sets the fractal type parameter to the type selected in the combo box.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.ParameterTab.OnBindImageSizeToWindow(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+            <summary>
+            Handles the event when someone clicks the check box for binding the image size to window size.
             </summary>
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
