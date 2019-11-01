@@ -80,11 +80,11 @@
 				 KeyUp="OnComplexInput"
 				 Classes="Wide"/>
 		<TextBlock Grid.Row="0"
-				   Grid.Column="5">Multibrot exponent</TextBlock>
+				   Grid.Column="5">Exponent</TextBlock>
 		<TextBox Grid.Row="1"
 				 Grid.Column="5"
-				 Name="MultibrotExponent"
+				 Name="Exponent"
 				 KeyUp="OnFloatingPointInput"
-				 Classes="Wide"/>
+				 Classes="NormalWide"/>
 	</Grid>
 </UserControl>

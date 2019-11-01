@@ -43,6 +43,8 @@ namespace Fractarium.UserInterface
 		private static readonly Regex HexColorRegex
 			= new Regex(@"^#([A-Fa-f\d]{2})([A-Fa-f\d]{2})([A-Fa-f\d]{2})([A-Fa-f\d]{2})$");
 
+		private const int HexColorProperLength = 9;
+
 		/// <summary>
 		/// Initializes associated XAML objects.
 		/// </summary>
@@ -155,6 +157,9 @@ namespace Fractarium.UserInterface
 		public void OnHexColorInput(object sender, KeyEventArgs e)
 		{
 			string text = App.PrepareInput(((TextBox)sender).Text);
+			if(text.Length > HexColorProperLength)
+				((TextBox)sender).Text = text = text.Remove(HexColorProperLength);
+
 			var match = HexColorRegex.Match(text);
 			if(match.Success)
 			{

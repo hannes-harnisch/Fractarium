@@ -67,7 +67,7 @@ namespace Fractarium.UserInterface
 				ParameterTab.Find<TextBox>("ZoomFactor").Text = Context.ZoomFactor.ToString();
 				ParameterTab.Find<TextBox>("JuliaConstant").Text = Context.JuliaConstant.MathString();
 				ParameterTab.Find<TextBox>("PhoenixConstant").Text = Context.PhoenixConstant.MathString();
-				ParameterTab.Find<TextBox>("MultibrotExponent").Text = Context.MultibrotExponent.ToString();
+				ParameterTab.Find<TextBox>("Exponent").Text = Context.Exponent.ToString();
 
 				ColorTab.UpdateControls();
 				ColorTab.ColorSelector.SelectedIndex = 0;
@@ -139,8 +139,9 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void TrackMouseOnImage(object sender, PointerReleasedEventArgs e)
 		{
-			ImageCursorX = Context.Params.Width * e.GetPosition((Image)sender).X / ((Image)sender).Bounds.Width;
-			ImageCursorY = Context.Params.Height * e.GetPosition((Image)sender).Y / ((Image)sender).Bounds.Height;
+			var img = (Image)sender;
+			ImageCursorX = Context.Params.Width * e.GetPosition(img).X / img.Bounds.Width;
+			ImageCursorY = Context.Params.Height * e.GetPosition(img).Y / img.Bounds.Height;
 			ImageClickMouseButton = e.MouseButton;
 		}
 
@@ -152,18 +153,18 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void Zoom(object sender, RoutedEventArgs e)
 		{
-			var midpoint = ParameterTab.Find<TextBox>("Midpoint");
-			midpoint.Text = Context.Fractal.GetPointFromPixel(ImageCursorX, ImageCursorY).MathString();
-			ParameterTab.OnComplexInput(midpoint, null);
+			var midpointBox = ParameterTab.Find<TextBox>("Midpoint");
+			midpointBox.Text = Context.Fractal.GetPointFromPixel(ImageCursorX, ImageCursorY).MathString();
+			ParameterTab.OnComplexInput(midpointBox, null);
 
 			ulong newScale;
 			if(ImageClickMouseButton == MouseButton.Right)
 				newScale = Context.Params.Scale / (ulong)Context.ZoomFactor;
 			else
 				newScale = Context.Params.Scale * (ulong)Context.ZoomFactor;
-			var scale = ParameterTab.Find<TextBox>("Scale");
-			scale.Text = newScale.ToString();
-			ParameterTab.OnLongInput(scale, null);
+			var scaleBox = ParameterTab.Find<TextBox>("Scale");
+			scaleBox.Text = newScale.ToString();
+			ParameterTab.OnLongInput(scaleBox, null);
 
 			InitRender(null, null);
 		}

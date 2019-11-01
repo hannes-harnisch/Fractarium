@@ -26,6 +26,11 @@ namespace Fractarium.Logic.Fractals
 		/// </summary>
 		protected readonly Palette Palette;
 
+		/// <summary>
+		/// The exponent the central variable in the fractal equation is raised to.
+		/// </summary>
+		protected readonly double Power;
+
 		private readonly int HalfWidth;
 
 		private readonly int HalfHeight;
@@ -35,10 +40,12 @@ namespace Fractarium.Logic.Fractals
 		/// </summary>
 		/// <param name="parameters">Required base parameters.</param>
 		/// <param name="palette">Required color palette.</param>
-		protected Fractal(BaseParameters parameters, Palette palette)
+		/// <param name="power">Exponent required for the generalized fractal equation.</param>
+		protected Fractal(BaseParameters parameters, Palette palette, double power)
 		{
 			Params = parameters;
 			Palette = palette;
+			Power = power;
 			HalfWidth = Params.Width / 2;
 			HalfHeight = Params.Height / 2;
 		}
@@ -61,24 +68,41 @@ namespace Fractarium.Logic.Fractals
 		/// Draws the image of the fractal starting on a 32-bit unsigned integer pointer.
 		/// </summary>
 		/// <param name="bitmap">Pointer to the first bitmap pixel.</param>
-		public virtual unsafe void DrawImage(int* bitmap)
+		public unsafe void DrawImage(int* bitmap)
 		{
-			Parallel.For(0, Params.Width * Params.Height, pixel =>
-			{
-				int x = pixel / Params.Height;
-				int y = pixel % Params.Height;
-				var c = GetPointFromPixel(x, y);
-				*(bitmap + x + y * Params.Width) = IteratePoint(c.Real, c.Imaginary);
-			});
+			if(Power == 2)
+				Parallel.For(0, Params.Width * Params.Height, pixel =>
+				{
+					int x = pixel / Params.Height;
+					int y = pixel % Params.Height;
+					var c = GetPointFromPixel(x, y);
+					*(bitmap + x + y * Params.Width) = Iterate(c.Real, c.Imaginary);
+				});
+			else
+				Parallel.For(0, Params.Width * Params.Height, pixel =>
+				{
+					int x = pixel / Params.Height;
+					int y = pixel % Params.Height;
+					var c = GetPointFromPixel(x, y);
+					*(bitmap + x + y * Params.Width) = IterateWithExponent(c.Real, c.Imaginary);
+				});
 		}
 
 		/// <summary>
-		/// Iterates a complex point according to a specific fractal type's formula.
+		/// Iterates a complex point according to a specific fractal type's equation.
 		/// </summary>
 		/// <param name="r">Real component of the complex point to be iterated.</param>
 		/// <param name="i">Imaginary component of the complex point to be iterated.</param>
 		/// <returns>The color of the given point based on the iteration.</returns>
-		public abstract int IteratePoint(double r, double i);
+		public abstract int Iterate(double r, double i);
+
+		/// <summary>
+		/// Iterates a complex point according to the generalized fractal equation with a different exponent.
+		/// </summary>
+		/// <param name="r">Real component of the complex point to be iterated.</param>
+		/// <param name="i">Imaginary component of the complex point to be iterated.</param>
+		/// <returns>The color of the given point based on the iteration.</returns>
+		public abstract int IterateWithExponent(double r, double i);
 
 		/// <summary>
 		/// Normalizes the iteration value of a complex point to facilitate smoother coloring.

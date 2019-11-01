@@ -122,17 +122,26 @@
             Represents a fractal image based on the Burning Ship Julia set.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.BurningShipJuliaSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Numerics.Complex)">
+        <member name="M:Fractarium.Logic.Fractals.BurningShipJuliaSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Double,System.Numerics.Complex)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
             <param name="palette">Required color palette.</param>
+            <param name="power">Exponent required for the generalized fractal equation.</param>
             <param name="juliaConstant">The Julia constant parameter.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.BurningShipJuliaSet.IteratePoint(System.Double,System.Double)">
+        <member name="M:Fractarium.Logic.Fractals.BurningShipJuliaSet.Iterate(System.Double,System.Double)">
             <summary>
-            Iterates a complex point according to a specific fractal type's formula.
+            Iterates a complex point according to a specific fractal type's equation.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <returns>The color of the given point based on the iteration.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.BurningShipJuliaSet.IterateWithExponent(System.Double,System.Double)">
+            <summary>
+            Iterates a complex point according to the generalized fractal equation with a different exponent.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
@@ -143,16 +152,25 @@
             Represents a fractal image based on the Burning Ship set.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.BurningShipSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette)">
+        <member name="M:Fractarium.Logic.Fractals.BurningShipSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Double)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
             <param name="palette">Required color palette.</param>
+            <param name="power">Exponent required for the generalized fractal equation.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.BurningShipSet.IteratePoint(System.Double,System.Double)">
+        <member name="M:Fractarium.Logic.Fractals.BurningShipSet.Iterate(System.Double,System.Double)">
             <summary>
-            Iterates a complex point according to a specific fractal type's formula.
+            Iterates a complex point according to a specific fractal type's equation.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <returns>The color of the given point based on the iteration.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.BurningShipSet.IterateWithExponent(System.Double,System.Double)">
+            <summary>
+            Iterates a complex point according to the generalized fractal equation with a different exponent.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
@@ -179,12 +197,18 @@
             Palette of colors with which different iteration counts are colored.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.Fractal.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette)">
+        <member name="F:Fractarium.Logic.Fractals.Fractal.Power">
+            <summary>
+            The exponent the central variable in the fractal equation is raised to.
+            </summary>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.Fractal.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Double)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
             <param name="palette">Required color palette.</param>
+            <param name="power">Exponent required for the generalized fractal equation.</param>
         </member>
         <member name="M:Fractarium.Logic.Fractals.Fractal.GetPointFromPixel(System.Double,System.Double)">
             <summary>
@@ -200,9 +224,17 @@
             </summary>
             <param name="bitmap">Pointer to the first bitmap pixel.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.Fractal.IteratePoint(System.Double,System.Double)">
+        <member name="M:Fractarium.Logic.Fractals.Fractal.Iterate(System.Double,System.Double)">
             <summary>
-            Iterates a complex point according to a specific fractal type's formula.
+            Iterates a complex point according to a specific fractal type's equation.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <returns>The color of the given point based on the iteration.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.Fractal.IterateWithExponent(System.Double,System.Double)">
+            <summary>
+            Iterates a complex point according to the generalized fractal equation with a different exponent.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
@@ -247,16 +279,6 @@
             Indicates a fractal generated with the Burning Ship Julia set formula.
             </summary>
         </member>
-        <member name="F:Fractarium.Logic.Fractals.FractalType.MultibrotSet">
-            <summary>
-            Indicates a fractal generated with the Multibrot set formula.
-            </summary>
-        </member>
-        <member name="F:Fractarium.Logic.Fractals.FractalType.MultiJuliaSet">
-            <summary>
-            Indicates a fractal generated with the Multibrot Julia set formula.
-            </summary>
-        </member>
         <member name="F:Fractarium.Logic.Fractals.FractalType.TricornSet">
             <summary>
             Indicates a fractal generated with the Tricorn set formula.
@@ -264,7 +286,7 @@
         </member>
         <member name="F:Fractarium.Logic.Fractals.FractalType.LyapunovFractal">
             <summary>
-            Indicates a fractal generated with the Lyapunov fractal formula.
+            Indicates a fractal generated with the Lyapunov fractal equation.
             </summary>
         </member>
         <member name="T:Fractarium.Logic.Fractals.FractalTypes">
@@ -289,17 +311,26 @@
             Represents a fractal image based on the Julia set.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.JuliaSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Numerics.Complex)">
+        <member name="M:Fractarium.Logic.Fractals.JuliaSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Double,System.Numerics.Complex)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
             <param name="palette">Required color palette.</param>
+            <param name="power">Exponent required for the generalized fractal equation.</param>
             <param name="juliaConstant">The Julia constant parameter.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.JuliaSet.IteratePoint(System.Double,System.Double)">
+        <member name="M:Fractarium.Logic.Fractals.JuliaSet.Iterate(System.Double,System.Double)">
             <summary>
-            Iterates a complex point according to a specific fractal type's formula.
+            Iterates a complex point according to a specific fractal type's equation.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <returns>The color of the given point based on the iteration.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.JuliaSet.IterateWithExponent(System.Double,System.Double)">
+            <summary>
+            Iterates a complex point according to the generalized fractal equation with a different exponent.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
@@ -310,59 +341,25 @@
             Represents a fractal image based on the Mandelbrot set.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette)">
+        <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Double)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
             <param name="palette">Required color palette.</param>
+            <param name="power">Exponent required for the generalized fractal equation.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.IteratePoint(System.Double,System.Double)">
+        <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.Iterate(System.Double,System.Double)">
             <summary>
-            Iterates a complex point according to a specific fractal type's formula.
+            Iterates a complex point according to a specific fractal type's equation.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
             <returns>The color of the given point based on the iteration.</returns>
         </member>
-        <member name="T:Fractarium.Logic.Fractals.MultibrotSet">
+        <member name="M:Fractarium.Logic.Fractals.MandelbrotSet.IterateWithExponent(System.Double,System.Double)">
             <summary>
-            Represents a fractal image based on the Multibrot set.
-            </summary>
-        </member>
-        <member name="M:Fractarium.Logic.Fractals.MultibrotSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Double)">
-            <summary>
-            Assigns all required parameters.
-            </summary>
-            <param name="parameters">Required base parameters.</param>
-            <param name="palette">Required color palette.</param>
-            <param name="exponent">Exponent required for the Multibrot set.</param>
-        </member>
-        <member name="M:Fractarium.Logic.Fractals.MultibrotSet.IteratePoint(System.Double,System.Double)">
-            <summary>
-            Iterates a complex point according to a specific fractal type's formula.
-            </summary>
-            <param name="r">Real component of the complex point to be iterated.</param>
-            <param name="i">Imaginary component of the complex point to be iterated.</param>
-            <returns>The color of the given point based on the iteration.</returns>
-        </member>
-        <member name="T:Fractarium.Logic.Fractals.MultiJuliaSet">
-            <summary>
-            Represents a fractal image based on the Multi-Julia set.
-            </summary>
-        </member>
-        <member name="M:Fractarium.Logic.Fractals.MultiJuliaSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Double,System.Numerics.Complex)">
-            <summary>
-            Assigns all required parameters.
-            </summary>
-            <param name="parameters">Required base parameters.</param>
-            <param name="palette">Required color palette.</param>
-            <param name="exponent">Exponent required for the Multibrot set.</param>
-            <param name="juliaConstant">The Julia constant parameter.</param>
-        </member>
-        <member name="M:Fractarium.Logic.Fractals.MultiJuliaSet.IteratePoint(System.Double,System.Double)">
-            <summary>
-            Iterates a complex point according to a specific fractal type's formula.
+            Iterates a complex point according to the generalized fractal equation with a different exponent.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
@@ -373,18 +370,27 @@
             Represents a fractal image based on the Phoenix set.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.PhoenixSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Numerics.Complex,System.Numerics.Complex)">
+        <member name="M:Fractarium.Logic.Fractals.PhoenixSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Double,System.Numerics.Complex,System.Numerics.Complex)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
             <param name="palette">Required color palette.</param>
+            <param name="power">Exponent required for the generalized fractal equation.</param>
             <param name="juliaConstant">The Julia constant parameter.</param>
             <param name="phoenixConstant">The Phoenix constant parameter.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.PhoenixSet.IteratePoint(System.Double,System.Double)">
+        <member name="M:Fractarium.Logic.Fractals.PhoenixSet.Iterate(System.Double,System.Double)">
             <summary>
-            Iterates a complex point according to a specific fractal type's formula.
+            Iterates a complex point according to a specific fractal type's equation.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <returns>The color of the given point based on the iteration.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.PhoenixSet.IterateWithExponent(System.Double,System.Double)">
+            <summary>
+            Iterates a complex point according to the generalized fractal equation with a different exponent.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
@@ -395,16 +401,25 @@
             Represents a fractal image based on the Tricorn set.
             </summary>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.TricornSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette)">
+        <member name="M:Fractarium.Logic.Fractals.TricornSet.#ctor(Fractarium.Logic.BaseParameters,Fractarium.Logic.Palette,System.Double)">
             <summary>
             Assigns all required parameters.
             </summary>
             <param name="parameters">Required base parameters.</param>
             <param name="palette">Required color palette.</param>
+            <param name="power">Exponent required for the generalized fractal equation.</param>
         </member>
-        <member name="M:Fractarium.Logic.Fractals.TricornSet.IteratePoint(System.Double,System.Double)">
+        <member name="M:Fractarium.Logic.Fractals.TricornSet.Iterate(System.Double,System.Double)">
             <summary>
-            Iterates a complex point according to a specific fractal type's formula.
+            Iterates a complex point according to a specific fractal type's equation.
+            </summary>
+            <param name="r">Real component of the complex point to be iterated.</param>
+            <param name="i">Imaginary component of the complex point to be iterated.</param>
+            <returns>The color of the given point based on the iteration.</returns>
+        </member>
+        <member name="M:Fractarium.Logic.Fractals.TricornSet.IterateWithExponent(System.Double,System.Double)">
+            <summary>
+            Iterates a complex point according to the generalized fractal equation with a different exponent.
             </summary>
             <param name="r">Real component of the complex point to be iterated.</param>
             <param name="i">Imaginary component of the complex point to be iterated.</param>
@@ -539,7 +554,7 @@
             The constant coefficient used in the Phoenix set.
             </summary>
         </member>
-        <member name="P:Fractarium.UserInterface.AppContext.MultibrotExponent">
+        <member name="P:Fractarium.UserInterface.AppContext.Exponent">
             <summary>
             The constant coefficient used for fractals related to the Multibrot set.
             </summary>

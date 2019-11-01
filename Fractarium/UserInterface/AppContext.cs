@@ -40,7 +40,7 @@ namespace Fractarium.UserInterface
 		/// <summary>
 		/// The constant coefficient used for fractals related to the Multibrot set.
 		/// </summary>
-		public double MultibrotExponent { get; set; } = 2;
+		public double Exponent { get; set; } = 2;
 
 		/// <summary>
 		/// Holds the parameter values most recently parsed from the parameter tab.
@@ -61,23 +61,17 @@ namespace Fractarium.UserInterface
 			switch(FractalType)
 			{
 				case FractalType.MandelbrotSet:
-					Fractal = new MandelbrotSet(Params, Palette); break;
+					Fractal = new MandelbrotSet(Params, Palette, Exponent); break;
 				case FractalType.JuliaSet:
-					Fractal = new JuliaSet(Params, Palette, JuliaConstant); break;
+					Fractal = new JuliaSet(Params, Palette, Exponent, JuliaConstant); break;
 				case FractalType.PhoenixSet:
-					Fractal = new PhoenixSet(Params, Palette, JuliaConstant, PhoenixConstant); break;
+					Fractal = new PhoenixSet(Params, Palette, Exponent, JuliaConstant, PhoenixConstant); break;
 				case FractalType.BurningShipSet:
-					Fractal = new BurningShipSet(Params, Palette); break;
+					Fractal = new BurningShipSet(Params, Palette, Exponent); break;
 				case FractalType.BurningShipJuliaSet:
-					Fractal = new BurningShipJuliaSet(Params, Palette, JuliaConstant); break;
-				case FractalType.MultibrotSet:
-					Fractal = new MultibrotSet(Params, Palette, MultibrotExponent); break;
-				case FractalType.MultiJuliaSet:
-					Fractal = new MultiJuliaSet(Params, Palette, MultibrotExponent, JuliaConstant); break;
+					Fractal = new BurningShipJuliaSet(Params, Palette, Exponent, JuliaConstant); break;
 				case FractalType.TricornSet:
-					Fractal = new TricornSet(Params, Palette); break;
-					//case FractalType.LyapunovFractal:
-					//fractal = new LyapunovFractal(Params); break;
+					Fractal = new TricornSet(Params, Palette, Exponent); break;
 			}
 
 			fixed(int* ptr = &(new int[Params.Width * Params.Height])[0])

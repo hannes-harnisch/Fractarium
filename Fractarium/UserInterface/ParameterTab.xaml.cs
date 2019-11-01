@@ -36,23 +36,19 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnFractalTypeSelected(object sender, SelectionChangedEventArgs e)
 		{
-			bool[] disableTextBoxes = new bool[3];
 			App.Window.Context.FractalType = FractalTypes.ByName(((ComboBox)sender).SelectedItem.ToString());
+
+			(bool, bool) boxEnableSetting = (false, false);
 			switch(App.Window.Context.FractalType)
 			{
 				case FractalType.JuliaSet:
 				case FractalType.BurningShipJuliaSet:
-					disableTextBoxes = new[] { true, false, false }; break;
+					boxEnableSetting = (true, false); break;
 				case FractalType.PhoenixSet:
-					disableTextBoxes = new[] { true, true, false }; break;
-				case FractalType.MultibrotSet:
-					disableTextBoxes = new[] { false, false, true }; break;
-				case FractalType.MultiJuliaSet:
-					disableTextBoxes = new[] { true, false, true }; break;
+					boxEnableSetting = (true, true); break;
 			}
-			this.Find<TextBox>("JuliaConstant").IsEnabled = disableTextBoxes[0];
-			this.Find<TextBox>("PhoenixConstant").IsEnabled = disableTextBoxes[1];
-			this.Find<TextBox>("MultibrotExponent").IsEnabled = disableTextBoxes[2];
+			this.Find<TextBox>("JuliaConstant").IsEnabled = boxEnableSetting.Item1;
+			this.Find<TextBox>("PhoenixConstant").IsEnabled = boxEnableSetting.Item2;
 
 			var iterationLimitBox = this.Find<TextBox>("IterationLimit");
 			iterationLimitBox.Text = "100";
@@ -147,7 +143,7 @@ namespace Fractarium.UserInterface
 			string text = App.PrepareInput(((TextBox)sender).Text);
 			bool parsed = double.TryParse(text, NumberStyles.Any, App.CI, out double result) && result != 0;
 			if(parsed)
-				App.Window.Context.MultibrotExponent = result;
+				App.Window.Context.Exponent = result;
 			App.Window.ReactToTextBoxInput((TextBox)sender, parsed, e);
 		}
 	}
