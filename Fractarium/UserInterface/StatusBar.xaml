@@ -1,0 +1,19 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d"
+			 d:DesignWidth="800"
+			 d:DesignHeight="20"
+			 x:Class="Fractarium.UserInterface.StatusBar">
+	<StackPanel DockPanel.Dock="Bottom"
+				Orientation="Horizontal"
+				MinHeight="16"
+				MaxHeight="16"
+				VerticalAlignment="Bottom"
+				Background="White">
+		<TextBlock HorizontalAlignment="Right">Point at cursor:&#32;</TextBlock>
+		<TextBlock HorizontalAlignment="Right"
+				   Name="Coordinates"/>
+	</StackPanel>
+</UserControl>

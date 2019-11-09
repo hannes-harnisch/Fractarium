@@ -61,11 +61,14 @@ namespace Fractarium.Logic
 		{
 			int i = (int)Math.Ceiling(iterationFraction / Ratio);
 			double v = (iterationFraction + Ratio * (1 - i)) / Ratio;
-			int a = (int)(C[i, 0] + Math.Round(v * (C[i + 1, 0] - C[i, 0]))) << 24;
-			int r = (int)(C[i, 1] + Math.Round(v * (C[i + 1, 1] - C[i, 1]))) << 16;
-			int g = (int)(C[i, 2] + Math.Round(v * (C[i + 1, 2] - C[i, 2]))) << 8;
-			int b = (int)(C[i, 3] + Math.Round(v * (C[i + 1, 3] - C[i, 3])));
-			return a + r + g + b;
+			unchecked
+			{
+				int a = (int)(C[i, 0] + Math.Round(v * (C[i + 1, 0] - C[i, 0]))) << 24;
+				int r = (int)(C[i, 1] + Math.Round(v * (C[i + 1, 1] - C[i, 1]))) << 16;
+				int g = (int)(C[i, 2] + Math.Round(v * (C[i + 1, 2] - C[i, 2]))) << 8;
+				int b = (int)(C[i, 3] + Math.Round(v * (C[i + 1, 3] - C[i, 3])));
+				return a + r + g + b;
+			}
 		}
 
 		/// <summary>

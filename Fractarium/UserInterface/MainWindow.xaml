@@ -27,8 +27,11 @@
 				</TabItem>
 			</TabControl>
 		</StackPanel>
-		<Image Name="Image"
-			   PointerReleased="TrackMouseOnImage"
-			   DoubleTapped="Zoom"/>
+		<Image DockPanel.Dock="Top"
+			   PointerMoved="TrackCursorPositionOnImage"
+			   PointerReleased="TrackImageClick"
+			   DoubleTapped="Zoom"
+			   Name="Image"/>
+		<ui:StatusBar Name="StatusBar"/>
 	</DockPanel>
 </Window>

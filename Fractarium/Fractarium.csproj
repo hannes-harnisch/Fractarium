@@ -20,9 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Remove="UserInterface\ColorTab.xaml" />
+    <AvaloniaResource Remove="UserInterface\StatusBar.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="UserInterface\ColorTab.xaml" />
+    <None Remove="UserInterface\StatusBar.xaml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.8.3" />
@@ -31,6 +33,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UserInterface\ColorTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UserInterface\StatusBar.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>

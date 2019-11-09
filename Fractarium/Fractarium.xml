@@ -698,9 +698,16 @@
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
         </member>
-        <member name="M:Fractarium.UserInterface.MainWindow.TrackMouseOnImage(System.Object,Avalonia.Input.PointerReleasedEventArgs)">
+        <member name="M:Fractarium.UserInterface.MainWindow.TrackCursorPositionOnImage(System.Object,Avalonia.Input.PointerEventArgs)">
             <summary>
             Tracks the image pixel position of the mouse when moved over the image.
+            </summary>
+            <param name="sender">Source of the event.</param>
+            <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="M:Fractarium.UserInterface.MainWindow.TrackImageClick(System.Object,Avalonia.Input.PointerReleasedEventArgs)">
+            <summary>
+            Tracks which mouse button was used when the image was clicked on.
             </summary>
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
@@ -769,6 +776,22 @@
             </summary>
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
+        </member>
+        <member name="T:Fractarium.UserInterface.StatusBar">
+            <summary>
+            The status bar at the bottom of the user interface that shows relevant information about
+            the current program state.
+            </summary>
+        </member>
+        <member name="P:Fractarium.UserInterface.StatusBar.Coordinates">
+            <summary>
+            Sets the information about the real component of the currently hovered over complex point.
+            </summary>
+        </member>
+        <member name="M:Fractarium.UserInterface.StatusBar.#ctor">
+            <summary>
+            Initializes XAML elements.
+            </summary>
         </member>
     </members>
 </doc>

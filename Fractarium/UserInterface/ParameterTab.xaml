@@ -21,8 +21,6 @@
 				  Grid.Column="0"
 				  IsChecked="{Binding BindImageSizeToWindow}"
 				  Click="OnBindImageSizeToWindow">Bind image size to window size</CheckBox>
-		<CheckBox Grid.Row="3"
-				  Grid.Column="0">Use arbitrary-precision arithmetic</CheckBox>
 		<TextBlock Grid.Row="0"
 				   Grid.Column="1">Width</TextBlock>
 		<TextBox Grid.Row="1"

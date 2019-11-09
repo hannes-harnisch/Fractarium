@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Numerics;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -27,13 +28,13 @@ namespace Fractarium.UserInterface
 
 		private readonly ColorTab ColorTab;
 
+		private readonly StatusBar StatusBar;
+
 		private bool MenuInitialized = false;
 
 		private bool AnyInvalidInput = false;
 
-		private double ImageCursorX;
-
-		private double ImageCursorY;
+		private Complex ImageCursorPoint;
 
 		private MouseButton ImageClickMouseButton;
 
@@ -48,6 +49,7 @@ namespace Fractarium.UserInterface
 #endif
 			ParameterTab = this.Find<ParameterTab>("ParameterTab");
 			ColorTab = this.Find<ColorTab>("ColorTab");
+			StatusBar = this.Find<StatusBar>("StatusBar");
 
 			Controls.AddRange(ParameterTab.Find<Grid>("Grid").Children);
 			Controls.AddRange(ColorTab.Find<Grid>("Grid").Children);
@@ -89,7 +91,8 @@ namespace Fractarium.UserInterface
 				ParameterTab.OnPositiveIntInput(widthBox, null);
 
 				double menuHeight = this.Find<TabControl>("Menu").Bounds.Height;
-				double h = (bounds.Height - menuHeight) * App.ScreenEnhancement;
+				double statusBarHeight = this.Find<StatusBar>("StatusBar").Bounds.Height;
+				double h = (bounds.Height - menuHeight - statusBarHeight) * App.ScreenEnhancement;
 				var heightBox = ParameterTab.Find<TextBox>("Height");
 				heightBox.Text = ((int)h).ToString();
 				ParameterTab.OnPositiveIntInput(heightBox, null);
@@ -137,11 +140,23 @@ namespace Fractarium.UserInterface
 		/// </summary>
 		/// <param name="sender">Source of the event.</param>
 		/// <param name="e">Data associated with the event.</param>
-		public void TrackMouseOnImage(object sender, PointerReleasedEventArgs e)
+		public void TrackCursorPositionOnImage(object sender, PointerEventArgs e)
 		{
 			var img = (Image)sender;
-			ImageCursorX = Context.Params.Width * e.GetPosition(img).X / img.Bounds.Width;
-			ImageCursorY = Context.Params.Height * e.GetPosition(img).Y / img.Bounds.Height;
+			double x = Context.Params.Width * e.GetPosition(img).X / img.Bounds.Width;
+			double y = Context.Params.Height * e.GetPosition(img).Y / img.Bounds.Height;
+			ImageCursorPoint = Context.Fractal.GetPointFromPixel(x, y);
+
+			StatusBar.Coordinates = ImageCursorPoint.MathString();
+		}
+
+		/// <summary>
+		/// Tracks which mouse button was used when the image was clicked on.
+		/// </summary>
+		/// <param name="sender">Source of the event.</param>
+		/// <param name="e">Data associated with the event.</param>
+		public void TrackImageClick(object sender, PointerReleasedEventArgs e)
+		{
 			ImageClickMouseButton = e.MouseButton;
 		}
 
@@ -154,7 +169,7 @@ namespace Fractarium.UserInterface
 		public void Zoom(object sender, RoutedEventArgs e)
 		{
 			var midpointBox = ParameterTab.Find<TextBox>("Midpoint");
-			midpointBox.Text = Context.Fractal.GetPointFromPixel(ImageCursorX, ImageCursorY).MathString();
+			midpointBox.Text = ImageCursorPoint.MathString();
 			ParameterTab.OnComplexInput(midpointBox, null);
 
 			ulong newScale;
