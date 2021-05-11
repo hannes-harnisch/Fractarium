@@ -43,7 +43,7 @@ namespace Fractarium.Logic.Fractals
 	/// </summary>
 	public static class FractalTypes
 	{
-		private static readonly Dictionary<FractalType, string> names = new Dictionary<FractalType, string>()
+		private static readonly Dictionary<FractalType, string> names = new()
 		{
 			[FractalType.MandelbrotSet] = "Mandelbrot set",
 			[FractalType.JuliaSet] = "Julia set",

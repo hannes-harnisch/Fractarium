@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -61,7 +61,7 @@ namespace Fractarium.Logic.Fractals
 		{
 			double r = (x - HalfWidth) / Params.Scale + Params.Midpoint.Real;
 			double i = (y - HalfHeight) / Params.Scale + Params.Midpoint.Imaginary;
-			return new Complex(r, i);
+			return new(r, i);
 		}
 
 		/// <summary>
@@ -70,22 +70,19 @@ namespace Fractarium.Logic.Fractals
 		/// <param name="bitmap">Pointer to the first bitmap pixel.</param>
 		public unsafe void DrawImage(int* bitmap)
 		{
+			Func<double, double, int> iterate;
 			if(Power == 2)
-				Parallel.For(0, Params.Width * Params.Height, pixel =>
-				{
-					int x = pixel / Params.Height;
-					int y = pixel % Params.Height;
-					var c = GetPointFromPixel(x, y);
-					*(bitmap + x + y * Params.Width) = Iterate(c.Real, c.Imaginary);
-				});
+				iterate = Iterate;
 			else
-				Parallel.For(0, Params.Width * Params.Height, pixel =>
-				{
-					int x = pixel / Params.Height;
-					int y = pixel % Params.Height;
-					var c = GetPointFromPixel(x, y);
-					*(bitmap + x + y * Params.Width) = IterateWithExponent(c.Real, c.Imaginary);
-				});
+				iterate = IterateWithExponent;
+
+			_ = Parallel.For(0, Params.Width * Params.Height, pixel =>
+			{
+				int x = pixel / Params.Height;
+				int y = pixel % Params.Height;
+				var c = GetPointFromPixel(x, y);
+				*(bitmap + x + y * Params.Width) = iterate(c.Real, c.Imaginary);
+			});
 		}
 
 		/// <summary>
@@ -112,7 +109,7 @@ namespace Fractarium.Logic.Fractals
 		/// <param name="nextI">Imaginary component of the next complex number after break condition was reached.</param>
 		/// <returns>The normalized iteration value.</returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected double Normalize(int iteration, double nextR, double nextI)
+		protected static double Normalize(int iteration, double nextR, double nextI)
 		{
 			double value = iteration - Math.Log(Math.Log(Math.Sqrt(nextR * nextR + nextI * nextI), 2), 2);
 			return value < 0 ? 0 : value;

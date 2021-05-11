@@ -1,12 +1,10 @@
-﻿using System.Globalization;
-
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-
 using Fractarium.Logic;
 using Fractarium.Logic.Fractals;
+using System.Globalization;
 
 namespace Fractarium.UserInterface
 {
@@ -141,7 +139,7 @@ namespace Fractarium.UserInterface
 		public void OnFloatingPointInput(object sender, KeyEventArgs e)
 		{
 			string text = App.PrepareInput(((TextBox)sender).Text);
-			bool parsed = double.TryParse(text, NumberStyles.Any, App.CI, out double result) && result != 0;
+			bool parsed = double.TryParse(text, NumberStyles.Any, App.Locale, out double result) && result != 0;
 			if(parsed)
 				App.Window.Context.Exponent = result;
 			App.Window.ReactToTextBoxInput((TextBox)sender, parsed, e);

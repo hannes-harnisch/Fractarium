@@ -12,7 +12,7 @@ namespace Fractarium.Logic
 		/// Matches a complex number.
 		/// </summary>
 		private static readonly Regex ComplexRegex
-			= new Regex(@"^(([-\+]?(\d+(\.\d+)?)?i)|([-\+]?\d+(\.\d+)?)([-\+](\d+(\.\d+)?)?i)?)$");
+			= new(@"^(([-\+]?(\d+(\.\d+)?)?i)|([-\+]?\d+(\.\d+)?)([-\+](\d+(\.\d+)?)?i)?)$");
 
 		/// <summary>
 		/// Tries to convert the string representation of a number to its complex number equivalent.
@@ -37,7 +37,7 @@ namespace Fractarium.Logic
 				if(im.Length < 3)
 					im = im.Replace('i', '1');
 
-				result = new Complex(double.Parse(re, App.CI), double.Parse(im.TrimEnd('i'), App.CI));
+				result = new(double.Parse(re, App.Locale), double.Parse(im.TrimEnd('i'), App.Locale));
 			}
 			else
 				result = Complex.Zero;
@@ -49,13 +49,13 @@ namespace Fractarium.Logic
 		/// </summary>
 		/// <param name="c">The complex input.</param>
 		/// <returns>The string representation.</returns>
-		public static string MathString(this Complex c)
+		public static string ToMathString(this Complex c)
 		{
 			if(c == Complex.Zero)
 				return "0";
 			string s = "";
-			string re = c.Real.ToString(Format, App.CI);
-			string im = c.Imaginary.ToString(Format, App.CI);
+			string re = c.Real.ToString(Format, App.Locale);
+			string im = c.Imaginary.ToString(Format, App.Locale);
 			if(c.Real != 0)
 			{
 				s += re;

@@ -1,5 +1,4 @@
 ﻿using Avalonia;
-using Avalonia.Logging.Serilog;
 
 namespace Fractarium
 {
@@ -14,7 +13,7 @@ namespace Fractarium
 		/// <param name="args">Optional arguments given in the command line.</param>
 		public static void Main(string[] args)
 		{
-			BuildAvaloniaApp().Start((app, appArgs) => app.Run(App.Window), args);
+			_ = BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
 		}
 
 		/// <summary>
@@ -23,7 +22,7 @@ namespace Fractarium
 		/// <returns>Object that initializes platform-specific services for the app.</returns>
 		public static AppBuilder BuildAvaloniaApp()
 		{
-			return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug();
+			return AppBuilder.Configure<App>().UsePlatformDetect().LogToTrace();
 		}
 	}
 }

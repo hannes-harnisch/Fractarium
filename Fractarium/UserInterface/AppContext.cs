@@ -1,9 +1,7 @@
-﻿using System.Numerics;
-
-using Avalonia.Media.Imaging;
-
+﻿using Avalonia.Media.Imaging;
 using Fractarium.Logic;
 using Fractarium.Logic.Fractals;
+using System.Numerics;
 
 namespace Fractarium.UserInterface
 {
@@ -45,12 +43,12 @@ namespace Fractarium.UserInterface
 		/// <summary>
 		/// Holds the parameter values most recently parsed from the parameter tab.
 		/// </summary>
-		public BaseParameters Params = new BaseParameters();
+		public BaseParameters Params = new();
 
 		/// <summary>
 		/// Holds the currently selected color palette.
 		/// </summary>
-		public Palette Palette = new Palette("FF000000", "FF0000FF", "FFFF00FF", "FFFF0000", "FFFFFF00", "FFFFFFFF");
+		public Palette Palette = new("FF000000", "FF0000FF", "FFFF00FF", "FFFF0000", "FFFFFF00", "FFFFFFFF");
 
 		/// <summary>
 		/// Uses current parameters to render a fractal image.

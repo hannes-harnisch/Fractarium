@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text.RegularExpressions;
-
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-
 using Fractarium.Logic;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Fractarium.UserInterface
 {
@@ -21,7 +19,7 @@ namespace Fractarium.UserInterface
 		/// <summary>
 		/// Holds the color of the color preview.
 		/// </summary>
-		public SolidColorBrush ColorPreview { get; set; } = new SolidColorBrush();
+		public SolidColorBrush ColorPreview { get; set; } = new();
 
 		/// <summary>
 		/// The color selection combo box in the tab.
@@ -32,7 +30,7 @@ namespace Fractarium.UserInterface
 
 		private const int PreviewHeight = 40;
 
-		private static readonly Dictionary<string, int> ColorByteIndices = new Dictionary<string, int>()
+		private static readonly Dictionary<string, int> ColorByteIndices = new()
 		{
 			["Alpha"] = 0,
 			["Red"] = 1,
@@ -41,7 +39,7 @@ namespace Fractarium.UserInterface
 		};
 
 		private static readonly Regex HexColorRegex
-			= new Regex(@"^#([A-Fa-f\d]{2})([A-Fa-f\d]{2})([A-Fa-f\d]{2})([A-Fa-f\d]{2})$");
+			= new(@"^#([A-Fa-f\d]{2})([A-Fa-f\d]{2})([A-Fa-f\d]{2})([A-Fa-f\d]{2})$");
 
 		private const int HexColorProperLength = 9;
 
@@ -93,6 +91,7 @@ namespace Fractarium.UserInterface
 		{
 			this.Find<Button>("WidenColor").IsEnabled = ColorSelector.SelectedIndex > 0
 				&& App.Window.Context.Palette.Size < Palette.MaxColors;
+
 			this.Find<Button>("RemoveColor").IsEnabled = ColorSelector.SelectedIndex > 0
 				&& App.Window.Context.Palette.Size > Palette.MinColors;
 		}
@@ -118,14 +117,14 @@ namespace Fractarium.UserInterface
 		{
 			var sizeLabel = this.Find<TextBlock>("PaletteSize");
 			int size = int.Parse(sizeLabel.Text) + (e.Direction == SpinDirection.Increase ? 1 : -1);
-			if(size >= Palette.MinColors && size <= Palette.MaxColors)
-			{
-				if(e.Direction == SpinDirection.Increase)
-					App.Window.Context.Palette.AppendRandom();
-				else
-					App.Window.Context.Palette.RemoveAt(size + 1);
-				UpdateControls();
-			}
+			if(size is not >= Palette.MinColors or not <= Palette.MaxColors)
+				return;
+
+			if(e.Direction == SpinDirection.Increase)
+				_ = App.Window.Context.Palette.AppendRandom();
+			else
+				_ = App.Window.Context.Palette.RemoveAt(size + 1);
+			UpdateControls();
 		}
 
 		/// <summary>
@@ -140,7 +139,7 @@ namespace Fractarium.UserInterface
 			else
 			{
 				byte[] color = App.Window.Context.Palette[ColorSelector.SelectedIndex];
-				ColorPreview.Color = new Color(color[0], color[1], color[2], color[3]);
+				ColorPreview.Color = new(color[0], color[1], color[2], color[3]);
 
 				this.Find<TextBox>("HexColor").Text = $"#{color[0]:X2}{color[1]:X2}{color[2]:X2}{color[3]:X2}";
 				foreach(var i in ColorByteIndices)
@@ -171,6 +170,7 @@ namespace Fractarium.UserInterface
 				}
 				OnColorSelected(null, null);
 			}
+
 			App.Window.ReactToTextBoxInput((TextBox)sender, match.Success, e);
 			UpdateControls();
 		}
@@ -201,7 +201,7 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnWidenColor(object sender, RoutedEventArgs e)
 		{
-			App.Window.Context.Palette.DuplicateAt(ColorSelector.SelectedIndex);
+			_ = App.Window.Context.Palette.DuplicateAt(ColorSelector.SelectedIndex);
 			UpdateControls();
 			ColorSelector.SelectedIndex += 1;
 		}
@@ -213,7 +213,7 @@ namespace Fractarium.UserInterface
 		/// <param name="e">Data associated with the event.</param>
 		public void OnRemoveColor(object sender, RoutedEventArgs e)
 		{
-			App.Window.Context.Palette.RemoveAt(ColorSelector.SelectedIndex);
+			_ = App.Window.Context.Palette.RemoveAt(ColorSelector.SelectedIndex);
 			ColorSelector.SelectedIndex -= 1;
 			UpdateControls();
 		}

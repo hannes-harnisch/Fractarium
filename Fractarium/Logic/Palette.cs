@@ -15,7 +15,8 @@ namespace Fractarium.Logic
 		private byte[,] C;
 
 		/// <summary>
-		/// Indicates after how much of the iteration fraction a different color should be targeted for the gradient.
+		/// Indicates after how much of the iteration fraction a different color should be targeted
+		/// for the gradient.
 		/// </summary>
 		private double Ratio => 1 / (double)(C.GetLength(0) - 2);
 
@@ -35,7 +36,7 @@ namespace Fractarium.Logic
 		public int Size => C.GetLength(0) - 1;
 
 		/// <summary>
-		/// Holds the color representing a point that is part of a set-based fractal's respective set.
+		/// Holds the color representing a point that is part of a fractal's respective set.
 		/// </summary>
 		public int ElementColor => (C[0, 0] << 24) + (C[0, 1] << 16) + (C[0, 2] << 8) + C[0, 3];
 
@@ -52,9 +53,11 @@ namespace Fractarium.Logic
 		}
 
 		/// <summary>
-		/// Calculates a color between two palette colors based on a pixel's iteration count and the iteration limit.
+		/// Calculates a color between two palette colors based on a pixel's iteration count
+		/// and the iteration limit.
 		/// </summary>
-		/// <param name="iterationFraction">How close the iteration count of a point is to the iteration limit.</param>
+		/// <param name="iterationFraction">How close the iteration count of a point is to
+		/// the iteration limit.</param>
 		/// <returns>An ARGB color as a 32-bit integer.</returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public int GradientColor(double iterationFraction)
@@ -115,7 +118,8 @@ namespace Fractarium.Logic
 		}
 
 		/// <summary>
-		/// Inserts the color found at the specified index next to itself, unless it would exceed maximum size.
+		/// Inserts the color found at the specified index next to itself, unless it would exceed
+		/// maximum size.
 		/// </summary>
 		/// <param name="index">Indexes the color to be duplicated.</param>
 		/// <returns>Whether the color could be duplicated.</returns>
@@ -137,7 +141,7 @@ namespace Fractarium.Logic
 		}
 
 		/// <summary>
-		/// Removes the specified color of the palette, unless there would be no gradient colors left.
+		/// Removes the specified color of the palette, unless there would be no colors left.
 		/// </summary>
 		/// <param name="index">Number of the color to be removed.</param>
 		/// <returns>Whether the color could be removed.</returns>
@@ -168,10 +172,13 @@ namespace Fractarium.Logic
 		{
 			for(int x = 0; x < width; x++)
 				for(int y = 0; y < height; y++)
+				{
+					int* address = ptr + x + y * width;
 					if(x == 0 || y == 0 || x == width - 1 || y == height - 1)
-						*(ptr + x + y * width) = ElementColor;
+						*address = ElementColor;
 					else
-						*(ptr + x + y * width) = GradientColor(x / (double)width);
+						*address = GradientColor(x / (double)width);
+				}
 		}
 
 		/// <summary>
@@ -184,13 +191,16 @@ namespace Fractarium.Logic
 		{
 			for(int x = 0; x < width; x++)
 				for(int y = 0; y < height; y++)
+				{
+					int* address = ptr + x + y * width;
 					if(x == 0 || y == 0 || x == width - 1 || y == height - 1)
-						*(ptr + x + y * width) = ElementColor;
+						*address = ElementColor;
 					else
 					{
 						int i = (int)Math.Ceiling(x / (double)width * Size);
-						*(ptr + x + y * width) = (C[i, 0] << 24) + (C[i, 1] << 16) + (C[i, 2] << 8) + C[i, 3];
+						*address = (C[i, 0] << 24) + (C[i, 1] << 16) + (C[i, 2] << 8) + C[i, 3];
 					}
+				}
 		}
 	}
 }

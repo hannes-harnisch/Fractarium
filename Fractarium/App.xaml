@@ -6,28 +6,28 @@
 		<StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
 		<StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
 		<Style Selector="TabItem">
-			<Setter Property="Width">200</Setter>
+			<Setter Property="Width" Value="200"/>
 		</Style>
 		<Style Selector="Button">
-			<Setter Property="Margin">12</Setter>
+			<Setter Property="Margin" Value="12"/>
 		</Style>
 		<Style Selector="Grid > TextBlock, Grid > Image">
-			<Setter Property="Margin">0,5,10,0</Setter>
+			<Setter Property="Margin" Value="0,5,10,0"/>
 		</Style>
 		<Style Selector="ComboBox, TextBox, ButtonSpinner">
-			<Setter Property="Margin">0,0,10,5</Setter>
+			<Setter Property="Margin" Value="0,0,10,5"/>
 		</Style>
 		<Style Selector="CheckBox">
-			<Setter Property="Margin">0,0,10,0</Setter>
+			<Setter Property="Margin" Value="0,0,10,0"/>
 		</Style>
-		<Style Selector=".Narrow">
-			<Setter Property="MinWidth">50</Setter>
+		<Style Selector="TextBox.Narrow">
+			<Setter Property="MinWidth" Value="50"/>
 		</Style>
-		<Style Selector=".NormalWide">
-			<Setter Property="MinWidth">75</Setter>
+		<Style Selector="TextBox.NormalWide">
+			<Setter Property="MinWidth" Value="75"/>
 		</Style>
-		<Style Selector=".Wide">
-			<Setter Property="MinWidth">125</Setter>
+		<Style Selector="TextBox.Wide">
+			<Setter Property="MinWidth" Value="125"/>
 		</Style>
 		<Style Selector="TextBox.Error">
 			<Setter Property="Background">

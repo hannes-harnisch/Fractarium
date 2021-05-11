@@ -19,7 +19,7 @@
             Returns the value by which the screen DPI is enhanced through the display settings.
             </summary>
         </member>
-        <member name="P:Fractarium.App.CI">
+        <member name="P:Fractarium.App.Locale">
             <summary>
             Determines the global locale for the app.
             </summary>
@@ -110,7 +110,7 @@
             <param name="result">A complex number parsed from the string or zero if parsing failed.</param>
             <returns>Whether the conversion succeeded or failed.</returns>
         </member>
-        <member name="M:Fractarium.Logic.ComplexUtil.MathString(System.Numerics.Complex)">
+        <member name="M:Fractarium.Logic.ComplexUtil.ToMathString(System.Numerics.Complex)">
             <summary>
             Generates a concise string representation of a complex number.
             </summary>
@@ -437,7 +437,8 @@
         </member>
         <member name="P:Fractarium.Logic.Palette.Ratio">
             <summary>
-            Indicates after how much of the iteration fraction a different color should be targeted for the gradient.
+            Indicates after how much of the iteration fraction a different color should be targeted
+            for the gradient.
             </summary>
         </member>
         <member name="F:Fractarium.Logic.Palette.MaxColors">
@@ -457,7 +458,7 @@
         </member>
         <member name="P:Fractarium.Logic.Palette.ElementColor">
             <summary>
-            Holds the color representing a point that is part of a set-based fractal's respective set.
+            Holds the color representing a point that is part of a fractal's respective set.
             </summary>
         </member>
         <member name="M:Fractarium.Logic.Palette.#ctor(System.String[])">
@@ -468,9 +469,11 @@
         </member>
         <member name="M:Fractarium.Logic.Palette.GradientColor(System.Double)">
             <summary>
-            Calculates a color between two palette colors based on a pixel's iteration count and the iteration limit.
+            Calculates a color between two palette colors based on a pixel's iteration count
+            and the iteration limit.
             </summary>
-            <param name="iterationFraction">How close the iteration count of a point is to the iteration limit.</param>
+            <param name="iterationFraction">How close the iteration count of a point is to
+            the iteration limit.</param>
             <returns>An ARGB color as a 32-bit integer.</returns>
         </member>
         <member name="P:Fractarium.Logic.Palette.Item(System.Int32)">
@@ -496,14 +499,15 @@
         </member>
         <member name="M:Fractarium.Logic.Palette.DuplicateAt(System.Int32)">
             <summary>
-            Inserts the color found at the specified index next to itself, unless it would exceed maximum size.
+            Inserts the color found at the specified index next to itself, unless it would exceed
+            maximum size.
             </summary>
             <param name="index">Indexes the color to be duplicated.</param>
             <returns>Whether the color could be duplicated.</returns>
         </member>
         <member name="M:Fractarium.Logic.Palette.RemoveAt(System.Int32)">
             <summary>
-            Removes the specified color of the palette, unless there would be no gradient colors left.
+            Removes the specified color of the palette, unless there would be no colors left.
             </summary>
             <param name="index">Number of the color to be removed.</param>
             <returns>Whether the color could be removed.</returns>
@@ -705,14 +709,7 @@
             <param name="sender">Source of the event.</param>
             <param name="e">Data associated with the event.</param>
         </member>
-        <member name="M:Fractarium.UserInterface.MainWindow.TrackImageClick(System.Object,Avalonia.Input.PointerReleasedEventArgs)">
-            <summary>
-            Tracks which mouse button was used when the image was clicked on.
-            </summary>
-            <param name="sender">Source of the event.</param>
-            <param name="e">Data associated with the event.</param>
-        </member>
-        <member name="M:Fractarium.UserInterface.MainWindow.Zoom(System.Object,Avalonia.Interactivity.RoutedEventArgs)">
+        <member name="M:Fractarium.UserInterface.MainWindow.Zoom(System.Object,Avalonia.Input.PointerReleasedEventArgs)">
             <summary>
             Zooms into the image by evaluating tracked mouse input data, updating parameters and re-rendering.
             Cannot extract mouse input data from event parameter due to framework design.
