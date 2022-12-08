@@ -13,8 +13,8 @@ It uses a far-from-optimal software rendering process based on parallelized for-
 ## Examples
 
 <p>
-  <img src="https://github.com/hannes-harnisch/hannes-harnisch/blob/main/Fractarium1.png" width="49%">
-  <img src="https://github.com/hannes-harnisch/hannes-harnisch/blob/main/Fractarium2.png" width="49%">
-  <img src="https://github.com/hannes-harnisch/hannes-harnisch/blob/main/Fractarium3.png" width="49%">
-  <img src="https://github.com/hannes-harnisch/hannes-harnisch/blob/main/Fractarium4.png" width="49%">
+  <a href="https://github.com/hannes-harnisch/hannes-harnisch/blob/main/Originals/Fractarium1.png"><img src="https://github.com/hannes-harnisch/hannes-harnisch/blob/main/Fractarium1.jpg" width="49%"></a>
+  <a href="https://github.com/hannes-harnisch/hannes-harnisch/blob/main/Originals/Fractarium2.png"><img src="https://github.com/hannes-harnisch/hannes-harnisch/blob/main/Fractarium2.jpg" width="49%"></a>
+  <a href="https://github.com/hannes-harnisch/hannes-harnisch/blob/main/Originals/Fractarium3.png"><img src="https://github.com/hannes-harnisch/hannes-harnisch/blob/main/Fractarium3.jpg" width="49%"></a>
+  <a href="https://github.com/hannes-harnisch/hannes-harnisch/blob/main/Originals/Fractarium4.png"><img src="https://github.com/hannes-harnisch/hannes-harnisch/blob/main/Fractarium4.jpg" width="49%"></a>
 </p>
